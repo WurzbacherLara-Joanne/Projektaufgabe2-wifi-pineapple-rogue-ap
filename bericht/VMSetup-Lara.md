@@ -56,16 +56,16 @@ Alle VMs werden mit diesem internen Netzwerk verbunden, sodass sie untereinander
 
 ### 4.1 VM-Erstellung in VirtualBox
 
-| Einstellung | Wert |
-|------------|------|
-| VM-Name | Kali-Angreifer |
-| Ordner | C:\Users\LaraWurzbach\Documents\VMs |
+| Einstellung | Wert                                  |
+|------------|---------------------------------------|
+| VM-Name | Kali-Angreifer                        |
+| Ordner | C:\Users\LaraWurzbacher\Documents\VMs  |
 | ISO-Image | kali-linux-2026.2-installer-amd64.iso |
-| Betriebssystem | Linux |
-| Distribution | Debian (64-bit) |
-| RAM | 4096 MB |
-| CPUs | 2 |
-| Festplatte | 25,00 GB (VDI, dynamisch alloziert) |
+| Betriebssystem | Linux                                 |
+| Distribution | Debian (64-bit)                       |
+| RAM | 4096 MB                               |
+| CPUs | 2                                     |
+| Festplatte | 25,00 GB (VDI, dynamisch alloziert)   |
 
 **Netzwerk-Einstellung der VM:**
 - Adapter 1: Internes Netzwerk → **labnet**
@@ -95,7 +95,7 @@ Installationsschritte:
 | GRUB Bootloader | Yes, auf /dev/sda installiert |
 
 **Installation erfolgreich abgeschlossen. ✅**
-![VM: Kali-Angreifer](C:\Users\LaraWurzbacher\Desktop\Projektaufgabe2-wifi-pineapple-rogue-ap\screenshots\VM-Setup\VM-Kali\Kali-Angreifer-Einstellungen.png)
+![VM: Kali-Angreifer](Projektaufgabe2-wifi-pineapple-rogue-ap\screenshots\VM-Setup\VM-Kali\Kali-Angreifer-Einstellungen.png)
 ![Kali Desktop nach Installation](C:\Users\LaraWurzbacher\Desktop\Projektaufgabe2-wifi-pineapple-rogue-ap\screenshots\VM-Setup\VM-Kali\VM-Kali-Angreifer-Startbildschirm.png)
 
 **Bekannte Probleme & Lösungen:**
