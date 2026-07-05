@@ -95,8 +95,8 @@ Installationsschritte:
 | GRUB Bootloader | Yes, auf /dev/sda installiert |
 
 **Installation erfolgreich abgeschlossen. ✅**
-![VM: Kali-Angreifer](..screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Einstellungen.png)
-![Kali Desktop nach Installation](..screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Startbildschirm.png)
+![VM: Kali-Angreifer](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/87a16b9eb7bac7ceab6f8a52f18cb453c75a84fc/screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Einstellungen.png)
+![Kali Desktop nach Installation](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Startbildschirm.png)
 
 **Bekannte Probleme & Lösungen:**
 
