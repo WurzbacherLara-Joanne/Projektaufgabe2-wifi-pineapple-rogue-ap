@@ -3,7 +3,7 @@
 Projektaufgabe Nr. 2 (Informationssicherheit) – Gruppe 1
 
 
-> Die ausführliche Kurzbeschreibung mit Zielsetzung, erwarteten Ergebnissen und Teamzuteilung steht in `KURZBESCHREIBUNG.md`.
+> Die ausführliche Kurzbeschreibung mit Zielsetzung, erwarteten Ergebnissen und Teamzuteilung steht in `kurzbeschreibung.md`.
 
 ## Was wir machen
 
