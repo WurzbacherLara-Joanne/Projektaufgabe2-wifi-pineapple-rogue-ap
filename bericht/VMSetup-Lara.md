@@ -95,8 +95,8 @@ Installationsschritte:
 | GRUB Bootloader | Yes, auf /dev/sda installiert |
 
 **Installation erfolgreich abgeschlossen. ✅**
-![VM: Kali-Angreifer](screenshots/VM-Setup/VM-Kali/Kali-Angreifer-Einstellungen.png)
-![Kali Desktop nach Installation](screenshots/VM-Setup/VM-Kali/VM-Kali-Angreifer-Startbildschirm.png)
+![VM: Kali-Angreifer](screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Einstellungen.png)
+![Kali Desktop nach Installation](screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Startbildschirm.png)
 
 **Bekannte Probleme & Lösungen:**
 
