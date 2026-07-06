@@ -5,7 +5,7 @@
 
 ## 1. VirtualBox Installation
 
-**Datum:** Woche 1  
+**Datum:** Woche 1 (04.07.2026 & 05.07.2026) 
 **System:** Windows 11, 16 GB RAM
 
 VirtualBox wurde von der offiziellen Seite heruntergeladen und installiert:
@@ -76,26 +76,28 @@ Installer gestartet über: VM starten → **"Install"** (Text-Installer)
 
 Installationsschritte:
 
-| Schritt | Auswahl |
-|---------|---------|
-| Sprache | English |
-| Location | Germany |
-| Locale | en_US.UTF-8 |
-| Keyboard | German |
-| Netzwerk | Do not configure the network at this time (Option 5) |
-| Hostname | kali-angreifer |
-| Domain | *(leer)* |
-| Benutzer (Full name) | kali |
-| Benutzername | kali |
-| Passwort | *(Gruppenpasswort, intern bekannt)* |
-| Partitionierung | Guided – use entire disk |
-| Partitionsschema | All files in one partition |
-| Partitionierung bestätigen | Yes (Write changes to disk) |
+| Schritt | Auswahl                                                |
+|---------|--------------------------------------------------------|
+| Sprache | English                                                |
+| Location | Germany                                                |
+| Locale | en_US.UTF-8                                            |
+| Keyboard | German                                                 |
+| Netzwerk | Do not configure the network at this time (Option 5)   |
+| Hostname | kali-angreifer                                         |
+| Domain | *(leer)*                                               |
+| Benutzer (Full name) | kali                                                   |
+| Benutzername | kali                                                   |
+| Passwort | *(Gruppenpasswort, intern bekannt)* kali               |
+| Partitionierung | Guided – use entire disk                               |
+| Partitionsschema | All files in one partition                             |
+| Partitionierung bestätigen | Yes (Write changes to disk)                            |
 | Software-Auswahl | Desktop environment (Xfce), top10 tools, default tools |
-| GRUB Bootloader | Yes, auf /dev/sda installiert |
+| GRUB Bootloader | Yes, auf /dev/sda installiert                          |
 
-**Installation erfolgreich abgeschlossen. ✅**
+**Installation erfolgreich abgeschlossen. **
+
 ![VM: Kali-Angreifer](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/87a16b9eb7bac7ceab6f8a52f18cb453c75a84fc/screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Einstellungen.png)
+
 ![Kali Desktop nach Installation](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Startbildschirm.png)
 
 **Bekannte Probleme & Lösungen:**
@@ -106,19 +108,172 @@ Installationsschritte:
 | Festplattengröße 26 MB statt 25 GB | Schieberegler hat nicht korrekt gespeichert | VM gelöscht, Größe beim Neuerstellen direkt ins Zahlenfeld eingetippt |
 | Graphical Installer friert bei "Starting up the partitioner" ein | Bekanntes Stabilitätsproblem des Graphical Installers in VMs | Wechsel auf Text-Installer ("Install" statt "Graphical Install") |
 
-### 4.3 Snapshot erstellen
+---
 
-Nach erfolgreicher Installation wurde ein Snapshot als Backup angelegt:
-- VirtualBox: Rechtsklick auf Kali-Angreifer → Snapshots → Aufnehmen
-- Snapshot-Name: **frische-installation**
-- Zweck: Wiederherstellungspunkt vor invasiven Tests
+## 5. Ubuntu Server VM erstellen und installieren
 
+### 5.1 VM-Erstellung in VirtualBox
+
+| Einstellung | Wert |
+|------------|------|
+| VM-Name | Ubuntu-Suricata |
+| Ordner | C:\Users\LaraWurzbacher\Documents\VMs |
+| ISO-Image | ubuntu-26.04-live-server-amd64.iso |
+| Betriebssystem | Linux |
+| Version | Ubuntu (64-bit) |
+| RAM | 2048 MB |
+| CPUs | 2 |
+| Festplatte | 20,00 GB (VDI, dynamisch alloziert) |
+| Benutzername | suricata |
+| Passwort | *(Gruppenpasswort, intern bekannt)* |
+| Hostname | Ubuntu-Suricata |
+
+**Netzwerk-Einstellung der VM:**
+- Adapter 1: Internes Netzwerk → **labnet**
+
+### 5.2 Installation
+
+Unbeaufsichtigte Installation über VirtualBox automatisch durchgeführt.
+Login nach Installation erfolgreich getestet mit Benutzer `suricata`.
+
+**Bekannte Probleme & Lösungen:**
+
+| Problem | Ursache | Lösung |
+|---------|---------|--------|
+| VM schien eingefroren bei "Loading essential drivers" | Unbeaufsichtigte Installation dauert länger als erwartet | Gewartet – Installation lief erfolgreich durch |
+
+### 5.3 Netzwerk
+
+Nach Installation VM heruntergefahren mit `sudo poweroff`, danach Netzwerkadapter auf Internes Netzwerk → **labnet** umgestellt.
+
+---
+
+## 6. Windows 10 VM erstellen und installieren
+
+### 6.1 VM-Erstellung in VirtualBox
+
+| Einstellung | Wert |
+|------------|------|
+| VM-Name | Windows-Opfer |
+| Ordner | C:\Users\LaraWurzbacher\Documents\VMs |
+| ISO-Image | Windows 10 ISO (erstellt via MediaCreationTool_22H2) |
+| Betriebssystem | Microsoft Windows |
+| Version | Windows 10 (64-bit) |
+| RAM | 4096 MB |
+| CPUs | 2 |
+| Festplatte | 50,00 GB (VDI, dynamisch alloziert) |
+| Benutzername | opfer |
+| Passwort | *(Gruppenpasswort, intern bekannt)* |
+| Hostname | Windows-Opfer |
+
+**Hinweis:** Windows 10 ISO wurde nicht direkt heruntergeladen, sondern über das MediaCreationTool erstellt.
+
+**Netzwerk-Einstellung der VM:**
+- Adapter 1: Internes Netzwerk → **labnet**
+### 6.2 Installation
+
+Unbeaufsichtigte Installation über VirtualBox automatisch durchgeführt.
+
+**Installation erfolgreich abgeschlossen. **
+ 
+---
+
+
+## 7. IP-Konfiguration aller VMs
+
+### 7.1 Kali Linux – 192.168.30.10
+
+Konfiguration über `/etc/network/interfaces`:
+
+```
+auto eth0
+iface eth0 inet static
+    address 192.168.30.10
+    netmask 255.255.255.0
+    gateway 192.168.30.1
+```
+
+IP sofort gesetzt mit:
+```
+sudo ip addr add 192.168.30.10/24 dev eth0
+```
+
+Netzwerkadapter: `eth0`
+
+**Bekannte Probleme & Lösungen:**
+
+| Problem | Ursache | Lösung |
+|---------|---------|--------|
+| `systemctl: command not found` | Kali nutzt kein systemd in dieser Konfiguration | IP direkt mit `sudo ip addr add` gesetzt |
+| Netzwerkadapter hieß `labnat` statt `labnet` | Tippfehler bei VM-Erstellung | In VirtualBox-Einstellungen korrigiert |
+
+### 7.2 Ubuntu Suricata – 192.168.30.2
+
+Konfiguration über `/etc/network/interfaces`:
+
+```
+auto enp0s3
+iface enp0s3 inet static
+    address 192.168.30.2
+    netmask 255.255.255.0
+    gateway 192.168.30.1
+```
+
+IP sofort gesetzt mit:
+```
+sudo ip addr add 192.168.30.2/24 dev enp0s3
+```
+
+Netzwerkadapter: `enp0s3` (bei Ubuntu Server anders als bei Kali)
+
+### 7.3 Windows 10 – 192.168.30.20
+
+Konfiguration über: Ausführen (`Win+R`) → `ncpa.cpl` → Rechtsklick Netzwerkadapter → Eigenschaften → IPv4:
+
+| Einstellung | Wert |
+|------------|------|
+| IP-Adresse | 192.168.30.20 |
+| Subnetzmaske | 255.255.255.0 |
+| Standardgateway | 192.168.30.1 |
+
+**Bekannte Probleme & Lösungen:**
+
+| Problem | Ursache | Lösung |
+|---------|---------|--------|
+| VM war auf NAT statt Internes Netzwerk | Falsche Netzwerkeinstellung bei VM-Erstellung | In VirtualBox-Einstellungen auf Internes Netzwerk → labnet geändert |
+ 
+---
+
+## 8. Ping-Tests
+
+Alle Tests durchgeführt von der **Kali-VM** aus.
+
+| Von | Nach | IP | Ergebnis |
+|-----|------|----|---------|
+| Kali (192.168.30.10) | Ubuntu-Suricata | 192.168.30.2 | ✅ 0% packet loss |
+| Kali (192.168.30.10) | Windows-Opfer | 192.168.30.20 | ✅ 0% packet loss |
+
+Befehl:
+```
+ping -c 3 192.168.30.2
+ping -c 3 192.168.30.20
+```
+
+**Bekannte Probleme & Lösungen:**
+
+| Problem | Ursache | Lösung |
+|---------|---------|--------|
+| Ping zu Windows schlug fehl | Windows Firewall blockiert ICMP | Firewall-Regel hinzugefügt via CMD als Administrator: `netsh advfirewall firewall add rule name="ICMP" protocol=icmpv4:8,any dir=in action=allow` + Firewall deaktiviert |
+| Ping zu Windows schlug weiterhin fehl | Netzwerkadapter-Name Tippfehler (labnat statt labnet) + Windows auf NAT | Beide Einstellungen in VirtualBox korrigiert |
+
+**Nachweis:** Screenshots `woche1_ping_kali_zu_ubuntu.png` und `woche1_ping_kali_zu_windows.png`
+ 
 ---
 
 ## Nächste Schritte (noch ausstehend)
 
-- [x] Kali Linux Installation abschließen ✅
-- [x] Screenshots erstellt ✅
+- [x] Kali Linux Installation abschließen 
+- [x] Screenshots erstellt 
 - [ ] Manuelle IP-Konfiguration Kali: 192.168.30.10
 - [ ] Windows 10 VM erstellen und installieren (IP: 192.168.30.20)
 - [ ] Ubuntu Server VM erstellen und installieren (IP: 192.168.30.2, für Suricata)
