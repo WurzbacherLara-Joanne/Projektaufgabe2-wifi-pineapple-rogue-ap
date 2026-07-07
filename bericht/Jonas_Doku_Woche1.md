@@ -26,7 +26,7 @@ Smoke-Test erfolgreich: Test-Request gegen testmynids.org ausgelöst, Suricata h
 
 GPL ATTACK_RESPONSE id check returned root [Classification: Potentially Bad Traffic] [Priority: 2]
 
-Screenshot als Nachweis liegt bei (suricata-smoketest.png).
+![Suricata Smoke-Test](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/suricata/suricata_smoketest.png)
 
 Erkenntnisse / Notizen für den Bericht
 

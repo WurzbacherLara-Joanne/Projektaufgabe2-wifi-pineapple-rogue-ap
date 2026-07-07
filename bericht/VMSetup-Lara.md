@@ -96,9 +96,9 @@ Installationsschritte:
 
 **Installation erfolgreich abgeschlossen. **
 
-![VM: Kali-Angreifer](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/87a16b9eb7bac7ceab6f8a52f18cb453c75a84fc/screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Einstellungen.png)
+![VM: Kali-Angreifer](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Kali/kali_angreifer_einstellungen.png)
 
-![Kali Desktop nach Installation](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/VM-Setup/VM-Kali/VM_Kali-Angreifer_Startbildschirm.png)
+![Kali Desktop nach Installation](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Kali/kali_angreifer_startbildschirm.png)
 
 **Bekannte Probleme & Lösungen:**
 
