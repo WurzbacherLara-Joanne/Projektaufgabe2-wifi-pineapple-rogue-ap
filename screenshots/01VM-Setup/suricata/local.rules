@@ -1,0 +1,63 @@
+# ============================================================
+# local.rules  –  Eigene Suricata-Regeln (Gruppe 1, Person C)
+# Projekt: WiFi Pineapple – Rogue AP & ARP-Spoofing
+# Suricata-Version: 8.0.x
+#
+# SID-Bereich: 1000000+ (Pflicht fuer eigene Regeln, kollidiert
+# nicht mit den ET-Open-Regeln)
+#
+# WICHTIG fuer den Umzug ins Labor:
+#   - Angreifer-IP ist hier 192.168.30.10 (Kali) angenommen
+#   - Ggf. Interface-Namen / IPs im Labor anpassen
+# ============================================================
+
+
+# ------------------------------------------------------------
+# TEIL 2 – ROGUE-AP / KLARTEXT-HTTP (Angriffsvektor 1, extern)
+#
+# Idee: Ueber den Rogue AP laeuft der Opfer-Traffic unverschluesselt.
+# Suricata erkennt NICHT den Rogue AP selbst (das ist WLAN-Layer),
+# sondern die FOLGE: sensible Daten im Klartext, die jeder mitlesen
+# koennte. Genau das zeigt eure Vorher/Nachher-Story.
+# ------------------------------------------------------------
+
+# R1: Klartext-HTTP-Zugriff auf die Testseite neverssl.com
+#     (genau der Aufruf aus dem Pineapple-Ablaufplan)
+alert http any any -> any any (msg:"LAB Rogue-AP: Klartext-HTTP-Zugriff auf neverssl.com"; flow:established,to_server; http.host; content:"neverssl.com"; sid:1000001; rev:1; classtype:policy-violation;)
+
+# R2: Moegliche Zugangsdaten im Klartext (HTTP-POST mit Passwort-Feld)
+#     Feuert, wenn ein Login-Formular unverschluesselt abgeschickt wird.
+alert http any any -> any any (msg:"LAB Rogue-AP: Moegliche Klartext-Credentials in HTTP-POST"; flow:established,to_server; http.method; content:"POST"; http.request_body; content:"password"; nocase; sid:1000002; rev:1; classtype:policy-violation;)
+
+# R3: HTTP Basic Authentication im Klartext (Authorization: Basic <base64>)
+#     Base64 ist KEINE Verschluesselung – triviale Entschluesselung moeglich.
+alert http any any -> any any (msg:"LAB Rogue-AP: HTTP Basic Auth im Klartext"; flow:established,to_server; http.header; content:"Authorization|3a| Basic"; nocase; sid:1000003; rev:1; classtype:policy-violation;)
+
+
+# ------------------------------------------------------------
+# TEIL 3 – ARP-SPOOFING / MITM (Angriffsvektor 2, intern)
+#
+# ARP laeuft auf Layer 2. Suricata 8.0 kann ARP-Frames ueber den
+# ether-Buffer sehen. Fuer die reine Spoof-Erkennung (MAC<->IP-Wechsel)
+# bleibt arpwatch die zuverlaessige zweite Schicht (siehe REGELN.md).
+# ------------------------------------------------------------
+
+# R4: ARP-Frames sichtbar machen (Ethertype 0x0806 an Offset 12)
+#     Hinweis: feuert auf ALLE ARP-Pakete -> bewusst "laut".
+#     Ideal zum Offline-Test gegen die Angriffs-PCAP, wo man die
+#     Flut an gefaelschten ARP-Replies des Angreifers SEHEN will.
+alert ip any any -> any any (msg:"LAB ARP-Frame erkannt (Sichtbarkeit)"; decode-event:ethernet.unknown_ethertype; sid:1000010; rev:1; classtype:not-suspicious;
+
+# R5: DNS-Anfrage auf eine Zieldomain sichtbar (MITM-Folge)
+#     Bei erfolgreichem MITM laeuft auch die DNS-Aufloesung ueber den
+#     Angreifer. Diese Regel zeigt, dass DNS im Klartext mitlesbar ist.
+#     -> "example.com" durch eure konkrete Testdomain ersetzen.
+alert dns any any -> any any (msg:"LAB MITM: DNS-Anfrage auf Testdomain sichtbar"; dns.query; content:"example.com"; nocase; sid:1000011; rev:1; classtype:not-suspicious;)
+
+# R6: DNS-Antwort zeigt auf die Angreifer-IP (echter DNS-Spoof-Nachweis)
+#     Wenn eine DNS-Antwort die Kali-IP (192.168.30.10) enthaelt, wurde
+#     die Namensaufloesung manipuliert. rdata-Match ueber content.
+alert dns any any -> any any (msg:"LAB DNS-Spoofing: Antwort zeigt auf Angreifer-IP 192.168.30.10"; flow:to_client; content:"|c0 a8 1e 0a|"; sid:1000012; rev:1; classtype:bad-unknown;)
+# Hinweis zu R6: |c0 a8 1e 0a| = 192.168.30.10 in Hex (die 4 IP-Bytes).
+# Im Labor auf eure tatsaechliche Angreifer-IP anpassen:
+#   192=c0  168=a8  30=1e  10=0a
