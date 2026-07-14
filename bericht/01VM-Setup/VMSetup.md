@@ -71,6 +71,7 @@ Ursprünglich war geplant, drei VMs einzusetzen:
 Im Projektverlauf (am 07.07.2026) stellte sich jedoch heraus, dass die Windows-VM für den Rogue-AP-Angriff nicht geeignet ist, da VMs keinen echten WLAN-Adapter haben und sich daher nicht mit dem WiFi Pineapple verbinden können. Als Opfer-Gerät wurde deshalb ein echter Windows-11-Laptop verwendet. 
 Die Ubuntu-VM wurde ebenfalls aus dem finalen Setup entfernt, da Suricata im Rahmen des Projekts nur theoretisch behandelt wird (Herausstellung am 07.07.2026 **mit Absegnung** der Dozentin Mevre Tunca). Das Projekt läuft final mit einer VM (Kali Linux).
 
+![Windows geht nicht](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Windows/windows_opfer_wlanadapterfehlt.png)
 
 | Gerät                       | Rolle | IP-Adresse |
 |-----------------------------|-------|------------|
@@ -85,7 +86,7 @@ Die Ubuntu-VM wurde ebenfalls aus dem finalen Setup entfernt, da Suricata im Rah
 ## 4. Kali Linux VM erstellen und installieren
 
 ### 4.1 VM-Erstellung in VirtualBox
-**gerne nochmal überprüfen von Screenshot, dass Einstellungen stimmen**
+
 
 | Einstellung | Wert                                  |
 |------------|---------------------------------------|
@@ -173,14 +174,16 @@ Auch wenn wir diese VM für den späteren Projektverlauf nicht mehr brauchen, wa
 **Netzwerk-Einstellung der VM:**
 - Adapter 1: Internes Netzwerk - **labnet**
 
+![VM: Ubuntu](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Ubuntu/ubuntu_suricata_einstellungen.png)
+
 ### 5.2 Installation
 
 Unbeaufsichtigte Installation über VirtualBox automatisch durchgeführt.
 Login nach Installation erfolgreich getestet mit Benutzer `suricata`.
 
-BILDER
-![]()
-![]()
+
+![Ubuntu](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Ubuntu/ubuntu_suricata_startbildschirm.png)
+
 
 **Bekannte Probleme & Lösungen:**
 
@@ -212,6 +215,8 @@ Nach Installation VM heruntergefahren mit `sudo poweroff`, danach Netzwerkadapte
 | Passwort | *(Gruppenpasswort, intern bekannt)* |
 | Hostname | Windows-Opfer |
 
+![Windows](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Windows/windows_opfer_einstellungen.png)
+
 **Hinweis:** Windows 10 ISO wurde nicht direkt heruntergeladen, sondern über das MediaCreationTool erstellt.
 
 **Netzwerk-Einstellung der VM:**
@@ -220,7 +225,9 @@ Nach Installation VM heruntergefahren mit `sudo poweroff`, danach Netzwerkadapte
 
 Unbeaufsichtigte Installation über VirtualBox automatisch durchgeführt.
 
-**Installation erfolgreich abgeschlossen. **
+**Installation erfolgreich abgeschlossen.**
+
+![](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Windows/windows-opfer_startbildschirm.png)
  
 ---
 
@@ -239,12 +246,17 @@ iface eth0 inet static
     gateway 192.168.30.1
 ```
 
+
+![ip](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/ip-config/kali_angreifer_config.png)
+
 IP sofort gesetzt mit:
 ```
 sudo ip addr add 192.168.30.10/24 dev eth0
 ```
 
 Netzwerkadapter: `eth0`
+
+![ip](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/ip-config/kali_angreifer_ipa_nachconfig.png)
 
 **Bekannte Probleme & Lösungen:**
 
@@ -272,6 +284,8 @@ network:
                   via: 192.168.30.1
 ```
 
+![suricata](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/02Vorbereitung-Pineapple-Termin/ubuntu_suricata_ipdauerhaft.png)
+
 Berechtigungen gesetzt und Konfiguration angewendet:
 ```
 sudo chmod 600 /etc/netplan/50-cloud-init.yaml
@@ -279,7 +293,8 @@ sudo netplan apply
 ```
 Netzwerkadapter: enp0s3 (bei Ubuntu Server anders als bei Kali)
 
-
+![suricata](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/02Vorbereitung-Pineapple-Termin/ubuntu_suricata_reboot.png)
+ 
 ### 7.3 Windows 10 – 192.168.30.20
 
 Konfiguration über: Ausführen (`Win+R`) - `ncpa.cpl` - Rechtsklick Netzwerkadapter - Eigenschaften - IPv4:
@@ -289,6 +304,10 @@ Konfiguration über: Ausführen (`Win+R`) - `ncpa.cpl` - Rechtsklick Netzwerkada
 | IP-Adresse | 192.168.30.20 |
 | Subnetzmaske | 255.255.255.0 |
 | Standardgateway | 192.168.30.1 |
+
+![windows](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/ip-config/windows_opfer_config.png)
+
+
 
 **Bekannte Probleme & Lösungen:**
 
@@ -312,6 +331,7 @@ Befehl:
 ping -c 3 192.168.30.2
 ping -c 3 192.168.30.20
 ```
+![ping](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/ping.png)
 
 **Bekannte Probleme & Lösungen:**
 
@@ -320,11 +340,11 @@ ping -c 3 192.168.30.20
 | Ping zu Windows schlug fehl | Windows Firewall blockiert ICMP | Firewall-Regel hinzugefügt via CMD als Administrator: `netsh advfirewall firewall add rule name="ICMP" protocol=icmpv4:8,any dir=in action=allow` + Firewall deaktiviert |
 | Ping zu Windows schlug weiterhin fehl | Netzwerkadapter-Name Tippfehler (labnat statt labnet) + Windows auf NAT | Beide Einstellungen in VirtualBox korrigiert |
 EXTRA REGEL EINFÜGEN
-# sind die noch richtig?
-**Nachweis:** Screenshots `woche1_ping_kali_zu_ubuntu.png` und `woche1_ping_kali_zu_windows.png` 
- 
 
-BILD EINF
+Extra-Regel:
+
+![ExtraRegel](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/ip-config/windows_opfer_extraregel.png)
+
 
 ---
 
