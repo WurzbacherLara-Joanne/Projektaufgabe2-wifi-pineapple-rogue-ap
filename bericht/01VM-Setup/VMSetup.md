@@ -267,10 +267,25 @@ Netzwerkadapter: `eth0`
 
 ### 7.2 Ubuntu Suricata – 192.168.30.2
 
-Konfiguration über /etc/netplan/50-cloud-init.yaml:
+Die IP-Konfiguration von Ubuntu verlief in zwei Schritten:
+
+**Schritt 1 – Woche 1 (fehlerhaft):**
+Zunächst wurde versucht, die IP über `/etc/network/interfaces` zu konfigurieren:
 
 ```
-sudo nano /etc/network/interfaces
+auto enp0s3
+iface enp0s3 inet static
+    address 192.168.30.20
+    netmask 255.255.255.0
+    gateway 192.168.30.1
+```
+Dabei wurde versehentlich die falsche IP-Adresse `192.168.30.20` (Windows-Opfer) eingetragen. Zusätzlich stellte sich heraus, dass Ubuntu diese Konfigurationsmethode nicht zuverlässig unterstützt – die Einstellung ging nach jedem Neustart verloren.
+
+**Schritt 2 – Woche 2 (dauerhaft, korrekt):**
+Bei der Vorbereitung des Pineapple-Termins wurde festgestellt, dass Ubuntu nicht `/etc/network/interfaces` wie Kali nutzt, sondern **Netplan**. Die dauerhafte Konfiguration erfolgte daher über `/etc/netplan/50-cloud-init.yaml`:
+
+```
+sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 ```
 network:
