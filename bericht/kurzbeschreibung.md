@@ -25,4 +25,4 @@ Zusätzlich berechnen wir den wirtschaftlichen Nutzen der umgesetzten Schutzmaß
 
 ## Testumgebung (Kurzüberblick)
 Simulierte Laborumgebung mit drei virtuellen Maschinen (Kali Linux als Angreifer, Windows als Opfer, Ubuntu Server mit Suricata) sowie dem vom Labor bereitgestellten WiFi Pineapple als Rogue-Access-Point-Hardware. Details zu Netzwerkdiagramm und IP-Plan siehe `/dokumentation`.
-
+# HIER VLLT NOCHMAL ÜBERARBEITEN OB WINDOWS VM WIRKLICH NOCH DRIN
