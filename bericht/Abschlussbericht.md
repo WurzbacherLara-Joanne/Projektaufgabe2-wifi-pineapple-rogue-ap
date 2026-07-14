@@ -64,10 +64,95 @@ Das Windows-Opfer verbindet sich mit der vom Pineapple gesendeten Fake-SSID. Da 
 - Vorher/Nachher-Nachweis je Angriffsvektor
 
 ## 6. ROSI-Berechnung
-- Formel & Methodik
-- Annahmen (Asset-Wert, Eintrittswahrscheinlichkeiten, Kosten)
-- Ergebnis & Interpretation
-- Handlungsempfehlung
+
+### 6.1 Ausgangslage: Angriffsfläche der SWDS Werft
+
+Die Bewertung bezieht sich auf die reale Beispielorganisation "SWDS Werft" (siehe `Informationen Werft.pdf`), auf deren Netzplan und IT-Systemliste die im Projekt nachgestellten Angriffsvektoren übertragen wurden. Relevante Fakten aus der Dokumentation:
+
+| Fakt | Quelle | Relevanz für die Angriffsvektoren |
+|---|---|---|
+| 10 WLAN-Access-Points (3 Betrieb, 7 Produktion) | Abb. 5 Netzplan | Angriffsfläche für Rogue-AP (Vektor 1) – Notebooks/iPads verbinden sich automatisch mit bekannten SSIDs |
+| 17 IoT-Kameras im gemeinsamen Segment | Abb. 5 Netzplan | Häufig schwache/default Zugangsdaten, zusätzliche Fläche für Lateral Movement nach Erstzugriff |
+| Keine IDS/IPS im Einsatz, nur ZyWALL-Firewalls | Abb. 4 IT-Systemliste | Angriffe (Rogue AP, ARP-Spoofing) würden aktuell unbemerkt bleiben |
+| Windows Server 2012 R2 (Produktion) | Abb. 4 IT-Systemliste | Extended Support seit 10.10.2023 ausgelaufen → keine Sicherheitsupdates mehr |
+| CNC-Fräse mit Windows 7 Pro | Abb. 4 IT-Systemliste | End-of-Life seit 2020, besonders kritisch, da Kernprozess "Fertigung" betroffen |
+| Fertigung = Kernprozess der Werft | Abb. 2 Geschäftsprozesse | Ausfall der Produktions-IT trifft den Hauptumsatz direkt |
+| Konstruktionsdaten (Delftship), Buchhaltungssystem, AD+DNS | Abb. 4 IT-Systemliste | Hoher Wert bei Diebstahl/Manipulation (IP-Schutz, Finanzdaten) |
+
+Zusammengenommen ergibt sich ein plausibles Bild: unautorisierte Geräte (Rogue AP) oder ein Angreifer im internen Netz (ARP-Spoofing) könnten unbemerkt Traffic mitlesen bzw. umleiten und von dort auf veraltete, ungepatchte Systeme in der Produktion vordringen.
+
+### 6.2 Annahmen
+
+Die PDF liefert keine finanziellen Kennzahlen (Umsatz, konkrete Vorfallkosten). Diese wurden daher realistisch für eine Werft dieser Größenordnung (~30 Mitarbeitende, mittelständisch) geschätzt und unten transparent begründet. Alle Werte sind Schätzungen zur Veranschaulichung der Methodik, keine belastbaren versicherungsmathematischen Werte.
+
+**Schadenshöhe pro erfolgreichem Vorfall (Single Loss Expectancy, SLE)** – angenommen wird ein Vorfall, bei dem über Rogue-AP oder ARP-Spoofing Zugangsdaten abgegriffen und zur weiteren Kompromittierung von Produktions- oder Betriebssystemen genutzt werden:
+
+| Schadensposition | Betrag | Begründung |
+|---|---|---|
+| IT-Wiederherstellung & Forensik | 25.000 € | Neuaufsetzen betroffener Server/Clients (u. a. Server 2012 R2), externe Forensik |
+| Produktionsausfall (Fertigung = Kernprozess) | 40.000 € | ca. 3 Tage Stillstand von CNC-Fräse/Gussmaschine bei Absicherung/Neuaufsetzen |
+| Diebstahl/Manipulation Konstruktionsdaten (Delftship) | 50.000 € | Wettbewerbsnachteil, Auftraggeber-Pläne, konservativ geschätzter IP-Wert |
+| Reputationsschaden/Kundenverlust | 20.000 € | Vertrauensverlust bei Auftraggebern (Vertrieb/Auftragsannahme betroffen) |
+| Mögliche DSGVO-Bußgelder | 15.000 € | Personal- und Kundendaten (Personalabteilung, Vertrieb) betroffen |
+| **Summe SLE** | **150.000 €** | |
+
+**Eintrittswahrscheinlichkeit (Annual Rate of Occurrence, ARO):**
+
+- **Vorher (ohne IDS/Firewall-Regeln):** 0,35 (35 % Wahrscheinlichkeit pro Jahr für einen erfolgreichen Vorfall über einen der beiden Vektoren). Begründung: 10 unüberwachte WLAN-APs, 17 IoT-Kameras, flaches Netz ohne Monitoring, zwei EOL-Systeme (Server 2012 R2, Win7 CNC) erhöhen sowohl die Angriffsfläche als auch die Erfolgswahrscheinlichkeit deutlich.
+- **Nachher (mit Suricata IDS + iptables-Firewallregeln):** 0,08 (8 %). Begründung: Im Projekt wurden beide Angriffsvektoren zuverlässig durch Suricata erkannt (siehe Abschnitt 5); iptables-Regeln blockieren unautorisierte MAC-Adressen/Geräte direkt. Ein Restrisiko bleibt (z. B. sehr gezielte/neuartige Angriffe, Regel-Umgehung), daher keine 0 %.
+
+**Kosten der Gegenmaßnahmen (Suricata + iptables):**
+
+| Position | Einmalig | Jährlich | Begründung |
+|---|---|---|---|
+| Hardware (IDS-Host) | 800 € | – | kleiner dedizierter Server, wie im Testaufbau (Ubuntu-Suricata-VM) |
+| Suricata (Lizenz) | 0 € | 0 € | Open Source |
+| Implementierung & Regel-Tuning | 3.200 € | – | 40 h × 80 €/h Admin-/Consulting-Satz |
+| Firewall-Regeln (iptables) einrichten | 640 € | – | 8 h × 80 €/h |
+| Betrieb: Alert-Monitoring & Regel-Updates | – | 8.000 € | ca. 2 h/Woche × 52 Wochen × 80 €/h |
+| **Summe Jahr 1** | **12.640 €** | | |
+| **Summe Folgejahre** | | **8.000 €** | nur laufender Betrieb |
+
+### 6.3 EAL/ALE-Berechnung vorher/nachher
+
+$$ALE = ARO \times SLE$$
+
+| | ARO | SLE | ALE (jährlicher Schadenserwartungswert) |
+|---|---|---|---|
+| **Vorher** | 0,35 | 150.000 € | **52.500 €** |
+| **Nachher** | 0,08 | 150.000 € | **12.000 €** |
+
+Risikoreduktion:
+
+$$RiskReduction = \frac{ALE_{vorher} - ALE_{nachher}}{ALE_{vorher}} = \frac{52.500 - 12.000}{52.500} \approx 77{,}1\%$$
+
+### 6.4 ROSI-Berechnung
+
+$$ROSI = \frac{RiskReduction \times AssetValue - Cost}{Cost}$$
+
+Dabei entspricht `AssetValue` dem jährlichen Schadenserwartungswert vor Maßnahmen (ALE<sub>vorher</sub> = 52.500 €).
+
+**Jahr 1 (inkl. Einmalkosten für Anschaffung/Implementierung):**
+
+$$ROSI = \frac{0{,}771 \times 52.500 - 12.640}{12.640} = \frac{40.478 - 12.640}{12.640} \approx 2{,}20 \;(\hat{=} 220\%)$$
+
+**Ab Jahr 2 (nur laufende Betriebskosten):**
+
+$$ROSI = \frac{40.478 - 8.000}{8.000} \approx 4{,}06 \;(\hat{=} 406\%)$$
+
+Bereits im ersten Jahr übersteigt die eingesparte Risikosumme (≈ 40.478 €) die Investition (12.640 €) um mehr als das Dreifache – die Maßnahme amortisiert sich rechnerisch innerhalb des ersten Jahres.
+
+### 6.5 Interpretation & Handlungsempfehlung
+
+Die Investition in Suricata (IDS) und iptables-Firewallregeln ist wirtschaftlich klar vorteilhaft: Für eine jährliche Investition von 8.000 € (nach einmaliger Einrichtung für 12.640 € im ersten Jahr) wird das jährliche Schadensrisiko um rund 77 % bzw. 40.500 € reduziert. Der ROSI von 220 % im Einführungsjahr und über 400 % in den Folgejahren liegt deutlich über dem, was mit klassischen Kapitalinvestitionen erreichbar wäre.
+
+**Empfehlung an die Geschäftsführung:**
+
+> Sehr geehrter Herr Meissen,
+> unsere Analyse zeigt, dass die Werft über 10 unüberwachte WLAN-Access-Points sowie veraltete, nicht mehr unterstützte Systeme in der Produktion (Server 2012 R2, Windows 7 auf der CNC-Fräse) verfügt. Ein Angreifer könnte – wie in unserem praktischen Test demonstriert – über einen gefälschten Access Point oder ARP-Spoofing im internen Netz unbemerkt Zugangsdaten abgreifen und von dort in die Produktionssysteme vordringen. Da die Fertigung unser Kernprozess ist, wäre bereits ein kurzer Ausfall wirtschaftlich spürbar.
+> Mit einer Investition von rund 12.600 € im ersten Jahr (danach 8.000 €/Jahr) für ein Open-Source-Intrusion-Detection-System (Suricata) und angepasste Firewallregeln lässt sich das jährliche Risiko um etwa 77 % bzw. 40.500 € senken – ein Return on Security Investment von über 200 % bereits im ersten Jahr. Wir empfehlen die Umsetzung als kurzfristige, kosteneffiziente Maßnahme, bevor eines der beiden demonstrierten Angriffsszenarien in der Praxis ausgenutzt wird.
+
+**Hinweis zur Belastbarkeit:** Die verwendeten Geldbeträge und Wahrscheinlichkeiten sind begründete Schätzungen (siehe 6.2), da die Ausgangsdokumentation keine Finanzkennzahlen enthält. Für eine produktive Entscheidungsgrundlage sollten ARO und SLE mit der Geschäftsführung/CISO anhand realer Vorfallhistorie bzw. Branchenbenchmarks (z. B. BSI-Lagebericht, Cyberversicherungs-Statistiken) validiert werden. Die grundsätzliche Schlussfolgerung – geringe Kosten stehen einem hohen Risikoreduktionspotenzial gegenüber – ist jedoch robust gegenüber moderaten Abweichungen dieser Annahmen.
 
 ## 7. Fazit
 - Zusammenfassung der Ergebnisse
