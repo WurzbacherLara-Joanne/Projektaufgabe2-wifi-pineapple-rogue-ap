@@ -77,7 +77,7 @@ Die Ubuntu-VM wurde ebenfalls aus dem finalen Setup entfernt, da Suricata im Rah
 | Legitimer Router            | Gateway | 192.168.30.1 |
 | WiFi Pineapple              | Rogue Access Point | 192.168.30.5 |
 | Kali Linux VM               | Angreifer / Sniffer | 192.168.30.10 |
-| Opfer-Endgerät  | Opfer-Gerät | 172.16.42.x (via Pineapple DHCP) |
+| Opfer-Endgerät  | Opfer-Gerät | via Pineapple DHCP|
 
 
 ---
@@ -101,6 +101,10 @@ Die Ubuntu-VM wurde ebenfalls aus dem finalen Setup entfernt, da Suricata im Rah
 
 **Netzwerk-Einstellung der VM:**
 - Adapter 1: Internes Netzwerk - **labnet**
+
+VM erstellt + Einstellungen:
+
+![VM: Kali-Angreifer](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Kali/kali_angreifer_einstellungen.png)
 
 ###
 
@@ -130,9 +134,7 @@ Installationsschritte:
 
 **!! Installation erfolgreich abgeschlossen. !!**
 
-BILDER RICHTIG EINFÜGEN
-
-![VM: Kali-Angreifer](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Kali/kali_angreifer_einstellungen.png)
+Startbildschrim der Angreifer-Kali VM
 
 ![Kali Desktop nach Installation](https://github.com/WurzbacherLara-Joanne/Projektaufgabe2-wifi-pineapple-rogue-ap/blob/main/screenshots/01VM-Setup/VM-Kali/kali_angreifer_startbildschirm.png)
 
@@ -256,6 +258,9 @@ Netzwerkadapter: `eth0`
 Konfiguration über /etc/netplan/50-cloud-init.yaml:
 
 ```
+sudo nano /etc/network/interfaces
+```
+```
 network:
     version: 2
     ethernets:
@@ -289,7 +294,7 @@ Konfiguration über: Ausführen (`Win+R`) - `ncpa.cpl` - Rechtsklick Netzwerkada
 
 | Problem | Ursache | Lösung |
 |---------|---------|--------|
-| VM war auf NAT statt Internes Netzwerk | Falsche Netzwerkeinstellung bei VM-Erstellung | In VirtualBox-Einstellungen auf Internes Netzwerk → labnet geändert |
+| VM war auf NAT statt Internes Netzwerk | Falsche Netzwerkeinstellung bei VM-Erstellung | In VirtualBox-Einstellungen auf Internes Netzwerk labnet geändert |
  
 ---
 
@@ -314,10 +319,13 @@ ping -c 3 192.168.30.20
 |---------|---------|--------|
 | Ping zu Windows schlug fehl | Windows Firewall blockiert ICMP | Firewall-Regel hinzugefügt via CMD als Administrator: `netsh advfirewall firewall add rule name="ICMP" protocol=icmpv4:8,any dir=in action=allow` + Firewall deaktiviert |
 | Ping zu Windows schlug weiterhin fehl | Netzwerkadapter-Name Tippfehler (labnat statt labnet) + Windows auf NAT | Beide Einstellungen in VirtualBox korrigiert |
-
+EXTRA REGEL EINFÜGEN
 # sind die noch richtig?
 **Nachweis:** Screenshots `woche1_ping_kali_zu_ubuntu.png` und `woche1_ping_kali_zu_windows.png` 
  
+
+BILD EINF
+
 ---
 
 ## 9. Zusammenfassung – Finales Setup
