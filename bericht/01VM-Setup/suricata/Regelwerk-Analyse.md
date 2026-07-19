@@ -34,7 +34,7 @@ Diese Regel durchsucht die HTTP-Header nach "Authorization: Basic" und erkennt d
 #     Hinweis: feuert auf ALLE ARP-Pakete -> bewusst "laut".
 #     Ideal zum Offline-Test gegen die Angriffs-PCAP, wo man die
 #     Flut an gefaelschten ARP-Replies des Angreifers SEHEN will.
-alert ip any any -> any any (msg:"LAB ARP-Frame erkannt (Sichtbarkeit)"; decode-event:ethernet.unknown_ethertype; sid:1000010; rev:1; classtype:not-suspicious;
+alert ip any any -> any any (msg:"LAB ARP-Frame erkannt (Sichtbarkeit)"; decode-event:ethernet.unknown_ethertype; sid:1000010; rev:1; classtype:not-suspicious;)
 
 Diese Regel soll ARP-Aktivität im Testnetz sichtbar machen, denn beim ARP-Spoofing überflutet der Angreifer das Netz mit gefälschten ARP-Antworten, um sich als Gateway auszugeben. Wichtig zur Einordnung: Suricata arbeitet auf IP-Ebene, ARP läuft aber eine Schicht darunter auf Layer 2. Selbst mit dem ARP-Decoder aus Suricata 8.0 ist die regelbasierte ARP-Erkennung in der Praxis begrenzt und eher zur Protokollierung geeignet. Deshalb verstehen wir R4 als Analysehilfe und übergeben die eigentliche ARP-Erkennung an arpwatch, das genau für solche Layer-2-Anomalien gebaut ist. Angriffsvektor: ARP-Spoofing.
 

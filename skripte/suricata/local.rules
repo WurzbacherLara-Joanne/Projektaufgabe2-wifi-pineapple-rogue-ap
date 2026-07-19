@@ -46,7 +46,7 @@ alert http any any -> any any (msg:"LAB Rogue-AP: HTTP Basic Auth im Klartext"; 
 #     Hinweis: feuert auf ALLE ARP-Pakete -> bewusst "laut".
 #     Ideal zum Offline-Test gegen die Angriffs-PCAP, wo man die
 #     Flut an gefaelschten ARP-Replies des Angreifers SEHEN will.
-alert ip any any -> any any (msg:"LAB ARP-Frame erkannt (Sichtbarkeit)"; decode-event:ethernet.unknown_ethertype; sid:1000010; rev:1; classtype:not-suspicious;
+alert ip any any -> any any (msg:"LAB ARP-Frame erkannt (Sichtbarkeit)"; decode-event:ethernet.unknown_ethertype; sid:1000010; rev:1; classtype:not-suspicious;)
 
 # R5: DNS-Anfrage auf eine Zieldomain sichtbar (MITM-Folge)
 #     Bei erfolgreichem MITM laeuft auch die DNS-Aufloesung ueber den
