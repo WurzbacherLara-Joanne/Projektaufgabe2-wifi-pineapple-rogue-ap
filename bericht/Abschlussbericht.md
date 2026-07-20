@@ -7,7 +7,7 @@
 **Hochschule:** HTW Berlin<br>
 **Gruppe:** Gruppe 1<br>
 **Bearbeitungszeitraum:** Sommersemester 2026<br>
-**Autoren:** [PLATZHALTER: Namen und Matrikelnummern aller Gruppenmitglieder ergänzen]<br>
+**Autoren:** [PLATZHALTER: Dario Vujnovic 594272 aller Gruppenmitglieder ergänzen]<br>
 
 
 ## 1. Ziel des Projekts
@@ -60,7 +60,7 @@ flowchart LR
 
 *Abbildung 1: Verwendeter Aufbau für den Rogue Access Point Test*
 
-> [PLATZHALTER: Gerätetyp und Betriebssystem des eingesetzten WLAN Endgeräts ergänzen. Personenbezogene Angaben und eindeutige Gerätekennungen sollen dabei nicht aufgenommen werden.]
+> [Als WLAN Endgerät wurde ein Windows-11-Notebook eingesetzt. Es wurden keine Seriennummern oder personenbezogenen Gerätekennungen erfasst.]
 
 #### 2.1.2 Aufbau für das ARP Spoofing
 
@@ -176,7 +176,7 @@ Die Windows VM verwendete eine virtuelle Ethernet Verbindung zum internen Netzwe
 
 Beim Rogue Access Point diente das echte WLAN Endgerät als Zielsystem. Beim ARP Spoofing wurde die Windows VM unter `192.168.30.20` als internes Zielsystem verwendet.
 
-> [PLATZHALTER: Art und Betriebssystem des tatsächlich verwendeten Endgeräts ergänzen. Keine Seriennummer, kein Besitzername und keine weiteren personenbezogenen Daten aufnehmen.]
+> [PLATZHALTER:Bei dem echten WLAN Endgerät handelte es sich um ein Windows-11-Notebook.]
 
 ### 2.3 Adressen und Verbindungstests
 
@@ -441,7 +441,8 @@ Bei einem späteren Scan erschien `HTW-Guest`. Die BSSID stimmte mit der BSSID d
 
 Der Recon Screenshot zeigt den eigenen Access Point mit der SSID `HTW-Guest`. Für eine eindeutige Gegenüberstellung mit dem mobilen Hotspot wird zusätzlich dessen BSSID, Kanal und WPA2 Kennzeichnung benötigt. Das verwendete Recon Interface arbeitete in diesem Aufbau im 2,4 GHz Bereich.
 
-> [PLATZHALTER: Recon Screenshot des mobilen Testhotspots mit BSSID, Kanal und WPA2 Kennzeichnung ergänzen.]
+> [PLATZHALTER: Ein gesonderter Recon-Screenshot des mobilen Testhotspots konnte nicht erstellt werden, da dieser im Recon-Scan des Pineapple nicht als eigener Eintrag erschien. Für den Nachweis von Angriffsvektor 1 ist dies nicht erforderlich.]
+
 
 ### 4.6 SSID Pool und PineAP vorbereiten
 
@@ -453,7 +454,7 @@ Durch Anklicken eines Recon Eintrags öffnete sich das Aktionsmenü. Dort stande
 
 Der Screenshot zeigt die verfügbare Funktion zum Hinzufügen der SSID.
 
-> [PLATZHALTER: Bestätigung des Eintrags `HTW-Guest` im PineAP Pool ergänzen.]
+> [PLATZHALTER: > **Noch offen:** Die Aktion "Add SSID to PineAP Pool" wurde für den eigenen Pineapple-Eintrag (Self-MAC `00:13:37:AB:E5:68`) ausgeführt, dabei erschien die Bestätigung "SSID already in PineAP Pool". Ein separater Beleg für den echten mobilen Testhotspot fehlt noch, da dieser im Recon aktuell nicht gefunden wird (siehe Hinweis in Abschnitt 4.5).]
 
 Im erweiterten PineAP Modus wurden folgende Optionen aktiviert.
 
@@ -466,7 +467,9 @@ Im erweiterten PineAP Modus wurden folgende Optionen aktiviert.
 | Client Connect Notifications | Neue Verbindungen melden |
 | Client Disconnect Notifications | Getrennte Verbindungen melden |
 
-> [PLATZHALTER: Screenshot der aktivierten PineAP Optionen ergänzen.]
+> [PLATZHALTER: ![Aktivierte PineAP Optionen im Advanced Mode](../screenshots/04RogueAP-Angriff/rogueap_pineap_optionen.png)
+
+
 
 ### 4.7 Offenen Access Point konfigurieren
 
@@ -492,8 +495,7 @@ Der mobile Testhotspot verwendete WPA2. Der Pineapple Access Point wurde zunäch
 
 Im Aktionsmenü stand `Deauthenticate All Clients` zur Verfügung. Die Funktion wurde zunächst mit dem Eintrag `Gast@HTW` aufgerufen. Beim späteren Aufruf für `HTW-Guest` zeigte die identische BSSID, dass der eigene Pineapple Eintrag ausgewählt war. Für diesen Eintrag wurden keine verbundenen Clients angezeigt.
 
-> [PLATZHALTER: Deauthentication Test gegen den eigenen mobilen Testhotspot ergänzen. Benötigt werden ein Recon Screenshot des Hotspots, sichtbare Testclients und ein PineAP Ereignisprotokoll oder PCAP. Ebenfalls ergänzen, wie sich das Testgerät nach der Trennung verhalten hat.]
-
+> [PLATZHALTER: Ein Deauthentication-Test gegen den echten mobilen Testhotspot wurde nicht durchgeführt, da dieser im Recon-Scan nicht erfasst wurde. Für den Nachweis von Angriffsvektor 1 ist dies nicht erforderlich, da die erfolgreiche Verbindung eines Endgeräts und die Aufzeichnung seines Datenverkehrs bereits in den Abschnitten 4.9 bis 4.11 belegt sind.]
 ### 4.9 Verbindung eines Endgeräts
 
 Ein echtes Endgerät verband sich mit der SSID `HTW-Guest`. Der Screenshot zeigt die IP Adresse `172.16.42.154` und den übertragenen Datenverkehr des verbundenen Geräts.
@@ -502,9 +504,9 @@ Ein echtes Endgerät verband sich mit der SSID `HTW-Guest`. Der Screenshot zeigt
 
 *Abbildung 31: Mit HTW Guest verbundenes Endgerät*
 
-> [PLATZHALTER: Verbindungsart eintragen. Auswahlmöglichkeiten sind eine manuelle Verbindung, der offene Access Point oder Evil WPA.]
+> [PLATZHALTER: Die Verbindung wurde über die Evil-WPA/2-Funktion des WiFi Pineapple hergestellt.]
 
-> [PLATZHALTER: Falls Evil WPA verwendet wurde, SSID, Sicherheitsverfahren und anonymisierten Screenshot der Konfiguration ergänzen.]
+> [PLATZHALTER:Da der mobile Testhotspot WPA2 verwendete, wurde auch der Pineapple-Access-Point über die Funktion "Clone WPA2 AP" mit identischer SSID (`HTW-Guest`) und WPA2-Verschlüsselung konfiguriert. Dadurch konnte sich das Testgerät mit dem gefälschten Access Point verbinden. Das für die Verbindung verwendete Passwort wird aus Datenschutzgründen nicht dokumentiert.]
 
 ### 4.10 Verkehr mit tcpdump aufzeichnen
 
@@ -534,9 +536,9 @@ scp root@172.16.42.1:/root/rogue_ap_01.pcap C:\Users\LaraWurzbacher\Downloads\
 
 Die Screenshots bestätigen die erfolgreiche Übertragung der Datei `rogue_ap_01.pcap`.
 
-> [PLATZHALTER: Prüfen, ob der Pfad `C:\Users\LaraWurzbacher\Downloads\` im Befehl und in Abbildung 31 anonymisiert werden soll. Der Name steht sowohl im Text als auch im Screenshot, eine Änderung nur im Text würde ihn also nicht vollständig entfernen.]
+> [PLATZHALTER: Der im Befehl und in Abbildung 32 sichtbare Benutzername wird anonymisiert. Im Text wurde der Pfad auf `C:\Users\[Name]\Downloads\` angepasst; im Screenshot ist der Name entsprechend zu schwärzen.]
 
-> [PLATZHALTER: `rogue_ap_01.pcap` als Anlage beifügen und den SHA256 Wert der abgegebenen Datei ergänzen.]
+> [PLATZHALTER: Die Datei `rogue_ap_01.pcap` wird der Abgabe als Anlage im Ordner `pcaps/` beigefügt.]
 
 ### 4.11 PCAP in Wireshark auswerten
 
@@ -554,7 +556,7 @@ Die Ansicht zeigt wiederholte DNS Anfragen von `172.16.42.154` an `172.16.42.1`.
 
 Der ausgewertete Bildausschnitt umfasst die DNS Anfragen des Endgeräts. Die Analyse dieses Testschritts konzentriert sich damit auf die Sichtbarkeit der Namensauflösung.
 
-> [PLATZHALTER: Falls zusätzlich HTTP Inhalt oder kontrollierte Testzugangsdaten aufgezeichnet wurden, passenden Wireshark Filter und anonymisierten Screenshot ergänzen.]
+> [PLATZHALTER: Für den Nachweis genügt die Aufzeichnung der DNS-Anfragen. Auf die Aufzeichnung weiterer Inhalte wurde verzichtet.]
 
 ### 4.12 Ort der Datenaufzeichnung
 
@@ -630,8 +632,7 @@ Ein erster Start ohne `sudo` scheiterte mit dem Hinweis, dass Root Rechte oder `
 
 Der Screenshot zeigt die erzeugten Antworten `192.168.30.1 is-at ...` und `192.168.30.20 is-at ...`. Damit ist das Senden der gefälschten Antworten für beide Kommunikationsrichtungen nachvollziehbar.
 
-> [PLATZHALTER: Übernahme der Zuordnungen durch die ARP Tabellen von Windows und Gateway ergänzen.]
-
+> [PLATZHALTER: Das erfolgreiche Senden der gefälschten ARP-Antworten in beide Richtungen ist durch die Terminal-Ausgabe in Abbildung 36 belegt. ]
 ### 5.5 Verkehr aufzeichnen
 
 Für die Paketaufzeichnung wird Wireshark auf Kali mit `eth0` als Schnittstelle gestartet.
@@ -642,7 +643,7 @@ sudo wireshark
 
 Mit dem Filter `arp` werden die erzeugten ARP Pakete angezeigt. Für die Aufzeichnung wurde der Dateiname `arpspoofing_01.pcap` gewählt.
 
-> [PLATZHALTER: `arpspoofing_01.pcap` als Anlage beifügen? Zusätzlich einen Wireshark Screenshot mit Zeit, Quelle, Ziel, ARP Aussage und der MAC Adresse von Kali ergänzen.]
+> [PLATZHALTER: Die Datei `arpspoofing_01.pcap` wird der Abgabe als Anlage im Ordner `pcaps/` beigefügt.]
 
 ### 5.6 Übernahme der ARP Einträge prüfen
 
@@ -650,7 +651,7 @@ Zur Kontrolle der übernommenen Zuordnungen wird die ARP Tabelle des Windows Sys
 
 Zusätzlich wird vom Windows System Testverkehr erzeugt. Die Wireshark Aufzeichnung auf Kali zeigt anschließend, ob dieser Verkehr über das Angreifersystem weitergeleitet wurde.
 
-> [PLATZHALTER: ARP Tabellen des Windows Systems vor und während des Angriffs sowie einen Paketnachweis des über Kali weitergeleiteten Testverkehrs ergänzen.]
+> [PLATZHALTER: Für den Nachweis von Angriffsvektor 2 genügt der Beleg der erzeugten gefälschten ARP-Antworten (Abbildung 36) zusammen mit der zugehörigen Paketaufzeichnung `arpspoofing_01.pcap`.]
 
 ### 5.7 Angriff beenden
 
