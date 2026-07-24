@@ -770,38 +770,10 @@ sudo arp -s 192.168.30.1 <MAC-des-echten-Gateways>
 
 Ein Test, ob der wiederholte ARP Spoofing Versuch durch diesen statischen Eintrag verhindert wird, ist im Rahmen der theoretischen Behandlung der Schutzmaßnahmen in diesem Projekt nicht vorgesehen.
 
-### 6.7 Weitere Maßnahmen gegen Rogue Access Points
-
-Für den Schutz vor Rogue Access Points werden folgende Maßnahmen betrachtet.
-
-| Maßnahme | Zweck | Erwartete Wirkung |
-|---|---|---|
-| Geschützte Management Frames | Schutz von WLAN Management Frames | Gefälschte Deauthentication wird erschwert |
-| WPA2 Enterprise oder WPA3 Enterprise | Prüfung des Serverzertifikats | Access Point ohne passendes Zertifikat wird abgelehnt |
-| Verwaltete WLAN Profile | SSID und Sicherheitsverfahren fest vorgeben | Offene Kopie einer WPA2 SSID wird nicht automatisch genutzt |
-| SSID Monitoring | SSID, BSSID und Sicherheitsverfahren vergleichen | Abweichender Access Point kann gemeldet werden |
-| Schulung | Unerwartet offene Netze und Zertifikatswarnungen erklären | Manuelle Fehlverbindungen werden unwahrscheinlicher |
-
-Eine ausgewählte Maßnahme mit konkreter Konfiguration und Testergebnis wird im Rahmen der theoretischen Behandlung der Schutzmaßnahmen in diesem Projekt nicht umgesetzt.
-
-### 6.8 Weitere Maßnahmen gegen ARP Spoofing
-
-| Maßnahme | Zweck | Erwartete Wirkung |
-|---|---|---|
-| Dynamic ARP Inspection | ARP Antworten mit vertrauenswürdigen Zuordnungen prüfen | Gefälschte Antworten werden verworfen |
-| DHCP Snooping | Vertrauenswürdige Adresszuordnungen aufbauen | Grundlage für Dynamic ARP Inspection |
-| Statische ARP Einträge | Wichtige IP und MAC Zuordnungen festlegen | Gefälschte Antworten ändern den Eintrag nicht |
-| Netzsegmentierung | Broadcast Bereiche verkleinern | Angreifer erreicht weniger Systeme |
-| arpwatch | Änderungen zwischen IP und MAC melden | Verdächtige Wechsel werden sichtbar |
-| Verschlüsselte Protokolle | Inhalte unabhängig vom Transportweg schützen | Mitgelesene Nutzdaten bleiben geschützt |
-
-Eine ausgewählte Maßnahme mit konkreter Konfiguration und Testergebnis wird im Rahmen der theoretischen Behandlung der Schutzmaßnahmen in diesem Projekt nicht umgesetzt.
-
-### 6.9 Vorher Nachher Vergleich
+### 6.7 Vorher Nachher Vergleich
 
 | Testfall | Zustand vorher | Erwarteter Zustand nachher |
 |---|---|---|
-| Rogue Access Point | Client verbindet sich und DNS wird aufgezeichnet | Profil lehnt falsche Sicherheit ab oder Monitoring meldet den Access Point |
 | Suricata gegen Rogue PCAP | PCAP wird ohne Projektregeln verarbeitet | Passende Projektregel erzeugt einen Alert |
 | ARP Spoofing | Kali sendet gefälschte Antworten | Statischer Eintrag oder Switch verwirft die Fälschung |
 | arpwatch | Ausgangszustand wird erfasst | Wechsel der IP und MAC Zuordnung wird protokolliert |
@@ -809,7 +781,7 @@ Eine ausgewählte Maßnahme mit konkreter Konfiguration und Testergebnis wird im
 
 Diese Gegenüberstellung beschreibt die erwartete Wirkung der Maßnahmen. Im Rahmen der theoretischen Behandlung der Schutzmaßnahmen wird sie in diesem Projekt nicht durch eigene Testergebnisse belegt.
 
-### 6.10 Betrieb und Wartung
+### 6.8 Betrieb und Wartung
 
 Die Suricata Regeln werden regelmäßig mit `suricata-update` aktualisiert. Nach der Aktualisierung wird der Dienst kontrolliert. `fast.log` und `eve.json` werden regelmäßig ausgewertet und durch Log Rotation verwaltet. Firewall Whitelists und statische ARP Einträge werden angepasst, sobald neue Geräte aufgenommen oder Adressen geändert werden.
 
@@ -920,13 +892,7 @@ Für die Kostenrechnung wird ein angenommener Stundensatz von 80 € verwendet.
 | Regelpflege und jährlicher Test | 8 Stunden × 80 € | 640 € | 640 € |
 | **Gesamtkosten** |  | **13.840 €** | **6.880 €** |
 
-Für Suricata und arpwatch werden keine Lizenzkosten angesetzt. Zusätzliche Kosten für neue Switches oder einen WLAN Controller können nach der technischen Bestandsprüfung ergänzt werden.
-
-Die HP 2530 Switch Serie unterstützt Dynamic ARP Protection und DHCP Snooping grundsätzlich, allerdings erst ab Firmware Version YA.15.13.0003, ältere Firmware Stände unterstützen diese Funktionen nicht. Bei PoE Varianten der Serie ist die Unterstützung zusätzlich eingeschränkt. Ob die bei der SWDS Werft eingesetzten Switches die passende Firmware und Variante besitzen, ist mit der vorliegenden Unterlage nicht feststellbar.
-
-Quelle: [HP 2530 Switch Series Manual Supplement, Dynamic ARP Protection](https://www.manualslib.com/manual/1191512/Hp-2530.html?page=15), [HP 2530 Switch Series Manual Supplement, Enabling DHCP Snooping](https://www.manualslib.com/manual/1191512/Hp-2530.html?page=8), [HPE Support, Aruba 2530 Switch Series: DHCP Snooping Commands are not Available](https://support.hpe.com/hpesc/public/docDisplay?docId=sf000057024en_us&docLocale=en_US)
-
-> [PLATZHALTER: Firmware Version und PoE Variante der eingesetzten HP 2530 Switches bei der Werft prüfen. Nur falls eine Firmware Aktualisierung oder ein Austausch nötig ist, zusätzliche Kosten ergänzen und die ROSI neu berechnen.]
+Für Suricata und arpwatch werden keine Lizenzkosten angesetzt. Für die HP 2530 Switch Serie wird angenommen, dass die bei der SWDS Werft eingesetzten Geräte eine Firmware ab Version YA.15.13.0003 sowie eine passende Variante besitzen und damit Dynamic ARP Protection und DHCP Snooping unterstützen. Auf dieser Grundlage werden keine zusätzlichen Kosten für Firmware-Updates, neue Switches oder einen WLAN Controller angesetzt.
 
 ### 7.7 ROSI im ersten Jahr
 
@@ -975,19 +941,7 @@ ROSI drei Jahre = 3,40
 ROSI drei Jahre = 340 %
 ```
 
-### 7.9 Sensitivitätsanalyse
-
-Mit einer Sensitivitätsanalyse wird geprüft, wie sich unterschiedliche Wahrscheinlichkeiten auf das Ergebnis auswirken. Der angenommene Schaden von 150.000 € und die Kosten des ersten Jahres bleiben dabei gleich.
-
-| Szenario | Wahrscheinlichkeit vorher | Wahrscheinlichkeit nachher | Vermiedener Verlust | ROSI Jahr 1 |
-|---|---:|---:|---:|---:|
-| Konservativ | 0,25 | 0,12 | 19.500 € | 41 % |
-| Basisfall | 0,35 | 0,08 | 40.500 € | 193 % |
-| Hohe Gefährdung | 0,40 | 0,06 | 51.000 € | 268 % |
-
-Auch im konservativen Szenario bleibt der ROSI positiv. Das Ergebnis hängt weiterhin von den geschätzten Kosten, dem Schaden pro Vorfall und den Wahrscheinlichkeiten ab.
-
-### 7.10 Empfehlung für die SWDS Werft
+### 7.9 Empfehlung für die SWDS Werft
 
 Im Basisfall sinkt der erwartete jährliche Verlust von 52.500 € auf 12.000 €. Den Kosten von 13.840 € im ersten Jahr steht eine erwartete Risikoreduktion von 40.500 € gegenüber. Der ROSI beträgt rund 193 %.
 
@@ -1005,7 +959,7 @@ Beim ARP Spoofing erzeugte Kali fortlaufend gefälschte Antworten für das Gatew
 
 Suricata wurde installiert, als Dienst eingerichtet und mit einem allgemeinen Smoke Test geprüft. Sechs eigene Regeln bilden die vorgesehenen Erkennungsfälle für HTTP, DNS und ARP ab. arpwatch ergänzt die Überwachung der IP und MAC Zuordnungen. Das Schutzkonzept wird durch eine Firewall Whitelist, feste ARP Einträge und organisatorische Maßnahmen vervollständigt. Die Wirksamkeit dieser Maßnahmen wird in diesem Projekt konzeptionell begründet und nicht durch eigene Testergebnisse belegt.
 
-Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS Werft. Im Basisfall ergibt sich für das erste Jahr ein ROSI von 193 %. Die Sensitivitätsanalyse zeigt auch im konservativen Szenario einen positiven Wert. Sämtliche finanziellen Parameter sind als Annahmen ausgewiesen und können durch unternehmenseigene Kennzahlen ersetzt werden.
+Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS Werft. Im Basisfall ergibt sich für das erste Jahr ein ROSI von 193 %. Sämtliche finanziellen Parameter sind als Annahmen ausgewiesen und können durch unternehmenseigene Kennzahlen ersetzt werden.
 
 ## 9. Anhang
 
@@ -1021,5 +975,4 @@ Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS W
 | ARP Spoofing | Aktivierte IP Weiterleitung und zwei gleichzeitig laufende `arpspoof` Prozesse | `arpspoofing_01.pcap`, Wireshark Ansicht, ARP Tabellen von Windows und Gateway, weitergeleiteten Testverkehr sowie Wiederherstellung der ARP Zuordnungen ergänzen |
 | Suricata | Installation, Smoke Test, Konfiguration und eigenes Regelkonzept | Testdomain für R5 festlegen und die überholten Platzhalter zum Interface sowie zum Klammerabschluss von R4 entfernen |
 | Schutzmaßnahmen | Suricata, arpwatch, Firewall Konzept, statischer ARP Eintrag und weitere Maßnahmen | Die theoretische Behandlung ist abgestimmt. Ein praktischer Nachweis ist nicht erforderlich |
-| ROSI | Datengrundlage der Werft, ausgewiesene Annahmen, Berechnung und Sensitivitätsanalyse | Firmware und PoE Variante der HP 2530 Switches nur prüfen, wenn der entsprechende Absatz und mögliche Zusatzkosten Bestandteil der Abgabe bleiben |
-| Abgabedateien | Abschlussbericht mit Abbildungen | PCAP Dateien und das gesondert geforderte Poster vollständig beifügen |
+| Abgabedateien | Abschlussbericht mit Abbildungen | PCAP Dateien |
