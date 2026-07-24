@@ -840,14 +840,14 @@ Die Annahme von drei Ausfalltagen berücksichtigt die vorhandenen Sicherungen. F
 
 Für den Ausgangszustand wird in der Lehrrechnung eine jährliche Wahrscheinlichkeit von 35 % angesetzt. Die Schätzung berücksichtigt die zehn WLAN Access Points, die mobilen Geräte, die älteren Systeme und den angenommenen Betrieb ohne zusätzliches IDS. Die vorhandenen Firewalls, die Segmentierung und die Sicherungen reduzieren das Gesamtrisiko bereits.
 
-Nach Einführung der Maßnahmen wird eine jährliche Wahrscheinlichkeit von 8 % angenommen. Berücksichtigt werden verwaltete WLAN Profile, geschützte Management Frames, Dynamic ARP Inspection, DHCP Snooping, Suricata, arpwatch, regelmäßige Protokollauswertung und Schulung.
+Nach Einführung der Maßnahmen wird eine jährliche Wahrscheinlichkeit von 10 % angenommen. Die mehrschichtige Kombination aus Suricata mit eigenen Erkennungsregeln, arpwatch, Firewall Whitelist, statischem ARP Eintrag sowie Dynamic ARP Inspection und DHCP Snooping auf den vorhandenen Switches deckt beide Angriffsvektoren wirksam ab: ARP Spoofing wird bereits auf Netzwerkebene unterbunden, und ein Zugriff über einen Rogue Access Point wird durch die Erkennungsschicht schnell aufgedeckt und eingedämmt, bevor größerer Schaden entsteht.
 
 | Zustand | Wahrscheinlichkeit | Einordnung |
 |---|---:|---|
 | Vor den Maßnahmen | 0,35 | Begründete Annahme ohne historische Vorfalldaten |
-| Nach den Maßnahmen | 0,08 | Begründete Annahme mit Prävention, Erkennung und Reaktion |
-| Absolute Risikoreduktion | 0,27 | `0,35 - 0,08` |
-| Relative Risikoreduktion | 77,1 % | `0,27 / 0,35` |
+| Nach den Maßnahmen | 0,10 | Begründete Annahme mit Prävention, Erkennung und Reaktion |
+| Absolute Risikoreduktion | 0,25 | `0,35 - 0,10` |
+| Relative Risikoreduktion | 71,4 % | `0,25 / 0,35` |
 
 ### 7.5 Erwarteter jährlicher Verlust
 
@@ -860,22 +860,20 @@ ALE = jährliche Eintrittswahrscheinlichkeit × Schaden je Vorfall
 Vor den Maßnahmen:
 
 ```text
-ALE vorher = 0,35 × 150.000 €
-ALE vorher = 52.500 € pro Jahr
+ALE vorher = 0,35 × 150.000 € = 52.500 €
 ```
 
 Nach den Maßnahmen:
 
 ```text
-ALE nachher = 0,08 × 150.000 €
-ALE nachher = 12.000 € pro Jahr
+ALE nachher = 0,10 × 150.000 € = 15.000 €
 ```
 
 | Zustand | Wahrscheinlichkeit | Schaden je Vorfall | ALE |
 |---|---:|---:|---:|
 | Vor den Maßnahmen | 0,35 | 150.000 € | 52.500 € |
-| Nach den Maßnahmen | 0,08 | 150.000 € | 12.000 € |
-| Vermiedener jährlicher Verlust | 0,27 | 150.000 € | 40.500 € |
+| Nach den Maßnahmen | 0,10 | 150.000 € | 15.000 € |
+| Vermiedener jährlicher Verlust | 0,25 | 150.000 € | 37.500 € |
 
 ### 7.6 Kosten der Maßnahmen
 
@@ -884,17 +882,41 @@ Für die Kostenrechnung wird ein angenommener Stundensatz von 80 € verwendet.
 | Kostenposition | Rechnung | Jahr 1 | Folgejahr |
 |---|---:|---:|---:|
 | Monitoring Host und Speicher | Pauschal | 1.200 € | 0 € |
-| Suricata und arpwatch einrichten | 40 Stunden × 80 € | 3.200 € | 0 € |
-| Switch und Firewall Konfiguration | 12 Stunden × 80 € | 960 € | 0 € |
-| WLAN Profile und Management Frame Schutz | 12 Stunden × 80 € | 960 € | 0 € |
-| Schulung | 8 Stunden × 80 € | 640 € | 0 € |
+| Suricata (Installation und eigene Regeln) | 30 Stunden × 80 € | 2.400 € | 0 € |
+| arpwatch | 10 Stunden × 80 € | 800 € | 0 € |
+| Firewall Whitelist (iptables) | 6 Stunden × 80 € | 480 € | 0 € |
+| Statischer ARP Eintrag | 0,5 Stunden × 80 € | 40 € | 0 € |
+| Switch Konfiguration (Dynamic ARP Inspection, DHCP Snooping) | 5,5 Stunden × 80 € | 440 € | 0 € |
 | Alert Auswertung und Betrieb | 1,5 Stunden × 52 Wochen × 80 € | 6.240 € | 6.240 € |
 | Regelpflege und jährlicher Test | 8 Stunden × 80 € | 640 € | 640 € |
-| **Gesamtkosten** |  | **13.840 €** | **6.880 €** |
+| **Gesamtkosten** |  | **12.240 €** | **6.880 €** |
 
 Für Suricata und arpwatch werden keine Lizenzkosten angesetzt. Für die HP 2530 Switch Serie wird angenommen, dass die bei der SWDS Werft eingesetzten Geräte eine Firmware ab Version YA.15.13.0003 sowie eine passende Variante besitzen und damit Dynamic ARP Protection und DHCP Snooping unterstützen. Auf dieser Grundlage werden keine zusätzlichen Kosten für Firmware-Updates, neue Switches oder einen WLAN Controller angesetzt.
 
-### 7.7 ROSI im ersten Jahr
+### 7.7 Einzel-ROSI je Maßnahme
+
+Zusätzlich zur gemeinsamen Betrachtung aller Maßnahmen wird jede Einzelmaßnahme unabhängig gegen die volle Ausgangslage bewertet, so als wäre sie die einzige umgesetzte Maßnahme. Das zeigt, welcher Baustein für sich genommen den größten wirtschaftlichen Hebel hat, und liefert damit eine Grundlage für die Priorisierung gegenüber der Geschäftsführung. Die Risikoreduktion in % gibt an, um wie viele Prozentpunkte die jährliche Eintrittswahrscheinlichkeit (Basis 35 %) durch diese einzelne Maßnahme sinkt. Die Werte sind unabhängig voneinander geschätzt und müssen sich nicht zur kombinierten Reduktion aus Abschnitt 7.4 aufsummieren, da sich die Wirkung der Maßnahmen in der Praxis überschneidet und ergänzt.
+
+| Maßnahme | Kosten Jahr 1 | Risikoreduktion in % | Vermiedener Verlust | ROSI | Empfehlung |
+|---|---:|---:|---:|---:|---|
+| Statischer ARP Eintrag | 40 € | 4 % | 6.000 € | 14.900 % | Sofort umsetzen |
+| Switch Konfiguration (Dynamic ARP Inspection, DHCP Snooping) | 440 € | 10 % | 15.000 € | 3.309 % | Sofort umsetzen |
+| Firewall Whitelist (iptables) | 480 € | 6 % | 9.000 € | 1.775 % | Sofort umsetzen |
+| arpwatch | 800 € | 5 % | 7.500 € | 838 % | Umsetzen |
+| Suricata (Installation und eigene Regeln) | 2.400 € | 8 % | 12.000 € | 400 % | Umsetzen |
+
+Beispielhaft für den statischen ARP Eintrag:
+
+```text
+ROSI = (0,04 × 150.000 € - 40 €) / 40 €
+ROSI = (6.000 € - 40 €) / 40 €
+ROSI = 149
+ROSI = 14.900 %
+```
+
+Die günstigsten Einzelmaßnahmen erzielen den mit Abstand höchsten Hebel: Ein einzelner Befehl für den statischen ARP Eintrag und eine überschaubare Konfiguration der vorhandenen Switches vermeiden bereits einen großen Teil des Schadens bei minimalem Aufwand und lassen sich kurzfristig umsetzen. Suricata bleibt trotz des höheren Investitionsvolumens mit 400 % klar wirtschaftlich, da es als einziger Baustein beide Angriffsvektoren gleichzeitig abdeckt.
+
+### 7.8 ROSI im ersten Jahr
 
 Die Projektaufgabe gibt folgende Formel vor.
 
@@ -902,50 +924,50 @@ Die Projektaufgabe gibt folgende Formel vor.
 ROSI = (Risk Reduction × Asset Value - Cost) / Cost
 ```
 
-Im Basisfall beträgt die absolute Risikoreduktion `0,27`. Der Asset Value beträgt 150.000 €. Das Produkt entspricht einem vermiedenen jährlichen Verlust von 40.500 €.
+Im Basisfall beträgt die absolute Risikoreduktion `0,25`. Der Asset Value beträgt 150.000 €. Das Produkt entspricht einem vermiedenen jährlichen Verlust von 37.500 €.
 
 ```text
-ROSI Jahr 1 = (0,27 × 150.000 € - 13.840 €) / 13.840 €
-ROSI Jahr 1 = (40.500 € - 13.840 €) / 13.840 €
-ROSI Jahr 1 = 1,93
-ROSI Jahr 1 = 193 %
+ROSI Jahr 1 = (0,25 × 150.000 € - 12.240 €) / 12.240 €
+ROSI Jahr 1 = (37.500 € - 12.240 €) / 12.240 €
+ROSI Jahr 1 = 2,06
+ROSI Jahr 1 = 206 %
 ```
 
-Ein ROSI von 193 % bedeutet, dass der angenommene wirtschaftliche Überschuss nach Abzug der Maßnahmenkosten dem 1,93 fachen der Investition entspricht.
+Ein ROSI von 206 % bedeutet, dass der angenommene wirtschaftliche Überschuss nach Abzug der Maßnahmenkosten dem 2,06 fachen der Investition entspricht.
 
-### 7.8 ROSI der Folgejahre und Amortisation
+### 7.9 ROSI der Folgejahre und Amortisation
 
 Ab dem zweiten Jahr werden nur die laufenden Kosten angesetzt.
 
 ```text
-ROSI Folgejahr = (40.500 € - 6.880 €) / 6.880 €
-ROSI Folgejahr = 4,89
-ROSI Folgejahr = 489 %
+ROSI Folgejahr = (37.500 € - 6.880 €) / 6.880 €
+ROSI Folgejahr = 4,45
+ROSI Folgejahr = 445 %
 ```
 
-Die rechnerische Amortisationszeit im ersten Jahr beträgt rund 4,1 Monate.
+Die rechnerische Amortisationszeit im ersten Jahr beträgt rund 3,9 Monate.
 
 ```text
-Amortisationszeit = 13.840 € / 40.500 € × 12 Monate
-Amortisationszeit = 4,1 Monate
+Amortisationszeit = 12.240 € / 37.500 € × 12 Monate
+Amortisationszeit = 3,9 Monate
 ```
 
-Über drei Jahre werden 121.500 € erwarteter Verlust vermieden. Die Gesamtkosten betragen 27.600 €.
+Über drei Jahre werden 112.500 € erwarteter Verlust vermieden. Die Gesamtkosten betragen 26.000 €.
 
 ```text
-Kosten über drei Jahre = 13.840 € + 6.880 € + 6.880 €
-Kosten über drei Jahre = 27.600 €
+Kosten über drei Jahre = 12.240 € + 6.880 € + 6.880 €
+Kosten über drei Jahre = 26.000 €
 
-ROSI drei Jahre = (121.500 € - 27.600 €) / 27.600 €
-ROSI drei Jahre = 3,40
-ROSI drei Jahre = 340 %
+ROSI drei Jahre = (112.500 € - 26.000 €) / 26.000 €
+ROSI drei Jahre = 3,33
+ROSI drei Jahre = 333 %
 ```
 
-### 7.9 Empfehlung für die SWDS Werft
+### 7.10 Empfehlung für die SWDS Werft
 
-Im Basisfall sinkt der erwartete jährliche Verlust von 52.500 € auf 12.000 €. Den Kosten von 13.840 € im ersten Jahr steht eine erwartete Risikoreduktion von 40.500 € gegenüber. Der ROSI beträgt rund 193 %.
+Im Basisfall sinkt der erwartete jährliche Verlust von 52.500 € auf 15.000 €. Den Kosten von 12.240 € im ersten Jahr steht eine erwartete Risikoreduktion von 37.500 € gegenüber. Der ROSI beträgt rund 206 % und steigt ab dem Folgejahr auf 445 %, bei einer Amortisationszeit von unter vier Monaten.
 
-Priorität haben verwaltete WLAN Profile, geschützte Management Frames, Schutz vor manipulierten ARP Antworten und ein laufend ausgewertetes IDS. Zusätzlich werden die älteren Systeme in die Maßnahmenplanung einbezogen. Die vorhandenen verschlüsselten Sicherungen werden regelmäßig durch Rücksicherungstests geprüft.
+Priorität haben der statische ARP Eintrag, die Switch Konfiguration und die Firewall Whitelist, da sie bei minimalem Aufwand den höchsten Einzel-ROSI erzielen und sich innerhalb weniger Tage umsetzen lassen. arpwatch und Suricata folgen als tragende Bausteine der Erkennung, die beide Angriffsvektoren gemeinsam absichern. Zusätzlich werden die älteren Systeme in die Maßnahmenplanung einbezogen. Die vorhandenen verschlüsselten Sicherungen werden regelmäßig durch Rücksicherungstests geprüft.
 
 Für eine reale Investitionsentscheidung muss die Werft die angenommenen Werte durch eigene Kennzahlen ersetzen. Die Rechenmethode bleibt dabei unverändert.
 
@@ -959,7 +981,7 @@ Beim ARP Spoofing erzeugte Kali fortlaufend gefälschte Antworten für das Gatew
 
 Suricata wurde installiert, als Dienst eingerichtet und mit einem allgemeinen Smoke Test geprüft. Sechs eigene Regeln bilden die vorgesehenen Erkennungsfälle für HTTP, DNS und ARP ab. arpwatch ergänzt die Überwachung der IP und MAC Zuordnungen. Das Schutzkonzept wird durch eine Firewall Whitelist, feste ARP Einträge und organisatorische Maßnahmen vervollständigt. Die Wirksamkeit dieser Maßnahmen wird in diesem Projekt konzeptionell begründet und nicht durch eigene Testergebnisse belegt.
 
-Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS Werft. Im Basisfall ergibt sich für das erste Jahr ein ROSI von 193 %. Sämtliche finanziellen Parameter sind als Annahmen ausgewiesen und können durch unternehmenseigene Kennzahlen ersetzt werden.
+Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS Werft. Im Basisfall ergibt sich für das erste Jahr ein ROSI von 206 %, mit den günstigsten Einzelmaßnahmen als besonders wirtschaftlichen Quick Wins. Sämtliche finanziellen Parameter sind als Annahmen ausgewiesen und können durch unternehmenseigene Kennzahlen ersetzt werden.
 
 ## 9. Anhang
 
