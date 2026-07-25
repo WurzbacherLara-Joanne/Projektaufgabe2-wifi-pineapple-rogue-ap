@@ -51,8 +51,8 @@ alert ip any any -> any any (msg:"LAB ARP-Frame erkannt (Sichtbarkeit)"; decode-
 # R5: DNS-Anfrage auf eine Zieldomain sichtbar (MITM-Folge)
 #     Bei erfolgreichem MITM laeuft auch die DNS-Aufloesung ueber den
 #     Angreifer. Diese Regel zeigt, dass DNS im Klartext mitlesbar ist.
-#     -> "example.com" durch eure konkrete Testdomain ersetzen.
-alert dns any any -> any any (msg:"LAB MITM: DNS-Anfrage auf Testdomain sichtbar"; dns.query; content:"example.com"; nocase; sid:1000011; rev:1; classtype:not-suspicious;)
+#     -> "swds.de" dient zur Veranschaulichung als theoretische Angriffsdomain. 
+alert dns any any -> any any (msg:"LAB MITM: DNS-Anfrage auf Testdomain sichtbar"; dns.query; content:swds.de; nocase; sid:1000011; rev:1; classtype:not-suspicious;)
 
 # R6: DNS-Antwort zeigt auf die Angreifer-IP (echter DNS-Spoof-Nachweis)
 #     Wenn eine DNS-Antwort die Kali-IP (192.168.30.10) enthaelt, wurde

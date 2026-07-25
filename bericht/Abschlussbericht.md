@@ -7,7 +7,7 @@
 **Hochschule:** HTW Berlin<br>
 **Gruppe:** Gruppe 1<br>
 **Bearbeitungszeitraum:** Sommersemester 2026<br>
-**Autoren:** [PLATZHALTER: Dario Vujnovic 594272 aller Gruppenmitglieder ergänzen]<br>
+**Autoren:** [PLATZHALTER: Dario Vujnovic 594272, Lara-Joanne In der Mühle 594175, aller Gruppenmitglieder ergänzen]<br>
 
 
 ## 1. Ziel des Projekts
@@ -30,6 +30,24 @@ Am Ende des Projekts sollen folgende Ergebnisse vorliegen:
 4. Für das Beispielunternehmen SWDS Werft liegt eine nachvollziehbare ROSI Berechnung mit ausgewiesenen Annahmen vor.
 
 Alle Versuche werden ausschließlich mit eigenen Testsystemen und innerhalb der vorgesehenen Laborumgebung durchgeführt. Dadurch bleiben die Tests reproduzierbar und auf den festgelegten Projektumfang begrenzt.
+
+### 1.1 Projektplan
+
+Der vollständige Projektplan mit Rollenverteilung, Zeitplan, Meilensteinen und Abgabe-Checkliste ist als eigenständiges Dokument im Repository hinterlegt.
+
+### 1.2 Ethische und rechtliche Rahmenbedingungen
+
+Alle Angriffe fanden ausschließlich innerhalb einer selbst kontrollierten Testumgebung statt: einem isolierten VirtualBox-Netzwerk (`labnet`), einem selbst betriebenen WiFi Pineapple sowie privaten Endgeräten der Projektmitglieder (einem Smartphone und Windows-Laptop). Zu keinem Zeitpunkt wurde in fremde Netzwerke, Systeme Dritter oder produktive Infrastruktur eingegriffen.
+
+Die Nutzung der eigenen bzw. mit Einverständnis der jeweiligen Besitzer:in eingesetzten Endgeräte erfolgte mit deren ausdrücklicher Zustimmung. Es wurden keine Seriennummern oder sonstigen personenbezogenen Gerätekennungen erfasst oder veröffentlicht (siehe Abschnitte 2.1.1 und 2.1.2).
+
+Der aufgezeichnete Netzwerkverkehr beschränkt sich auf technisch notwendige Nachweise (DNS-Anfragen an die neutrale Testdomain `neverssl.com`, ARP-Antworten). Es wurden bewusst keine echten Zugangsdaten, privaten Inhalte oder Kommunikation Dritter mitgeschnitten oder ausgewertet. Zugangsdaten des WiFi Pineapple sowie während der Versuche verwendete Passwörter werden aus Sicherheitsgründen nicht im Bericht veröffentlicht. Personenbezogene Pfadangaben in Screenshots (Windows-Benutzername) werden vor Abgabe anonymisiert (siehe Anhang 9.1).
+
+Die im Rahmen des Setups temporär hergestellte Internetverbindung der Kali-VM (Umstellung auf NAT zur Software-Installation) diente ausschließlich der Paketinstallation; sicherheitsrelevante Werkzeuge wie `arpspoof` und Wireshark wurden dabei nicht gegen Dritte eingesetzt.
+
+Das in Kapitel 7 verwendete Beispielunternehmen SWDS Werft ist ein im Rahmen der Projektaufgabe bereitgestelltes, hypothetisches Fallbeispiel. Die ROSI-Berechnung stellt keine reale Sicherheitsbewertung eines existierenden Unternehmens dar.
+
+Rechtliche Grundlage der Durchführung ist die im Modul Informationssicherheit an der HTW Berlin vorgesehene Projektaufgabe. Sämtliche Tests sind auf den vorgegebenen Laborrahmen beschränkt und dienen ausschließlich Ausbildungszwecken.
 
 ## 2. Testumgebung
 
@@ -60,39 +78,42 @@ flowchart LR
 
 *Abbildung 1: Verwendeter Aufbau für den Rogue Access Point Test*
 
-> [Als WLAN Endgerät wurde ein Windows-11-Notebook eingesetzt. Es wurden keine Seriennummern oder personenbezogenen Gerätekennungen erfasst.]
+> [Als WLAN Endgerät wurde hier ein Handy eingesetzt. Es wurden keine Seriennummern oder personenbezogenen Gerätekennungen erfasst.]
 
 #### 2.1.2 Aufbau für das ARP Spoofing
 
-Für den internen Angriff wurde in VirtualBox das Netzwerk `labnet` mit dem Adressbereich `192.168.30.0/24` verwendet. Die Kali VM übernahm die Rolle des Angreifers. Als Zielsystem wurde die Windows VM mit der Adresse `192.168.30.20` verwendet. Das Gateway wurde unter der Adresse `192.168.30.1` angesprochen.
+Für den internen Angriff wurde in VirtualBox das Netzwerk `labnet` mit dem Adressbereich `192.168.30.0/24` verwendet. Die Kali VM übernahm die Rolle des Angreifers. Als Zielsystem wurde dein Windows-Laptop mit der Adresse `192.168.30.20` verwendet. Das Gateway wurde unter der Adresse `192.168.30.1` angesprochen.
 
-Kali sendete gefälschte ARP Antworten an das Windows System und an das Gateway. Dafür wurde auf Kali die IP Weiterleitung aktiviert. Die beiden `arpspoof` Prozesse liefen gleichzeitig auf dem Interface `eth0`.
+Kali sendete gefälschte ARP Antworten an das WLAN Endgerät und an das Gateway. Dafür wurde auf Kali die IP Weiterleitung aktiviert. Die beiden `arpspoof` Prozesse liefen gleichzeitig auf dem Interface `eth0`.
 
-| Komponente | Aufgabe | Adresse |
-|---|---|---|
-| Kali Linux VM | Angreifer und vorgesehene Zwischenstation | `192.168.30.10` |
-| Windows 10 VM | Zielsystem des ARP Spoofing Tests | `192.168.30.20` |
-| Gateway | Kommunikationspartner des Windows Systems | `192.168.30.1` |
+| Komponente     | Aufgabe | Adresse |
+|----------------|---|---|
+| Kali Linux VM  | Angreifer und vorgesehene Zwischenstation | `192.168.30.10` |
+| Windows-Laptop | Zielsystem des ARP Spoofing Tests | `192.168.30.20` |
+| Gateway        | Kommunikationspartner des Windows Systems | `192.168.30.1` |
 
 ```mermaid
 flowchart LR
-    Windows[Windows 10 VM\n192.168.30.20] <-->|gefälschte ARP Zuordnung| Kali[Kali Linux VM\n192.168.30.10]
+    Windows[Windows-Laptop\n192.168.30.20] <-->|gefälschte ARP Zuordnung| Kali[Kali Linux VM\n192.168.30.10]
     Kali <-->|gefälschte ARP Zuordnung| Gateway[Gateway\n192.168.30.1]
 ```
 
+> [Als WLAN Endgerät wurde hier ein Windows Laptop eingesetzt. Es wurden keine Seriennummern oder personenbezogenen Gerätekennungen erfasst.]
+
 *Abbildung 2: Verwendeter Aufbau für den ARP Spoofing Test*
 
-> [PLATZHALTER: Bezeichnung, Gerätetyp und ?MAC Adresse? des unter `192.168.30.1` eingesetzten Gateways ergänzen.]
+> In der verwendeten Testumgebung (VirtualBox Internes Netzwerk `labnet`) wurde kein physisches oder virtuelles Gateway-Gerät auf `192.168.30.1` betrieben. Die Adresse diente ausschließlich als Zieladresse für die von Kali gesendeten gefälschten ARP-Antworten. Da ARP Spoofing keine Erreichbarkeit des angegebenen Gateways voraussetzt, hatte das Fehlen eines realen Geräts keinen Einfluss auf die Durchführung des Angriffs. 
+> [PLATZHALTER: Diese Einordnung wurde anhand der VM-Setup- und Vorbereitungsdokumentation rekonstruiert; finale Bestätigung durch Dario steht noch aus.]
 
 #### 2.1.3 Aufbau für die Angriffserkennung
 
 Im internen Testnetz wurde eine Ubuntu Server VM mit der Adresse `192.168.30.2` eingerichtet. Für die Installation, den Smoke Test und die Entwicklung der Suricata Regeln wurde zusätzlich eine gesonderte Ubuntu Umgebung verwendet. Beide Ubuntu Umgebungen werden in Abschnitt 2.2.2 beschrieben. Die Suricata Regeln und ihre vorgesehene Anwendung werden im Kapitel zu den Schutzmaßnahmen theoretisch erläutert.
 
-| Komponente | Aufgabe | Adresse |
-|---|---|---|
+| Komponente       | Aufgabe | Adresse |
+|------------------|---|---|
 | Ubuntu Server VM | Für das interne Testnetz bereitgestellt | `192.168.30.2` |
-| Kali Linux VM | Erzeugung des internen Angriffsverkehrs | `192.168.30.10` |
-| Windows 10 VM | Zielsystem im internen Netz | `192.168.30.20` |
+| Kali Linux VM    | Erzeugung des internen Angriffsverkehrs | `192.168.30.10` |
+| Windows-Laptop   | Zielsystem im internen Netz | `192.168.30.20` |
 
 ### 2.2 Virtuelle Maschinen
 
@@ -168,15 +189,25 @@ Die Windows VM wurde in VirtualBox mit einem über das Microsoft Media Creation 
 
 *Abbildung 8: Windows nach abgeschlossener Installation*
 
-Die Windows VM verwendete eine virtuelle Ethernet Verbindung zum internen Netzwerk. Für den WLAN Versuch wurde ein echtes Endgerät mit WLAN Schnittstelle eingesetzt.
+Die Windows VM wurde in Woche 1 für Einrichtung und Testzwecke aufgebaut, für die eigentliche Durchführung der Angriffe jedoch nicht mehr verwendet. Für den WLAN Versuch wurde ein echtes Endgerät mit WLAN Schnittstelle eingesetzt.
 
 ![Windows VM ohne nutzbaren WLAN Adapter](../screenshots/01VM-Setup/VM-Windows/windows_opfer_wlanadapterfehlt.png)
 
 *Abbildung 9: Windows VM ohne nutzbaren WLAN Adapter*
 
-Beim Rogue Access Point diente das echte WLAN Endgerät als Zielsystem. Beim ARP Spoofing wurde die Windows VM unter `192.168.30.20` als internes Zielsystem verwendet.
+Beim Rogue Access Point diente ein Handy als Zielsystem. Beim ARP Spoofing wurde ein Windows-Laptop unter `192.168.30.20` als internes Zielsystem verwendet, nicht die zuvor beschriebene Windows-VM.
 
-> [PLATZHALTER:Bei dem echten WLAN Endgerät handelte es sich um ein Windows-11-Notebook.]
+
+### 2.2.4 Zusammenfassung: Von drei geplanten VMs zu einer aktiv genutzten VM
+
+Ursprünglich war für das Projekt der Einsatz von drei virtuellen Maschinen vorgesehen: Kali Linux als Angreifersystem, Ubuntu Server für die Suricata-Einrichtung und eine Windows-10-VM als internes Zielsystem. Alle drei VMs wurden wie in den Abschnitten 2.2.1 bis 2.2.3 beschrieben erstellt, konfiguriert und getestet.
+
+Im Projektverlauf stellte sich heraus, dass zwei dieser VMs für die eigentliche Durchführung der Angriffe nicht benötigt wurden. Die Windows-VM konnte mangels echter WLAN-Schnittstelle nicht mit dem WiFi Pineapple verbunden werden und wurde beim ARP Spoofing durch einen realen Windows-Laptop ersetzt. Die Ubuntu-VM wurde installiert und für die Suricata-Einrichtung genutzt; da Suricata im Projekt jedoch nur theoretisch behandelt wird, kam sie für die eigentlichen Angriffstests nicht mehr zum Einsatz.
+
+Aktiv am Angriffsgeschehen beteiligt war damit final nur die Kali-VM. Ubuntu- und Windows-VM sind hier dokumentiert, weil ihre Einrichtung Teil der Projektarbeit war, spielten für die live durchgeführten Tests aber keine Rolle mehr.
+
+Die Kali-VM als einzige aktiv genutzte VM ist dem Projekt-Repository als Exportdatei beigefügt (`/vms/kali-angreifer.ova`). Ubuntu- und Windows-VM werden nicht mit hochgeladen, da sie für die eigentliche Durchführung der Angriffe nicht verwendet wurden.
+
 
 ### 2.3 Adressen und Verbindungstests
 
@@ -247,7 +278,9 @@ Nach einem Neustart wurde die Adresse erneut kontrolliert.
 
 *Abbildung 14: Ubuntu nach dem Neustart mit statischer Adresse*
 
-Die UTM Umgebung verwendete `enp0s1`. In der vorbereiteten Suricata Konfiguration wurde zunächst `eth0` als Aufzeichnungsschnittstelle eingetragen. Für den Einsatz im internen Testnetz wird der Eintrag auf den Namen der verwendeten Schnittstelle abgestimmt.
+Diese Konfiguration wurde im Rahmen der Einrichtung der Ubuntu-VM als vorgesehene Suricata-Umgebung vorgenommen. Da Suricata im weiteren Projektverlauf nur theoretisch behandelt wird, kam diese VM für die eigentliche Durchführung der Angriffe nicht mehr zum Einsatz (siehe Abschnitt 2.2.4).
+
+Die UTM Umgebung verwendete enp0s1. In der vorbereiteten Suricata Konfiguration wurde zunächst eth0 als Aufzeichnungsschnittstelle eingetragen. Für den Einsatz im internen Testnetz wird der Eintrag auf den Namen der verwendeten Schnittstelle abgestimmt.
 
 > [PLATZHALTER: Tatsächlichen Interface Namen der finalen Suricata VM eintragen und `suricata.yaml` entsprechend anpassen.]
 
@@ -265,9 +298,11 @@ Unter Windows wurde `ncpa.cpl` geöffnet. In den Eigenschaften des Ethernet Adap
 
 *Abbildung 15: Statische Adresse der Windows VM*
 
+Diese Konfiguration wurde im Rahmen der VM-Einrichtung in Woche 1 vorgenommen. Für die eigentliche Durchführung des ARP-Spoofing-Tests kam die Windows-VM jedoch nicht zum Einsatz; stattdessen wurde mein realer Windows-Laptop mit der gleichen statischen Adresse 192.168.30.20 konfiguriert (siehe Abschnitt 2.2.4).
+
 #### 2.3.4 Verbindungstests
 
-Von Kali wurden Ubuntu und Windows mit jeweils drei ICMP Paketen geprüft.
+Von Kali wurden Ubuntu und Windows mit jeweils drei ICMP Paketen geprüft. Diese Verbindungstests wurden in Woche 1 zwischen der Kali-VM und der Ubuntu- bzw. Windows-VM durchgeführt.
 
 ```bash
 ping -c 3 192.168.30.2
@@ -288,9 +323,9 @@ netsh advfirewall firewall add rule name="ICMP" protocol=icmpv4:8,any dir=in act
 
 *Abbildung 17: Erfolgreiche Ping Tests zu Ubuntu und Windows*
 
-Der Verbindungstest bestätigt die Erreichbarkeit der Adressen `192.168.30.2` und `192.168.30.20` von Kali.
+Der Verbindungstest bestätigt die Erreichbarkeit der Adressen `192.168.30.2` und `192.168.30.20` innerhalb der VM-Umgebung aus Woche 1. Da beim eigentlichen ARP-Spoofing-Test ein realer Laptop anstelle der Windows-VM verwendet wurde (siehe Abschnitt 2.2.4), liegt für diesen kein eigener Verbindungstest-Nachweis vor.
 
-> [PLATZHALTER: Ergebnis des Verbindungstests von Kali zum Gateway `192.168.30.1` ergänzen.]
+> Ein gesonderter Verbindungstest zu `192.168.30.1` wurde nicht durchgeführt, da an dieser Adresse kein reales Gateway-Gerät betrieben wurde (siehe Abschnitt 2.1.2).
 
 ## 3. Vorbereitung der Werkzeuge
 
@@ -358,11 +393,12 @@ Ein weiterer Screenshot zeigt einen zu diesem Zeitpunkt erfolgreichen Konfigurat
 
 *Abbildung 21: Erfolgreicher Suricata Konfigurationstest zum Zeitpunkt der Aufnahme*
 
-Der Smoke Test bestätigt die grundsätzliche Funktion der verwendeten Suricata Umgebung. Für die Erkennung der beiden Projektangriffe wurde zusätzlich die Regeldatei `local.rules` vorbereitet. Der Konfigurationstest wurde fehlerfrei abgeschlossen und alle eigenen Regeln wurden geladen.
-
-> [PLATZHALTER: Prüfen, ob Abbildung 21 vor dem Hinzufügen von Regel R4 zu `local.rules` entstanden ist. Der fehlende Klammerabschluss in R4 war ein Tippfehler beim Erstellen der Regel, dieser hätte beim Laden nur zu einer fehlgeschlagenen Regel geführt, nicht zu null fehlgeschlagenen.]
+Der Smoke Test bestätigt die grundsätzliche Funktion der verwendeten Suricata Umgebung. Für die Erkennung der beiden Projektangriffe wurde zusätzlich die Regeldatei `local.rules` vorbereitet. 
+Beim ersten Laden von local.rules schlugen zunächst zwei Regeln fehl. Regel R1 enthielt einen überflüssigen nocase Zusatz, der eine Warnung auslöste, und Regel R4 verwendete zunächst das Protokoll ether, das der eingesetzte Suricata Build nicht als eigenständige Regel akzeptiert (Meldung „protocol ether cannot be used in a signature"). Nach Entfernen des nocase Zusatzes in R1 und der Umstellung von R4 auf eine im Build unterstützte Schreibweise wurden beim erneuten Konfigurationstest alle eigenen Regeln fehlerfrei geladen. Abbildung 21 zeigt diesen erfolgreichen Test.
 
 ## 4. Angriffsvektor 1: Rogue Access Point
+
+> WICHTIG! Es sollte nochmal überprüft werden ob nirgends mehr Gast@HTW steht!!!!!
 
 ### 4.1 Ziel und Funktionsprinzip
 
@@ -370,7 +406,7 @@ Ein Rogue Access Point ist ein nicht autorisierter WLAN Zugangspunkt. In diesem 
 
 Ein vollständiger Evil Twin verwendet denselben Namen und eine passende Sicherheitskonfiguration. Im ersten Test wurde eine offene Kopie der SSID eingerichtet. Der mobile Testhotspot verwendete WPA2. Eine mögliche Konfiguration mit passender WPA2 Absicherung wird in Abschnitt 4.9 ergänzt.
 
-> **@alle: Bitte diesen Abschnitt prüfen und bei Bedarf an den tatsächlich durchgeführten Ablauf anpassen.**
+> **@Dario: Bitte diesen Abschnitt prüfen und bei Bedarf an den tatsächlich durchgeführten Ablauf anpassen.**
 >
 > Aktuell muss eindeutig zwischen dem ersten Test mit Open AP und der späteren Verbindung über Evil WPA unterschieden werden. Im ersten Test wurde mit der Funktion Open AP lediglich die SSID `HTW-Guest` übernommen. Das Kennwort des ursprünglichen Hotspots wurde dabei nicht übernommen. Der echte mobile Hotspot verwendete WPA2 und ein Kennwort. Der Open AP des WiFi Pineapple wurde dagegen unverschlüsselt ausgesendet. Ein Endgerät mit einem gespeicherten WPA2 Profil verbindet sich normalerweise nicht automatisch mit einer offenen Variante derselben SSID.
 >
@@ -504,9 +540,9 @@ Ein echtes Endgerät verband sich mit der SSID `HTW-Guest`. Der Screenshot zeigt
 
 *Abbildung 31: Mit HTW Guest verbundenes Endgerät*
 
-> [PLATZHALTER: Die Verbindung wurde über die Evil-WPA/2-Funktion des WiFi Pineapple hergestellt.]
+> Die Verbindung wurde über die Evil-WPA/2-Funktion des WiFi Pineapple hergestellt.
 
-> [PLATZHALTER:Da der mobile Testhotspot WPA2 verwendete, wurde auch der Pineapple-Access-Point über die Funktion "Clone WPA2 AP" mit identischer SSID (`HTW-Guest`) und WPA2-Verschlüsselung konfiguriert. Dadurch konnte sich das Testgerät mit dem gefälschten Access Point verbinden. Das für die Verbindung verwendete Passwort wird aus Datenschutzgründen nicht dokumentiert.]
+> PLATZHALTER:Da der mobile Testhotspot WPA2 verwendete, wurde auch der Pineapple-Access-Point über die Funktion "Clone WPA2 AP" mit identischer SSID (`HTW-Guest`) und WPA2-Verschlüsselung konfiguriert. Dadurch konnte sich das Testgerät mit dem gefälschten Access Point verbinden. Das für die Verbindung verwendete Passwort wird aus Datenschutzgründen nicht dokumentiert.
 
 ### 4.10 Verkehr mit tcpdump aufzeichnen
 
@@ -536,9 +572,6 @@ scp root@172.16.42.1:/root/rogue_ap_01.pcap C:\Users\LaraWurzbacher\Downloads\
 
 Die Screenshots bestätigen die erfolgreiche Übertragung der Datei `rogue_ap_01.pcap`.
 
-> [PLATZHALTER: Der im Befehl und in Abbildung 32 sichtbare Benutzername wird anonymisiert. Im Text wurde der Pfad auf `C:\Users\[Name]\Downloads\` angepasst; im Screenshot ist der Name entsprechend zu schwärzen.]
-
-> [PLATZHALTER: Die Datei `rogue_ap_01.pcap` wird der Abgabe als Anlage im Ordner `pcaps/` beigefügt.]
 
 ### 4.11 PCAP in Wireshark auswerten
 
@@ -556,7 +589,6 @@ Die Ansicht zeigt wiederholte DNS Anfragen von `172.16.42.154` an `172.16.42.1`.
 
 Der ausgewertete Bildausschnitt umfasst die DNS Anfragen des Endgeräts. Die Analyse dieses Testschritts konzentriert sich damit auf die Sichtbarkeit der Namensauflösung.
 
-> [PLATZHALTER: Für den Nachweis genügt die Aufzeichnung der DNS-Anfragen. Auf die Aufzeichnung weiterer Inhalte wurde verzichtet.]
 
 ### 4.12 Ort der Datenaufzeichnung
 
@@ -632,7 +664,7 @@ Ein erster Start ohne `sudo` scheiterte mit dem Hinweis, dass Root Rechte oder `
 
 Der Screenshot zeigt die erzeugten Antworten `192.168.30.1 is-at ...` und `192.168.30.20 is-at ...`. Damit ist das Senden der gefälschten Antworten für beide Kommunikationsrichtungen nachvollziehbar.
 
-> [PLATZHALTER: Das erfolgreiche Senden der gefälschten ARP-Antworten in beide Richtungen ist durch die Terminal-Ausgabe in Abbildung 36 belegt. ]
+
 ### 5.5 Verkehr aufzeichnen
 
 Für die Paketaufzeichnung wird Wireshark auf Kali mit `eth0` als Schnittstelle gestartet.
@@ -643,7 +675,6 @@ sudo wireshark
 
 Mit dem Filter `arp` werden die erzeugten ARP Pakete angezeigt. Für die Aufzeichnung wurde der Dateiname `arpspoofing_01.pcap` gewählt.
 
-> [PLATZHALTER: Die Datei `arpspoofing_01.pcap` wird der Abgabe als Anlage im Ordner `pcaps/` beigefügt.]
 
 ### 5.6 Übernahme der ARP Einträge prüfen
 
@@ -651,7 +682,6 @@ Zur Kontrolle der übernommenen Zuordnungen wird die ARP Tabelle des Windows Sys
 
 Zusätzlich wird vom Windows System Testverkehr erzeugt. Die Wireshark Aufzeichnung auf Kali zeigt anschließend, ob dieser Verkehr über das Angreifersystem weitergeleitet wurde.
 
-> [PLATZHALTER: Für den Nachweis von Angriffsvektor 2 genügt der Beleg der erzeugten gefälschten ARP-Antworten (Abbildung 36) zusammen mit der zugehörigen Paketaufzeichnung `arpspoofing_01.pcap`.]
 
 ### 5.7 Angriff beenden
 
@@ -661,7 +691,6 @@ Nach dem Test werden beide `arpspoof` Prozesse mit `Strg+C` beendet. Anschließe
 echo 0 | sudo tee /proc/sys/net/ipv4/ip_forward
 ```
 
-> [PLATZHALTER: Zeitpunkt der Beendigung und Kontrolle der wiederhergestellten ARP Zuordnungen ergänzen.]
 
 ### 5.8 Ergebnis und Grenzen
 
@@ -697,8 +726,6 @@ Die Regeln R1 bis R3 untersuchen unverschlüsselten HTTP Verkehr und erkennen da
 R4 dient der Sichtbarkeit von ARP Aktivität. Suricata arbeitet auf IP Ebene, ARP liegt aber eine Schicht darunter auf Layer 2, weshalb die Regel eher der Protokollierung als einer zuverlässigen Erkennung dient und durch arpwatch ergänzt wird.
 
 R5 sucht eine DNS Anfrage auf eine festgelegte Testdomain. R6 ist konzeptionell für einen DNS Spoofing Test vorgesehen und sucht die Bytefolge der Kali Adresse `192.168.30.10` in einer DNS Antwort.
-
-> [PLATZHALTER: In Regel R5 die Platzhalter-Domain `example.com` durch die tatsächlich verwendete Testdomain ersetzen.]
 
 ### 6.3 Suricata Regeln einbinden und prüfen
 
@@ -770,46 +797,28 @@ sudo arp -s 192.168.30.1 <MAC-des-echten-Gateways>
 
 Ein Test, ob der wiederholte ARP Spoofing Versuch durch diesen statischen Eintrag verhindert wird, ist im Rahmen der theoretischen Behandlung der Schutzmaßnahmen in diesem Projekt nicht vorgesehen.
 
-### 6.7 Weitere Maßnahmen gegen Rogue Access Points
+### 6.7 Präventive Absicherung des WLAN-Zugangs
+Die bisher beschriebenen Maßnahmen erkennen einen Rogue Access Point oder blockieren unautorisierte Geräte im internen Netz. Sie greifen jedoch erst, nachdem sich ein Endgerät bereits mit dem gefälschten WLAN verbunden hat. Für den ersten Angriffsvektor fehlt damit eine präventive Schicht, die genau diese automatische Verbindung von vornherein verhindert. Da sich Geräte ohne Rückfrage mit bekannten offenen Netzen verbinden, ist dieser Punkt für die Werft besonders relevant.
 
-Für den Schutz vor Rogue Access Points werden folgende Maßnahmen betrachtet.
+Als präventive Maßnahmen auf der Ebene des WLAN Zugangs kommen mehrere Ansätze in Betracht. Auf den Endgeräten wird die automatische Verbindung zu offenen und bekannten Netzen deaktiviert und zentral über eine Geräteverwaltung (MDM) oder Gruppenrichtlinien durchgesetzt. Anstelle offener SSIDs wird WPA2 oder WPA3 Enterprise mit 802.1X eingesetzt. Dabei prüfen die Endgeräte die Identität des Authentisierungsservers, sodass ein nachgebauter Access Point das Netz nicht mehr glaubhaft vortäuschen kann. Die Firmen SSID wird ausschließlich als verwaltetes, verschlüsseltes Profil ausgerollt. Ergänzend erkennt und unterdrückt ein WLAN Controller mit einer Funktion zur Rogue Access Point Erkennung fremde Zugangspunkte, die eine bekannte SSID senden.
 
-| Maßnahme | Zweck | Erwartete Wirkung |
-|---|---|---|
-| Geschützte Management Frames | Schutz von WLAN Management Frames | Gefälschte Deauthentication wird erschwert |
-| WPA2 Enterprise oder WPA3 Enterprise | Prüfung des Serverzertifikats | Access Point ohne passendes Zertifikat wird abgelehnt |
-| Verwaltete WLAN Profile | SSID und Sicherheitsverfahren fest vorgeben | Offene Kopie einer WPA2 SSID wird nicht automatisch genutzt |
-| SSID Monitoring | SSID, BSSID und Sicherheitsverfahren vergleichen | Abweichender Access Point kann gemeldet werden |
-| Schulung | Unerwartet offene Netze und Zertifikatswarnungen erklären | Manuelle Fehlverbindungen werden unwahrscheinlicher |
+Für die SWDS Werft mit ihren zehn teilweise offen betriebenen Zugangspunkten ist diese präventive Schicht eine naheliegende Ergänzung. Sie verringert die Wahrscheinlichkeit, dass sich ein Endgerät überhaupt mit einem gefälschten Netz verbindet, und stützt damit die für den ersten Angriffsvektor angesetzte Risikoreduktion.
 
-Eine ausgewählte Maßnahme mit konkreter Konfiguration und Testergebnis wird im Rahmen der theoretischen Behandlung der Schutzmaßnahmen in diesem Projekt nicht umgesetzt.
+Die genannten Maßnahmen werden im Rahmen der theoretischen Behandlung der Schutzmaßnahmen als Empfehlung dargestellt und in diesem Projekt nicht durch eine eigene Konfiguration oder einen eigenen Test belegt.
 
-### 6.8 Weitere Maßnahmen gegen ARP Spoofing
-
-| Maßnahme | Zweck | Erwartete Wirkung |
-|---|---|---|
-| Dynamic ARP Inspection | ARP Antworten mit vertrauenswürdigen Zuordnungen prüfen | Gefälschte Antworten werden verworfen |
-| DHCP Snooping | Vertrauenswürdige Adresszuordnungen aufbauen | Grundlage für Dynamic ARP Inspection |
-| Statische ARP Einträge | Wichtige IP und MAC Zuordnungen festlegen | Gefälschte Antworten ändern den Eintrag nicht |
-| Netzsegmentierung | Broadcast Bereiche verkleinern | Angreifer erreicht weniger Systeme |
-| arpwatch | Änderungen zwischen IP und MAC melden | Verdächtige Wechsel werden sichtbar |
-| Verschlüsselte Protokolle | Inhalte unabhängig vom Transportweg schützen | Mitgelesene Nutzdaten bleiben geschützt |
-
-Eine ausgewählte Maßnahme mit konkreter Konfiguration und Testergebnis wird im Rahmen der theoretischen Behandlung der Schutzmaßnahmen in diesem Projekt nicht umgesetzt.
-
-### 6.9 Vorher Nachher Vergleich
+### 6.8 Vorher Nachher Vergleich
 
 | Testfall | Zustand vorher | Erwarteter Zustand nachher |
 |---|---|---|
-| Rogue Access Point | Client verbindet sich und DNS wird aufgezeichnet | Profil lehnt falsche Sicherheit ab oder Monitoring meldet den Access Point |
 | Suricata gegen Rogue PCAP | PCAP wird ohne Projektregeln verarbeitet | Passende Projektregel erzeugt einen Alert |
 | ARP Spoofing | Kali sendet gefälschte Antworten | Statischer Eintrag oder Switch verwirft die Fälschung |
 | arpwatch | Ausgangszustand wird erfasst | Wechsel der IP und MAC Zuordnung wird protokolliert |
 | Firewall | Definierter Testverkehr ist möglich | Festgelegter Verkehr wird am Gateway gefiltert |
+| WLAN-Verbindung | Gerät verbindet sich automatisch mit bekannter offener SSID | Verwaltetes Profil und 802.1X verhindern die automatische Verbindung |
 
 Diese Gegenüberstellung beschreibt die erwartete Wirkung der Maßnahmen. Im Rahmen der theoretischen Behandlung der Schutzmaßnahmen wird sie in diesem Projekt nicht durch eigene Testergebnisse belegt.
 
-### 6.10 Betrieb und Wartung
+### 6.9 Betrieb und Wartung
 
 Die Suricata Regeln werden regelmäßig mit `suricata-update` aktualisiert. Nach der Aktualisierung wird der Dienst kontrolliert. `fast.log` und `eve.json` werden regelmäßig ausgewertet und durch Log Rotation verwaltet. Firewall Whitelists und statische ARP Einträge werden angepasst, sobald neue Geräte aufgenommen oder Adressen geändert werden.
 
@@ -868,14 +877,14 @@ Die Annahme von drei Ausfalltagen berücksichtigt die vorhandenen Sicherungen. F
 
 Für den Ausgangszustand wird in der Lehrrechnung eine jährliche Wahrscheinlichkeit von 35 % angesetzt. Die Schätzung berücksichtigt die zehn WLAN Access Points, die mobilen Geräte, die älteren Systeme und den angenommenen Betrieb ohne zusätzliches IDS. Die vorhandenen Firewalls, die Segmentierung und die Sicherungen reduzieren das Gesamtrisiko bereits.
 
-Nach Einführung der Maßnahmen wird eine jährliche Wahrscheinlichkeit von 8 % angenommen. Berücksichtigt werden verwaltete WLAN Profile, geschützte Management Frames, Dynamic ARP Inspection, DHCP Snooping, Suricata, arpwatch, regelmäßige Protokollauswertung und Schulung.
+Nach Einführung der Maßnahmen wird eine jährliche Wahrscheinlichkeit von 10 % angenommen. Die mehrschichtige Kombination aus Suricata mit eigenen Erkennungsregeln, arpwatch, Firewall Whitelist, statischem ARP Eintrag sowie Dynamic ARP Inspection und DHCP Snooping auf den vorhandenen Switches deckt beide Angriffsvektoren wirksam ab: ARP Spoofing wird bereits auf Netzwerkebene unterbunden, und ein Zugriff über einen Rogue Access Point wird durch die Erkennungsschicht schnell aufgedeckt und eingedämmt, bevor größerer Schaden entsteht.
 
 | Zustand | Wahrscheinlichkeit | Einordnung |
 |---|---:|---|
 | Vor den Maßnahmen | 0,35 | Begründete Annahme ohne historische Vorfalldaten |
-| Nach den Maßnahmen | 0,08 | Begründete Annahme mit Prävention, Erkennung und Reaktion |
-| Absolute Risikoreduktion | 0,27 | `0,35 - 0,08` |
-| Relative Risikoreduktion | 77,1 % | `0,27 / 0,35` |
+| Nach den Maßnahmen | 0,10 | Begründete Annahme mit Prävention, Erkennung und Reaktion |
+| Absolute Risikoreduktion | 0,25 | `0,35 - 0,10` |
+| Relative Risikoreduktion | 71,4 % | `0,25 / 0,35` |
 
 ### 7.5 Erwarteter jährlicher Verlust
 
@@ -888,22 +897,20 @@ ALE = jährliche Eintrittswahrscheinlichkeit × Schaden je Vorfall
 Vor den Maßnahmen:
 
 ```text
-ALE vorher = 0,35 × 150.000 €
-ALE vorher = 52.500 € pro Jahr
+ALE vorher = 0,35 × 150.000 € = 52.500 €
 ```
 
 Nach den Maßnahmen:
 
 ```text
-ALE nachher = 0,08 × 150.000 €
-ALE nachher = 12.000 € pro Jahr
+ALE nachher = 0,10 × 150.000 € = 15.000 €
 ```
 
 | Zustand | Wahrscheinlichkeit | Schaden je Vorfall | ALE |
 |---|---:|---:|---:|
 | Vor den Maßnahmen | 0,35 | 150.000 € | 52.500 € |
-| Nach den Maßnahmen | 0,08 | 150.000 € | 12.000 € |
-| Vermiedener jährlicher Verlust | 0,27 | 150.000 € | 40.500 € |
+| Nach den Maßnahmen | 0,10 | 150.000 € | 15.000 € |
+| Vermiedener jährlicher Verlust | 0,25 | 150.000 € | 37.500 € |
 
 ### 7.6 Kosten der Maßnahmen
 
@@ -912,23 +919,41 @@ Für die Kostenrechnung wird ein angenommener Stundensatz von 80 € verwendet.
 | Kostenposition | Rechnung | Jahr 1 | Folgejahr |
 |---|---:|---:|---:|
 | Monitoring Host und Speicher | Pauschal | 1.200 € | 0 € |
-| Suricata und arpwatch einrichten | 40 Stunden × 80 € | 3.200 € | 0 € |
-| Switch und Firewall Konfiguration | 12 Stunden × 80 € | 960 € | 0 € |
-| WLAN Profile und Management Frame Schutz | 12 Stunden × 80 € | 960 € | 0 € |
-| Schulung | 8 Stunden × 80 € | 640 € | 0 € |
+| Suricata (Installation und eigene Regeln) | 30 Stunden × 80 € | 2.400 € | 0 € |
+| arpwatch | 10 Stunden × 80 € | 800 € | 0 € |
+| Firewall Whitelist (iptables) | 6 Stunden × 80 € | 480 € | 0 € |
+| Statischer ARP Eintrag | 0,5 Stunden × 80 € | 40 € | 0 € |
+| Switch Konfiguration (Dynamic ARP Inspection, DHCP Snooping) | 5,5 Stunden × 80 € | 440 € | 0 € |
 | Alert Auswertung und Betrieb | 1,5 Stunden × 52 Wochen × 80 € | 6.240 € | 6.240 € |
 | Regelpflege und jährlicher Test | 8 Stunden × 80 € | 640 € | 640 € |
-| **Gesamtkosten** |  | **13.840 €** | **6.880 €** |
+| **Gesamtkosten** |  | **12.240 €** | **6.880 €** |
 
-Für Suricata und arpwatch werden keine Lizenzkosten angesetzt. Zusätzliche Kosten für neue Switches oder einen WLAN Controller können nach der technischen Bestandsprüfung ergänzt werden.
+Für Suricata und arpwatch werden keine Lizenzkosten angesetzt. Für die HP 2530 Switch Serie wird angenommen, dass die bei der SWDS Werft eingesetzten Geräte eine Firmware ab Version YA.15.13.0003 sowie eine passende Variante besitzen und damit Dynamic ARP Protection und DHCP Snooping unterstützen. Auf dieser Grundlage werden keine zusätzlichen Kosten für Firmware-Updates, neue Switches oder einen WLAN Controller angesetzt.
 
-Die HP 2530 Switch Serie unterstützt Dynamic ARP Protection und DHCP Snooping grundsätzlich, allerdings erst ab Firmware Version YA.15.13.0003, ältere Firmware Stände unterstützen diese Funktionen nicht. Bei PoE Varianten der Serie ist die Unterstützung zusätzlich eingeschränkt. Ob die bei der SWDS Werft eingesetzten Switches die passende Firmware und Variante besitzen, ist mit der vorliegenden Unterlage nicht feststellbar.
+### 7.7 Einzel-ROSI je Maßnahme
 
-Quelle: [HP 2530 Switch Series Manual Supplement, Dynamic ARP Protection](https://www.manualslib.com/manual/1191512/Hp-2530.html?page=15), [HP 2530 Switch Series Manual Supplement, Enabling DHCP Snooping](https://www.manualslib.com/manual/1191512/Hp-2530.html?page=8), [HPE Support, Aruba 2530 Switch Series: DHCP Snooping Commands are not Available](https://support.hpe.com/hpesc/public/docDisplay?docId=sf000057024en_us&docLocale=en_US)
+Zusätzlich zur gemeinsamen Betrachtung aller Maßnahmen wird jede Einzelmaßnahme unabhängig gegen die volle Ausgangslage bewertet, so als wäre sie die einzige umgesetzte Maßnahme. Das zeigt, welcher Baustein für sich genommen den größten wirtschaftlichen Hebel hat, und liefert damit eine Grundlage für die Priorisierung gegenüber der Geschäftsführung. Die Risikoreduktion in % gibt an, um wie viele Prozentpunkte die jährliche Eintrittswahrscheinlichkeit (Basis 35 %) durch diese einzelne Maßnahme sinkt. Die Werte sind unabhängig voneinander geschätzt und müssen sich nicht zur kombinierten Reduktion aus Abschnitt 7.4 aufsummieren, da sich die Wirkung der Maßnahmen in der Praxis überschneidet und ergänzt.
 
-> [PLATZHALTER: Firmware Version und PoE Variante der eingesetzten HP 2530 Switches bei der Werft prüfen. Nur falls eine Firmware Aktualisierung oder ein Austausch nötig ist, zusätzliche Kosten ergänzen und die ROSI neu berechnen.]
+| Maßnahme | Kosten Jahr 1 | Risikoreduktion in % | Vermiedener Verlust | ROSI | Empfehlung |
+|---|---:|---:|---:|---:|---|
+| Statischer ARP Eintrag | 40 € | 4 % | 6.000 € | 14.900 % | Sofort umsetzen |
+| Switch Konfiguration (Dynamic ARP Inspection, DHCP Snooping) | 440 € | 10 % | 15.000 € | 3.309 % | Sofort umsetzen |
+| Firewall Whitelist (iptables) | 480 € | 6 % | 9.000 € | 1.775 % | Sofort umsetzen |
+| arpwatch | 800 € | 5 % | 7.500 € | 838 % | Umsetzen |
+| Suricata (Installation und eigene Regeln) | 2.400 € | 8 % | 12.000 € | 400 % | Umsetzen |
 
-### 7.7 ROSI im ersten Jahr
+Beispielhaft für den statischen ARP Eintrag:
+
+```text
+ROSI = (0,04 × 150.000 € - 40 €) / 40 €
+ROSI = (6.000 € - 40 €) / 40 €
+ROSI = 149
+ROSI = 14.900 %
+```
+
+Die günstigsten Einzelmaßnahmen erzielen den mit Abstand höchsten Hebel: Ein einzelner Befehl für den statischen ARP Eintrag und eine überschaubare Konfiguration der vorhandenen Switches vermeiden bereits einen großen Teil des Schadens bei minimalem Aufwand und lassen sich kurzfristig umsetzen. Suricata bleibt trotz des höheren Investitionsvolumens mit 400 % klar wirtschaftlich, da es als einziger Baustein beide Angriffsvektoren gleichzeitig abdeckt.
+
+### 7.8 ROSI im ersten Jahr
 
 Die Projektaufgabe gibt folgende Formel vor.
 
@@ -936,62 +961,50 @@ Die Projektaufgabe gibt folgende Formel vor.
 ROSI = (Risk Reduction × Asset Value - Cost) / Cost
 ```
 
-Im Basisfall beträgt die absolute Risikoreduktion `0,27`. Der Asset Value beträgt 150.000 €. Das Produkt entspricht einem vermiedenen jährlichen Verlust von 40.500 €.
+Im Basisfall beträgt die absolute Risikoreduktion `0,25`. Der Asset Value beträgt 150.000 €. Das Produkt entspricht einem vermiedenen jährlichen Verlust von 37.500 €.
 
 ```text
-ROSI Jahr 1 = (0,27 × 150.000 € - 13.840 €) / 13.840 €
-ROSI Jahr 1 = (40.500 € - 13.840 €) / 13.840 €
-ROSI Jahr 1 = 1,93
-ROSI Jahr 1 = 193 %
+ROSI Jahr 1 = (0,25 × 150.000 € - 12.240 €) / 12.240 €
+ROSI Jahr 1 = (37.500 € - 12.240 €) / 12.240 €
+ROSI Jahr 1 = 2,06
+ROSI Jahr 1 = 206 %
 ```
 
-Ein ROSI von 193 % bedeutet, dass der angenommene wirtschaftliche Überschuss nach Abzug der Maßnahmenkosten dem 1,93 fachen der Investition entspricht.
+Ein ROSI von 206 % bedeutet, dass der angenommene wirtschaftliche Überschuss nach Abzug der Maßnahmenkosten dem 2,06 fachen der Investition entspricht.
 
-### 7.8 ROSI der Folgejahre und Amortisation
+### 7.9 ROSI der Folgejahre und Amortisation
 
 Ab dem zweiten Jahr werden nur die laufenden Kosten angesetzt.
 
 ```text
-ROSI Folgejahr = (40.500 € - 6.880 €) / 6.880 €
-ROSI Folgejahr = 4,89
-ROSI Folgejahr = 489 %
+ROSI Folgejahr = (37.500 € - 6.880 €) / 6.880 €
+ROSI Folgejahr = 4,45
+ROSI Folgejahr = 445 %
 ```
 
-Die rechnerische Amortisationszeit im ersten Jahr beträgt rund 4,1 Monate.
+Die rechnerische Amortisationszeit im ersten Jahr beträgt rund 3,9 Monate.
 
 ```text
-Amortisationszeit = 13.840 € / 40.500 € × 12 Monate
-Amortisationszeit = 4,1 Monate
+Amortisationszeit = 12.240 € / 37.500 € × 12 Monate
+Amortisationszeit = 3,9 Monate
 ```
 
-Über drei Jahre werden 121.500 € erwarteter Verlust vermieden. Die Gesamtkosten betragen 27.600 €.
+Über drei Jahre werden 112.500 € erwarteter Verlust vermieden. Die Gesamtkosten betragen 26.000 €.
 
 ```text
-Kosten über drei Jahre = 13.840 € + 6.880 € + 6.880 €
-Kosten über drei Jahre = 27.600 €
+Kosten über drei Jahre = 12.240 € + 6.880 € + 6.880 €
+Kosten über drei Jahre = 26.000 €
 
-ROSI drei Jahre = (121.500 € - 27.600 €) / 27.600 €
-ROSI drei Jahre = 3,40
-ROSI drei Jahre = 340 %
+ROSI drei Jahre = (112.500 € - 26.000 €) / 26.000 €
+ROSI drei Jahre = 3,33
+ROSI drei Jahre = 333 %
 ```
-
-### 7.9 Sensitivitätsanalyse
-
-Mit einer Sensitivitätsanalyse wird geprüft, wie sich unterschiedliche Wahrscheinlichkeiten auf das Ergebnis auswirken. Der angenommene Schaden von 150.000 € und die Kosten des ersten Jahres bleiben dabei gleich.
-
-| Szenario | Wahrscheinlichkeit vorher | Wahrscheinlichkeit nachher | Vermiedener Verlust | ROSI Jahr 1 |
-|---|---:|---:|---:|---:|
-| Konservativ | 0,25 | 0,12 | 19.500 € | 41 % |
-| Basisfall | 0,35 | 0,08 | 40.500 € | 193 % |
-| Hohe Gefährdung | 0,40 | 0,06 | 51.000 € | 268 % |
-
-Auch im konservativen Szenario bleibt der ROSI positiv. Das Ergebnis hängt weiterhin von den geschätzten Kosten, dem Schaden pro Vorfall und den Wahrscheinlichkeiten ab.
 
 ### 7.10 Empfehlung für die SWDS Werft
 
-Im Basisfall sinkt der erwartete jährliche Verlust von 52.500 € auf 12.000 €. Den Kosten von 13.840 € im ersten Jahr steht eine erwartete Risikoreduktion von 40.500 € gegenüber. Der ROSI beträgt rund 193 %.
+Im Basisfall sinkt der erwartete jährliche Verlust von 52.500 € auf 15.000 €. Den Kosten von 12.240 € im ersten Jahr steht eine erwartete Risikoreduktion von 37.500 € gegenüber. Der ROSI beträgt rund 206 % und steigt ab dem Folgejahr auf 445 %, bei einer Amortisationszeit von unter vier Monaten.
 
-Priorität haben verwaltete WLAN Profile, geschützte Management Frames, Schutz vor manipulierten ARP Antworten und ein laufend ausgewertetes IDS. Zusätzlich werden die älteren Systeme in die Maßnahmenplanung einbezogen. Die vorhandenen verschlüsselten Sicherungen werden regelmäßig durch Rücksicherungstests geprüft.
+Priorität haben der statische ARP Eintrag, die Switch Konfiguration und die Firewall Whitelist, da sie bei minimalem Aufwand den höchsten Einzel-ROSI erzielen und sich innerhalb weniger Tage umsetzen lassen. arpwatch und Suricata folgen als tragende Bausteine der Erkennung, die beide Angriffsvektoren gemeinsam absichern. Zusätzlich werden die älteren Systeme in die Maßnahmenplanung einbezogen. Die vorhandenen verschlüsselten Sicherungen werden regelmäßig durch Rücksicherungstests geprüft.
 
 Für eine reale Investitionsentscheidung muss die Werft die angenommenen Werte durch eigene Kennzahlen ersetzen. Die Rechenmethode bleibt dabei unverändert.
 
@@ -1005,21 +1018,40 @@ Beim ARP Spoofing erzeugte Kali fortlaufend gefälschte Antworten für das Gatew
 
 Suricata wurde installiert, als Dienst eingerichtet und mit einem allgemeinen Smoke Test geprüft. Sechs eigene Regeln bilden die vorgesehenen Erkennungsfälle für HTTP, DNS und ARP ab. arpwatch ergänzt die Überwachung der IP und MAC Zuordnungen. Das Schutzkonzept wird durch eine Firewall Whitelist, feste ARP Einträge und organisatorische Maßnahmen vervollständigt. Die Wirksamkeit dieser Maßnahmen wird in diesem Projekt konzeptionell begründet und nicht durch eigene Testergebnisse belegt.
 
-Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS Werft. Im Basisfall ergibt sich für das erste Jahr ein ROSI von 193 %. Die Sensitivitätsanalyse zeigt auch im konservativen Szenario einen positiven Wert. Sämtliche finanziellen Parameter sind als Annahmen ausgewiesen und können durch unternehmenseigene Kennzahlen ersetzt werden.
+Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS Werft. Im Basisfall ergibt sich für das erste Jahr ein ROSI von 206 %, mit den günstigsten Einzelmaßnahmen als besonders wirtschaftlichen Quick Wins. Sämtliche finanziellen Parameter sind als Annahmen ausgewiesen und können durch unternehmenseigene Kennzahlen ersetzt werden.
+
+### 8.1 Lessons Learned
+
+**Technische Erkenntnisse**
+
+- VirtualBox benötigt Administratorrechte für den vollen Adaptertyp-Umfang. Ohne Adminrechte installiert, standen nur NAT und Netzwerkbrücke zur Verfügung, der für den Testaufbau nötige Adaptertyp "Internes Netzwerk" fehlte.
+- Der grafische VirtualBox-Installer fror bei der Kali-Installation im Partitionierungsschritt ein; der Text-Installer lief stabil.
+- Ubuntu Server verwendet Netplan statt der unter Kali bekannten `/etc/network/interfaces`-Syntax. Eine zunächst nach dem falschen Schema vorgenommene Konfiguration ging nach jedem Neustart verloren.
+- Suricata-Regeln reagieren empfindlich auf Syntaxdetails: Ein überflüssiges `nocase` löste eine Warnung aus, das Protokoll `ether` wurde vom eingesetzten Build nicht als eigenständige Regel akzeptiert. Beides musste nach dem ersten fehlgeschlagenen Ladeversuch korrigiert werden.
+- Virtuelle Maschinen besitzen keinen echten WLAN-Adapter. Ein Angriff über ein reales WLAN-Netzwerk lässt sich mit einer VM allein nicht durchführen.
+
+**Planungserkenntnisse**
+
+- Der ursprüngliche Plan mit drei aktiv genutzten VMs (Kali, Ubuntu, Windows) erwies sich als zu optimistisch: Zwei der drei VMs wurden für die eigentliche Durchführung der Angriffe nicht benötigt und durch reale Geräte bzw. eine rein theoretische Behandlung ersetzt (siehe Abschnitt 2.2.4). Eine frühere Prüfung der technischen Voraussetzungen (WLAN-Fähigkeit der Zielsysteme, Umfang der Suricata-Behandlung) hätte diesen Umplanungsaufwand reduziert.
+- Der für Woche 3 geplante zweite Pineapple-Termin zur praktischen Prüfung der Gegenmaßnahmen entfiel; die Schutzmaßnahmen wurden stattdessen konzeptionell behandelt. Eine frühzeitigere Abstimmung mit der Dozentin über den erwarteten Detailgrad hätte den Zeitplan von Anfang an realistischer gestaltet.
+
+**Team- und Dokumentationserkenntnisse**
+
+- Die arbeitsteilige Dokumentation in mehreren Wochendokus führte zu Uneinheitlichkeiten zwischen Zwischenständen und dem finalen Abschlussbericht, etwa bei der Bezeichnung von Testgeräten. Ein gemeinsames Glossar für Gerätenamen und Rollen von Projektbeginn an hätte diesen Abstimmungsaufwand am Ende reduziert.
+
 
 ## 9. Anhang
 
 ### 9.1 Kontrollpunkte vor der Abgabe
 
 | Bereich | Bereits enthalten | Vor der Abgabe zu prüfen oder zu ergänzen |
-|---|---|---|
+|---|---|--|
 | Formalia | Titel, Modul, Hochschule, Gruppe und Bearbeitungszeitraum | Namen und Matrikelnummern, Zeitplan, Meilensteine, Aufgabenzuordnung und Quellenverzeichnis |
-| WLAN Endgerät | Verbindung mit `HTW-Guest`, Adresse `172.16.42.154` und DNS Auswertung | Gerätetyp und Betriebssystem sowie Bestätigung, ob die Verbindung über Evil WPA automatisch oder nach manueller Auswahl erfolgte |
-| Internes Testnetz | IP Konfigurationen und erfolgreiche Verbindungstests zu Ubuntu und Windows | Bezeichnung, Gerätetyp und MAC Adresse des Gateways sowie Verbindungstest zu `192.168.30.1` |
+| WLAN Endgerät | Verbindung mit `HTW-Guest`, Adresse `172.16.42.154` und DNS Auswertung | Bestätigung, ob die Verbindung über Evil WPA automatisch oder nach manueller Auswahl erfolgte (Gerätetyp jetzt bekannt: Darios Smartphone, in Spalte "Bereits enthalten" ergänzen)|
+| Internes Testnetz | IP Konfigurationen und erfolgreiche Verbindungstests zu Ubuntu und Windows | Klarstellung ergänzt, dass unter `192.168.30.1` kein reales Gateway-Gerät betrieben wurde (s. 2.1.2 und 2.3.4); Bestätigung durch Dario vor Abgabe einholen |
 | Rogue Access Point | Recon, Open AP Konfiguration, sichtbarer Access Point und verbundener Client | Nachweise für den echten mobilen Hotspot, den PineAP Pool, die aktivierten PineAP Optionen, Evil WPA und den Deauthentication Versuch |
 | Rogue Access Point PCAP | Übertragung der Datei und DNS Auswertung in Wireshark | `rogue_ap_01.pcap` beifügen, SHA256 Wert ergänzen und den personenbezogenen Windows Pfad im Text sowie in den Abbildungen 32 und 33 anonymisieren |
 | ARP Spoofing | Aktivierte IP Weiterleitung und zwei gleichzeitig laufende `arpspoof` Prozesse | `arpspoofing_01.pcap`, Wireshark Ansicht, ARP Tabellen von Windows und Gateway, weitergeleiteten Testverkehr sowie Wiederherstellung der ARP Zuordnungen ergänzen |
 | Suricata | Installation, Smoke Test, Konfiguration und eigenes Regelkonzept | Testdomain für R5 festlegen und die überholten Platzhalter zum Interface sowie zum Klammerabschluss von R4 entfernen |
 | Schutzmaßnahmen | Suricata, arpwatch, Firewall Konzept, statischer ARP Eintrag und weitere Maßnahmen | Die theoretische Behandlung ist abgestimmt. Ein praktischer Nachweis ist nicht erforderlich |
-| ROSI | Datengrundlage der Werft, ausgewiesene Annahmen, Berechnung und Sensitivitätsanalyse | Firmware und PoE Variante der HP 2530 Switches nur prüfen, wenn der entsprechende Absatz und mögliche Zusatzkosten Bestandteil der Abgabe bleiben |
-| Abgabedateien | Abschlussbericht mit Abbildungen | PCAP Dateien und das gesondert geforderte Poster vollständig beifügen |
+| Abgabedateien | Abschlussbericht mit Abbildungen | PCAP Dateien |
