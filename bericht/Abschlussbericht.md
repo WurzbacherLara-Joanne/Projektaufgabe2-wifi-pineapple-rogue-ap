@@ -47,6 +47,8 @@ Die im Rahmen des Setups temporär hergestellte Internetverbindung der Kali-VM (
 
 Das in Kapitel 7 verwendete Beispielunternehmen SWDS Werft ist ein im Rahmen der Projektaufgabe bereitgestelltes, hypothetisches Fallbeispiel. Die ROSI-Berechnung stellt keine reale Sicherheitsbewertung eines existierenden Unternehmens dar.
 
+Die während der Versuche erzeugten Paketaufzeichnungen (`rogue_ap_01.pcap`, `arpspoofing_01.pcap`) werden auf Anweisung der Dozentin Mevre Tunca aus Datenschutzgründen nicht als Anlage mit abgegeben. Der Nachweis der Angriffe erfolgt stattdessen über die dokumentierten Screenshots der Wireshark- bzw. tcpdump-Auswertung (siehe Abschnitte 4.10–4.11 und 5.5).
+
 Rechtliche Grundlage der Durchführung ist die im Modul Informationssicherheit an der HTW Berlin vorgesehene Projektaufgabe. Sämtliche Tests sind auf den vorgegebenen Laborrahmen beschränkt und dienen ausschließlich Ausbildungszwecken.
 
 ## 2. Testumgebung
@@ -398,7 +400,6 @@ Beim ersten Laden von local.rules schlugen zunächst zwei Regeln fehl. Regel R1 
 
 ## 4. Angriffsvektor 1: Rogue Access Point
 
-> WICHTIG! Es sollte nochmal überprüft werden ob nirgends mehr Gast@HTW steht!!!!!
 
 ### 4.1 Ziel und Funktionsprinzip
 
@@ -406,13 +407,11 @@ Ein Rogue Access Point ist ein nicht autorisierter WLAN Zugangspunkt. In diesem 
 
 Ein vollständiger Evil Twin verwendet denselben Namen und eine passende Sicherheitskonfiguration. Im ersten Test wurde eine offene Kopie der SSID eingerichtet. Der mobile Testhotspot verwendete WPA2. Eine mögliche Konfiguration mit passender WPA2 Absicherung wird in Abschnitt 4.9 ergänzt.
 
-> **@Dario: Bitte diesen Abschnitt prüfen und bei Bedarf an den tatsächlich durchgeführten Ablauf anpassen.**
->
-> Aktuell muss eindeutig zwischen dem ersten Test mit Open AP und der späteren Verbindung über Evil WPA unterschieden werden. Im ersten Test wurde mit der Funktion Open AP lediglich die SSID `HTW-Guest` übernommen. Das Kennwort des ursprünglichen Hotspots wurde dabei nicht übernommen. Der echte mobile Hotspot verwendete WPA2 und ein Kennwort. Der Open AP des WiFi Pineapple wurde dagegen unverschlüsselt ausgesendet. Ein Endgerät mit einem gespeicherten WPA2 Profil verbindet sich normalerweise nicht automatisch mit einer offenen Variante derselben SSID.
->
-> Abbildung 28 (rogue_openap_configure_04.png) belegt den ersten Test. Im Screenshot ist der Reiter `Open AP` ausgewählt. Als `Open SSID` ist `HTW-Guest` eingetragen. Die Oberfläche weist darauf hin, dass dieser Zugangspunkt ohne Verschlüsselung ausgesendet wird. Ein Feld für ein WLAN Kennwort ist nicht vorhanden. Damit zeigt die Abbildung, dass in diesem Schritt nur der Netzwerkname und nicht das Kennwort übernommen wurde.
->
-> Für die spätere erfolgreiche Verbindung mit der Adresse `172.16.42.154` wurde laut Versuchsbericht Evil WPA mit passender WPA2 Konfiguration verwendet. Bitte bestätigen, ob dabei dieselbe Passphrase wie beim mobilen Testhotspot eingetragen wurde und ob sich das Endgerät automatisch verbunden hat oder die Verbindung manuell bestätigt wurde. Anschließend sollten die Beschreibung in diesem Abschnitt und Abschnitt 4.9 entsprechend vereinheitlicht werden.
+Aktuell muss eindeutig zwischen dem ersten Test mit Open AP und der späteren Verbindung über Evil WPA unterschieden werden. Im ersten Test wurde mit der Funktion Open AP lediglich die SSID `HTW-Guest` übernommen. Das Kennwort des ursprünglichen Hotspots wurde dabei nicht übernommen. Der echte mobile Hotspot verwendete WPA2 und ein Kennwort. Der Open AP des WiFi Pineapple wurde dagegen unverschlüsselt ausgesendet. Ein Endgerät mit einem gespeicherten WPA2 Profil verbindet sich normalerweise nicht automatisch mit einer offenen Variante derselben SSID.
+
+Abbildung 28 (rogue_openap_configure_04.png) belegt den ersten Test. Im Screenshot ist der Reiter `Open AP` ausgewählt. Als `Open SSID` ist `HTW-Guest` eingetragen. Die Oberfläche weist darauf hin, dass dieser Zugangspunkt ohne Verschlüsselung ausgesendet wird. Ein Feld für ein WLAN Kennwort ist nicht vorhanden. Damit zeigt die Abbildung, dass in diesem Schritt nur der Netzwerkname und nicht das Kennwort übernommen wurde.
+
+Für die spätere erfolgreiche Verbindung mit der Adresse `172.16.42.154` wurde laut Versuchsbericht Evil WPA mit passender WPA2 Konfiguration verwendet. Bitte bestätigen, ob dabei dieselbe Passphrase wie beim mobilen Testhotspot eingetragen wurde und ob sich das Endgerät automatisch verbunden hat oder die Verbindung manuell bestätigt wurde. Anschließend sollten die Beschreibung in diesem Abschnitt und Abschnitt 4.9 entsprechend vereinheitlicht werden.
 
 Damit sich das Testgerät beim eigentlichen Termin automatisch mit dem vom Pineapple gesendeten Netz verbindet, wurde vorab ein persönlicher Hotspot mit dem Namen `HTW-Guest` und WPA2 Absicherung eingerichtet. Das Testgerät verband sich einmalig mit diesem Hotspot und speicherte das Netz dadurch als bekannt. Anschließend wurde der Hotspot wieder deaktiviert. Beim späteren Pineapple Termin sendete der WiFi Pineapple dieselbe SSID aus, wodurch sich das Testgerät ohne manuelles Zutun automatisch verband.
 
@@ -460,11 +459,10 @@ Im Webinterface wurde die Recon Ansicht geöffnet. Im Bereich `Scanning` wurde e
 
 *Abbildung 25: Recon Scan der WLAN Umgebung*
 
-Zu Beginn wurde der Eintrag `Gast@HTW` untersucht. Anschließend wurde die Auswahl auf das vorgesehene Testnetz `HTW-Guest` korrigiert. Die beiden Namen bezeichnen unterschiedliche Netze.
+Die Auswahl auf das vorgesehene Testnetz war `HTW-Guest`.
 
 | SSID | Sichtbare Angaben | Einordnung |
 |---|---|---|
-| `Gast@HTW` | Mehrere BSSIDs von Extreme Networks, WPA2 | Nicht das Testziel |
 | `DONOTCONNECT` | BSSID `00:13:37:AB:E5:68`, offen, Kanal 11 | Eigener Pineapple vor der Umbenennung |
 | `GEIT_LoRa_Gateway` | BSSID `24:E1:24:F3:30:C4`, WPA2 | Nicht verwendet |
 | `HTW-Guest` | BSSID `00:13:37:AB:E5:68`, offen, Kanal 11 | Eigener Pineapple nach der Umbenennung |
@@ -529,7 +527,7 @@ Der mobile Testhotspot verwendete WPA2. Der Pineapple Access Point wurde zunäch
 
 ### 4.8 Deauthentication Versuch
 
-Im Aktionsmenü stand `Deauthenticate All Clients` zur Verfügung. Die Funktion wurde zunächst mit dem Eintrag `Gast@HTW` aufgerufen. Beim späteren Aufruf für `HTW-Guest` zeigte die identische BSSID, dass der eigene Pineapple Eintrag ausgewählt war. Für diesen Eintrag wurden keine verbundenen Clients angezeigt.
+Im Aktionsmenü stand `Deauthenticate All Clients` zur Verfügung. Die Funktion wurde für den Eintrag `HTW-Guest` aufgerufen; die BSSID bestätigte, dass der eigene Pineapple-Eintrag ausgewählt war. Für diesen Eintrag wurden keine verbundenen Clients angezeigt.
 
 > [PLATZHALTER: Ein Deauthentication-Test gegen den echten mobilen Testhotspot wurde nicht durchgeführt, da dieser im Recon-Scan nicht erfasst wurde. Für den Nachweis von Angriffsvektor 1 ist dies nicht erforderlich, da die erfolgreiche Verbindung eines Endgeräts und die Aufzeichnung seines Datenverkehrs bereits in den Abschnitten 4.9 bis 4.11 belegt sind.]
 ### 4.9 Verbindung eines Endgeräts
@@ -570,7 +568,7 @@ scp root@172.16.42.1:/root/rogue_ap_01.pcap C:\Users\LaraWurzbacher\Downloads\
 
 *Abbildung 33: Rogue Access Point PCAP im Download Ordner*
 
-Die Screenshots bestätigen die erfolgreiche Übertragung der Datei `rogue_ap_01.pcap`.
+Die Screenshots bestätigen die erfolgreiche Übertragung der Datei `rogue_ap_01.pcap`. Die Datei selbst wird der Abgabe nicht beigefügt (siehe Abschnitt 1.2).
 
 
 ### 4.11 PCAP in Wireshark auswerten
@@ -673,7 +671,7 @@ Für die Paketaufzeichnung wird Wireshark auf Kali mit `eth0` als Schnittstelle 
 sudo wireshark
 ```
 
-Mit dem Filter `arp` werden die erzeugten ARP Pakete angezeigt. Für die Aufzeichnung wurde der Dateiname `arpspoofing_01.pcap` gewählt.
+Mit dem Filter `arp` werden die erzeugten ARP Pakete angezeigt. Für die Aufzeichnung wurde der Dateiname `arpspoofing_01.pcap` gewählt. Auch diese Datei wird der Abgabe nicht beigefügt (siehe Abschnitt 1.2).
 
 
 ### 5.6 Übernahme der ARP Einträge prüfen
@@ -1051,7 +1049,7 @@ Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS W
 | Internes Testnetz | IP Konfigurationen und erfolgreiche Verbindungstests zu Ubuntu und Windows | Klarstellung ergänzt, dass unter `192.168.30.1` kein reales Gateway-Gerät betrieben wurde (s. 2.1.2 und 2.3.4); Bestätigung durch Dario vor Abgabe einholen |
 | Rogue Access Point | Recon, Open AP Konfiguration, sichtbarer Access Point und verbundener Client | Nachweise für den echten mobilen Hotspot, den PineAP Pool, die aktivierten PineAP Optionen, Evil WPA und den Deauthentication Versuch |
 | Rogue Access Point PCAP | Übertragung der Datei und DNS Auswertung in Wireshark | `rogue_ap_01.pcap` beifügen, SHA256 Wert ergänzen und den personenbezogenen Windows Pfad im Text sowie in den Abbildungen 32 und 33 anonymisieren |
-| ARP Spoofing | Aktivierte IP Weiterleitung und zwei gleichzeitig laufende `arpspoof` Prozesse | `arpspoofing_01.pcap`, Wireshark Ansicht, ARP Tabellen von Windows und Gateway, weitergeleiteten Testverkehr sowie Wiederherstellung der ARP Zuordnungen ergänzen |
+| ARP Spoofing | Aktivierte IP Weiterleitung und zwei gleichzeitig laufende `arpspoof` Prozesse | `arpspoofing_01.pcap` wird nicht mit abgegeben (Datenschutz); Wireshark-Ansicht, ARP-Tabellen, Weiterleitungs-Nachweis weiterhin per Screenshot ergänzen |
 | Suricata | Installation, Smoke Test, Konfiguration und eigenes Regelkonzept | Testdomain für R5 festlegen und die überholten Platzhalter zum Interface sowie zum Klammerabschluss von R4 entfernen |
 | Schutzmaßnahmen | Suricata, arpwatch, Firewall Konzept, statischer ARP Eintrag und weitere Maßnahmen | Die theoretische Behandlung ist abgestimmt. Ein praktischer Nachweis ist nicht erforderlich |
-| Abgabedateien | Abschlussbericht mit Abbildungen | PCAP Dateien |
+| Abgabedateien | Abschlussbericht mit Abbildungen | PCAP-Dateien entfallen laut Absprache mit der Dozentin |

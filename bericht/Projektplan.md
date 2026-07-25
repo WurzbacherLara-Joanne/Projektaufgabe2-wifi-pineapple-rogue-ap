@@ -96,7 +96,7 @@ Zwischenstand geprüft.
 ## Abgabe-Checkliste
 
 - [ ] Abschlussbericht (vollständig, alle Platzhalter aufgelöst)
-- [x] PCAPs (`rogue_ap_01.pcap`, `arpspoofing_01.pcap`)
+- [x] PCAPs (entfällt – auf Anweisung der Dozentin aus Datenschutzgründen nicht Teil der Abgabe)
 - [x] Screenshots (alle Angriffe und Gegenmaßnahmen belegt)
 - [ ] Skripte und Konfigurationen (Suricata-Regeln, arpspoof-Befehle)
 - [x] Projektplan (dieses Dokument)

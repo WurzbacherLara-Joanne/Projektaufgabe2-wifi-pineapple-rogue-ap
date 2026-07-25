@@ -2,7 +2,7 @@
 
 Projektaufgabe Nr. 2 (Informationssicherheit) – Gruppe 1, HTW Berlin, Sommersemester 2026
 
-> Die ausführliche Kurzbeschreibung mit Zielsetzung, erwarteten Ergebnissen und Teamzuteilung steht in `KURZBESCHREIBUNG.md`.
+> Die ausführliche Kurzbeschreibung mit Zielsetzung, erwarteten Ergebnissen und Teamzuteilung steht in `bericht/kurzbeschreibung.md`.
 
 ## Was wir machen
 
@@ -33,7 +33,7 @@ Das Projekt verwendet zwei voneinander getrennte Netzwerke:
 | Gerät | Rolle | IP |
 |-------|-------|----|
 | Kali Linux VM | Angreifer / Sniffer | 192.168.30.10 |
-| Windows 10 VM | Opfer-PC | 192.168.30.20 |
+
 
 ---
 
@@ -44,7 +44,7 @@ Das Projekt verwendet zwei voneinander getrennte Netzwerke:
 | 1 | Konzept, Git-Repo, Lab-Setup (VMs), IP-Konfiguration, Ping-Tests |
 | 2 | Pineapple-Termin: Rogue-AP-Angriff + ARP-Spoofing, PCAPs sammeln |
 | 3 | Gegenmaßnahmen theoretisch erarbeiten, ROSI berechnen |
-| 4 | Bericht & Poster fertigstellen, Probepräsentation, Abgabe |
+| 4 | Bericht fertigstellen, Probepräsentation, Abgabe |
 
 ---
 
@@ -90,7 +90,6 @@ Projektaufgabe2-wifi-pineapple-rogue-ap/
 │   ├── 02Vorbereitung-Pineapple-Termin/
 │   ├── 03Pineappleeinrichtung/
 │   ├── werft_abbildungen/
-├── pcaps/
 ├── screenshots/
 │   ├── 01VM-Setup/
 │   ├── 02Vorbereitung-Pineapple-Termin/
@@ -124,7 +123,7 @@ Projektaufgabe2-wifi-pineapple-rogue-ap/
 ## Abgabe
 
 Der vollständige Abschlussbericht befindet sich unter `bericht/Abschlussbericht.md`.
-PCAPs und Logs liegen in den jeweiligen Ordnern und sind Teil der Abgabe.
+PCAPs wurden während der Versuche erzeugt, werden aber auf Anweisung der Dozentin aus Datenschutzgründen nicht mit abgegeben. Der Nachweis erfolgt über Screenshots (siehe Abschlussbericht).
 
 ---
 

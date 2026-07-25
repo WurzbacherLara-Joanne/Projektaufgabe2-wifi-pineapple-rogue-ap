@@ -2,7 +2,8 @@
 
 ## PCAPs
 `angriffstyp_##.pcap`
-Beispiele: `rogue_ap_01.pcap`, `arp_spoofing_01.pcap`
+Beispiele: `rogue_ap_01.pcap`, `arpspoofing_01.pcap`
+> Hinweis: PCAP-Dateien werden in dieser Abgabe nicht eingereicht – auf Anweisung der Dozentin aus Datenschutzgründen. Der Ordner `/pcaps` bleibt leer bzw. entfällt.
 
 ## Screenshots
 `thema_schritt.png`
@@ -20,7 +21,7 @@ Beispiel: `suricata_rogueap_nachher.log`
 ## Ordnerstruktur
 
     /skripte        – Konfigurationen, Befehle, Regeln
-    /pcaps          – Wireshark-Aufnahmen
+    /pcaps          – in dieser Abgabe nicht vorhanden
     /screenshots    – alle Screenshots
     /logs           – in dieser Abgabe nicht befüllt, da Schutzmaßnahmen nur theoretisch behandelt wurden
     /vms            – Export der aktiv genutzten Kali-Angreifer-VM (.ova)
