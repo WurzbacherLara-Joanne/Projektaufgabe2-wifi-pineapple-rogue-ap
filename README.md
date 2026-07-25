@@ -48,6 +48,36 @@ Das Projekt verwendet zwei voneinander getrennte Netzwerke:
 
 ---
 
+## Reproduktion
+
+### Vorbereitung
+1. VirtualBox installieren
+2. Kali-Linux-ISO herunterladen (oder die mitgelieferte VM `/vms/kali-angreifer.ova` importieren)
+3. In VirtualBox ein Internes Netzwerk namens `labnet` anlegen
+
+### Kali-VM einrichten
+4. Kali-VM erstellen/importieren, Netzwerkadapter auf "Internes Netzwerk – labnet" stellen
+5. Statische IP `192.168.30.10/24` konfigurieren (Details: Abschlussbericht Abschnitt 2.3.1)
+
+### Angriffsvektor 2 – ARP-Spoofing reproduzieren
+6. Ein zweites Gerät (z. B. einen Laptop) mit demselben Netzsegment verbinden, statische IP `192.168.30.20/24` setzen
+7. Auf Kali: `sudo apt install dsniff` (falls nicht vorhanden) und IP-Forwarding aktivieren (Abschlussbericht 5.3)
+8. `arpspoof` in beide Richtungen starten (Abschlussbericht 5.4)
+9. Verkehr mit Wireshark mitschneiden (Abschlussbericht 5.5)
+
+### Angriffsvektor 1 – Rogue Access Point reproduzieren
+> Benötigt einen physischen WiFi Pineapple, lässt sich nicht rein virtuell nachstellen.
+
+10. WiFi Pineapple Mark VII per USB verbinden, Webinterface unter `http://172.16.42.1:1471` öffnen (Abschlussbericht 4.2–4.3)
+11. Open AP bzw. Evil WPA mit gewünschter SSID einrichten (Abschlussbericht 4.6–4.7)
+12. Ein WLAN-fähiges Testgerät mit der SSID verbinden
+13. Verkehr mit `tcpdump -i br-lan` mitschneiden (Abschlussbericht 4.10)
+
+### Gegenmaßnahmen (konzeptionell, nicht praktisch getestet)
+14. Suricata-Regeln aus `/skripte/suricata/local.rules` einbinden (Abschlussbericht 6.3)
+15. Firewall- und arpwatch-Konzept sind rein konzeptionell dokumentiert (siehe Abschlussbericht Kapitel 6)
+
+Ausführliche Befehle, Screenshots und Erläuterungen zu jedem Schritt: siehe [Abschlussbericht](bericht/Abschlussbericht.md).
 
 
 ## Ordnerstruktur

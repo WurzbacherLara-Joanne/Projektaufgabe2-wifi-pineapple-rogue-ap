@@ -15,11 +15,14 @@ Beispiel: `rogueap_verbindung_01.png`, `rogueap_verbindung_02.png`
 `tool_kontext_vorher|nachher.log`
 Beispiel: `suricata_rogueap_nachher.log`
 
+> Hinweis: Für dieses Projekt werden keine Logs eingereicht, da Suricata und die Firewall-Regeln nur konzeptionell behandelt und nicht praktisch getestet wurden (siehe Abschlussbericht Kapitel 6). Der Ordner `/logs` bleibt aktuell leer bzw. entfällt in dieser Abgabe.
+
 ## Ordnerstruktur
 
     /skripte        – Konfigurationen, Befehle, Regeln
     /pcaps          – Wireshark-Aufnahmen
     /screenshots    – alle Screenshots
-    /logs           – Suricata-Alerts, Firewall-Logs (jeweils Vorher/Nachher-Paar)
+    /logs           – in dieser Abgabe nicht befüllt, da Schutzmaßnahmen nur theoretisch behandelt wurden
+    /vms            – Export der aktiv genutzten Kali-Angreifer-VM (.ova)
     /bericht        – Abschlussbericht
     /dokumentation  – Netzwerkdiagramm, IP-Plan
