@@ -208,8 +208,7 @@ Im Projektverlauf stellte sich heraus, dass zwei dieser VMs für die eigentliche
 
 Aktiv am Angriffsgeschehen beteiligt war damit final nur die Kali-VM. Ubuntu- und Windows-VM sind hier dokumentiert, weil ihre Einrichtung Teil der Projektarbeit war, spielten für die live durchgeführten Tests aber keine Rolle mehr.
 
-Die Kali-VM als einzige aktiv genutzte VM ist dem Projekt-Repository als Exportdatei beigefügt (`/vms/kali-angreifer.ova`). Ubuntu- und Windows-VM werden nicht mit hochgeladen, da sie für die eigentliche Durchführung der Angriffe nicht verwendet wurden.
-
+Die Kali-VM als einzige aktiv genutzte VM wird aufgrund ihrer Dateigröße (ca. 7 GB) nicht im Projekt-Repository, sondern extern über Google Drive bereitgestellt: https://drive.google.com/drive/folders/1Rvroc2MBLuCCu-NloN5FfeESErcF5Laf?usp=sharing. Ubuntu- und Windows-VM werden nicht bereitgestellt, da sie für die eigentliche Durchführung der Angriffe nicht verwendet wurden.
 
 ### 2.3 Adressen und Verbindungstests
 

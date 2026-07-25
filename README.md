@@ -52,7 +52,7 @@ Das Projekt verwendet zwei voneinander getrennte Netzwerke:
 
 ### Vorbereitung
 1. VirtualBox installieren
-2. Kali-Linux-ISO herunterladen (oder die mitgelieferte VM `/vms/kali-angreifer.ova` importieren)
+2. Kali-Linux-ISO herunterladen (oder die vorbereitete VM aus Google Drive importieren: https://drive.google.com/drive/folders/1Rvroc2MBLuCCu-NloN5FfeESErcF5Laf?usp=sharing – nicht im Repo, da die Datei mit ca. 7 GB zu groß für Git ist)
 3. In VirtualBox ein Internes Netzwerk namens `labnet` anlegen
 
 ### Kali-VM einrichten

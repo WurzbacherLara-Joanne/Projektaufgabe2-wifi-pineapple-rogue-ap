@@ -24,6 +24,6 @@ Beispiel: `suricata_rogueap_nachher.log`
     /pcaps          – in dieser Abgabe nicht vorhanden
     /screenshots    – alle Screenshots
     /logs           – in dieser Abgabe nicht befüllt, da Schutzmaßnahmen nur theoretisch behandelt wurden
-    /vms            – Export der aktiv genutzten Kali-Angreifer-VM (.ova)
+    /vms            – nicht im Repo enthalten (Dateigröße ca. 7 GB); Kali-Angreifer-VM extern verfügbar: https://drive.google.com/drive/folders/1Rvroc2MBLuCCu-NloN5FfeESErcF5Laf?usp=sharing
     /bericht        – Abschlussbericht
     /dokumentation  – Netzwerkdiagramm, IP-Plan
