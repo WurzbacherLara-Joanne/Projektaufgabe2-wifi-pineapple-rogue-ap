@@ -475,7 +475,7 @@ Bei einem späteren Scan erschien `HTW-Guest`. Die BSSID stimmte mit der BSSID d
 
 Der Recon Screenshot zeigt den eigenen Access Point mit der SSID `HTW-Guest`. Für eine eindeutige Gegenüberstellung mit dem mobilen Hotspot wird zusätzlich dessen BSSID, Kanal und WPA2 Kennzeichnung benötigt. Das verwendete Recon Interface arbeitete in diesem Aufbau im 2,4 GHz Bereich.
 
-> [PLATZHALTER: Ein gesonderter Recon-Screenshot des mobilen Testhotspots konnte nicht erstellt werden, da dieser im Recon-Scan des Pineapple nicht als eigener Eintrag erschien. Für den Nachweis von Angriffsvektor 1 ist dies nicht erforderlich.]
+Ein gesonderter Recon-Screenshot des mobilen Testhotspots konnte nicht erstellt werden, da dieser im Recon-Scan des Pineapple nicht als eigener Eintrag erschien. Für den Nachweis von Angriffsvektor 1 ist dies nicht erforderlich.
 
 
 ### 4.6 SSID Pool und PineAP vorbereiten
@@ -501,7 +501,7 @@ Im erweiterten PineAP Modus wurden folgende Optionen aktiviert.
 | Client Connect Notifications | Neue Verbindungen melden |
 | Client Disconnect Notifications | Getrennte Verbindungen melden |
 
-> [PLATZHALTER: ![Aktivierte PineAP Optionen im Advanced Mode](../screenshots/04RogueAP-Angriff/rogueap_pineap_optionen.png)
+[Aktivierte PineAP Optionen im Advanced Mode](../screenshots/04RogueAP-Angriff/rogueap_pineap_optionen.png)
 
 
 
@@ -699,8 +699,6 @@ Die Übernahme der ARP Zuordnungen und die Weiterleitung des Testverkehrs werden
 ## 6. Schutzmaßnahmen
 
 ### 6.1 Aufbau des Schutzkonzepts
-
-> [PLATZHALTER: Vor der Abgabe sicherheitshalber nochmal bei der Dozentin bestätigen, dass für die Schutzmaßnahmen keine praktischen Testergebnisse vorgelegt werden müssen und eine theoretische Behandlung ausreicht.]
 
 Das Schutzkonzept verbindet Erkennung und Prävention. Suricata wertet Netzwerkverkehr auf IP und Anwendungsebene aus. arpwatch überwacht Änderungen zwischen IP und MAC Adressen. Ergänzend werden eine Firewall Whitelist, feste ARP Zuordnungen und Maßnahmen zum sicheren Betrieb von WLAN Zugängen betrachtet.
 
