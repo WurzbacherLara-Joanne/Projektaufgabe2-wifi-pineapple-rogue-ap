@@ -358,9 +358,8 @@ Ein weiterer Screenshot zeigt einen zu diesem Zeitpunkt erfolgreichen Konfigurat
 
 *Abbildung 21: Erfolgreicher Suricata Konfigurationstest zum Zeitpunkt der Aufnahme*
 
-Der Smoke Test bestätigt die grundsätzliche Funktion der verwendeten Suricata Umgebung. Für die Erkennung der beiden Projektangriffe wurde zusätzlich die Regeldatei `local.rules` vorbereitet. Der Konfigurationstest wurde fehlerfrei abgeschlossen und alle eigenen Regeln wurden geladen.
-
-> [PLATZHALTER: Prüfen, ob Abbildung 21 vor dem Hinzufügen von Regel R4 zu `local.rules` entstanden ist. Der fehlende Klammerabschluss in R4 war ein Tippfehler beim Erstellen der Regel, dieser hätte beim Laden nur zu einer fehlgeschlagenen Regel geführt, nicht zu null fehlgeschlagenen.]
+Der Smoke Test bestätigt die grundsätzliche Funktion der verwendeten Suricata Umgebung. Für die Erkennung der beiden Projektangriffe wurde zusätzlich die Regeldatei `local.rules` vorbereitet. 
+Beim ersten Laden von local.rules schlugen zunächst zwei Regeln fehl. Regel R1 enthielt einen überflüssigen nocase Zusatz, der eine Warnung auslöste, und Regel R4 verwendete zunächst das Protokoll ether, das der eingesetzte Suricata Build nicht als eigenständige Regel akzeptiert (Meldung „protocol ether cannot be used in a signature"). Nach Entfernen des nocase Zusatzes in R1 und der Umstellung von R4 auf eine im Build unterstützte Schreibweise wurden beim erneuten Konfigurationstest alle eigenen Regeln fehlerfrei geladen. Abbildung 21 zeigt diesen erfolgreichen Test.
 
 ## 4. Angriffsvektor 1: Rogue Access Point
 
@@ -697,8 +696,6 @@ Die Regeln R1 bis R3 untersuchen unverschlüsselten HTTP Verkehr und erkennen da
 R4 dient der Sichtbarkeit von ARP Aktivität. Suricata arbeitet auf IP Ebene, ARP liegt aber eine Schicht darunter auf Layer 2, weshalb die Regel eher der Protokollierung als einer zuverlässigen Erkennung dient und durch arpwatch ergänzt wird.
 
 R5 sucht eine DNS Anfrage auf eine festgelegte Testdomain. R6 ist konzeptionell für einen DNS Spoofing Test vorgesehen und sucht die Bytefolge der Kali Adresse `192.168.30.10` in einer DNS Antwort.
-
-> [PLATZHALTER: In Regel R5 die Platzhalter-Domain `example.com` durch die tatsächlich verwendete Testdomain ersetzen.]
 
 ### 6.3 Suricata Regeln einbinden und prüfen
 
