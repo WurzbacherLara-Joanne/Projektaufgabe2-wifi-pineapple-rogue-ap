@@ -7,7 +7,7 @@
 **Hochschule:** HTW Berlin<br>
 **Gruppe:** Gruppe 1<br>
 **Bearbeitungszeitraum:** Sommersemester 2026<br>
-**Autoren:** [PLATZHALTER: Dario Vujnovic 594272 aller Gruppenmitglieder ergänzen]<br>
+**Autoren:** [PLATZHALTER: Dario Vujnovic 594272, Lara-Joanne In der Mühle 594175, aller Gruppenmitglieder ergänzen]<br>
 
 
 ## 1. Ziel des Projekts
@@ -30,6 +30,24 @@ Am Ende des Projekts sollen folgende Ergebnisse vorliegen:
 4. Für das Beispielunternehmen SWDS Werft liegt eine nachvollziehbare ROSI Berechnung mit ausgewiesenen Annahmen vor.
 
 Alle Versuche werden ausschließlich mit eigenen Testsystemen und innerhalb der vorgesehenen Laborumgebung durchgeführt. Dadurch bleiben die Tests reproduzierbar und auf den festgelegten Projektumfang begrenzt.
+
+### 1.1 Projektplan
+
+Der vollständige Projektplan mit Rollenverteilung, Zeitplan, Meilensteinen und Abgabe-Checkliste ist als eigenständiges Dokument im Repository hinterlegt.
+
+### 1.2 Ethische und rechtliche Rahmenbedingungen
+
+Alle Angriffe fanden ausschließlich innerhalb einer selbst kontrollierten Testumgebung statt: einem isolierten VirtualBox-Netzwerk (`labnet`), einem selbst betriebenen WiFi Pineapple sowie privaten Endgeräten der Projektmitglieder (einem Smartphone und Windows-Laptop). Zu keinem Zeitpunkt wurde in fremde Netzwerke, Systeme Dritter oder produktive Infrastruktur eingegriffen.
+
+Die Nutzung der eigenen bzw. mit Einverständnis der jeweiligen Besitzer:in eingesetzten Endgeräte erfolgte mit deren ausdrücklicher Zustimmung. Es wurden keine Seriennummern oder sonstigen personenbezogenen Gerätekennungen erfasst oder veröffentlicht (siehe Abschnitte 2.1.1 und 2.1.2).
+
+Der aufgezeichnete Netzwerkverkehr beschränkt sich auf technisch notwendige Nachweise (DNS-Anfragen an die neutrale Testdomain `neverssl.com`, ARP-Antworten). Es wurden bewusst keine echten Zugangsdaten, privaten Inhalte oder Kommunikation Dritter mitgeschnitten oder ausgewertet. Zugangsdaten des WiFi Pineapple sowie während der Versuche verwendete Passwörter werden aus Sicherheitsgründen nicht im Bericht veröffentlicht. Personenbezogene Pfadangaben in Screenshots (Windows-Benutzername) werden vor Abgabe anonymisiert (siehe Anhang 9.1).
+
+Die im Rahmen des Setups temporär hergestellte Internetverbindung der Kali-VM (Umstellung auf NAT zur Software-Installation) diente ausschließlich der Paketinstallation; sicherheitsrelevante Werkzeuge wie `arpspoof` und Wireshark wurden dabei nicht gegen Dritte eingesetzt.
+
+Das in Kapitel 7 verwendete Beispielunternehmen SWDS Werft ist ein im Rahmen der Projektaufgabe bereitgestelltes, hypothetisches Fallbeispiel. Die ROSI-Berechnung stellt keine reale Sicherheitsbewertung eines existierenden Unternehmens dar.
+
+Rechtliche Grundlage der Durchführung ist die im Modul Informationssicherheit an der HTW Berlin vorgesehene Projektaufgabe. Sämtliche Tests sind auf den vorgegebenen Laborrahmen beschränkt und dienen ausschließlich Ausbildungszwecken.
 
 ## 2. Testumgebung
 
@@ -60,39 +78,42 @@ flowchart LR
 
 *Abbildung 1: Verwendeter Aufbau für den Rogue Access Point Test*
 
-> [Als WLAN Endgerät wurde ein Windows-11-Notebook eingesetzt. Es wurden keine Seriennummern oder personenbezogenen Gerätekennungen erfasst.]
+> [Als WLAN Endgerät wurde hier ein Handy eingesetzt. Es wurden keine Seriennummern oder personenbezogenen Gerätekennungen erfasst.]
 
 #### 2.1.2 Aufbau für das ARP Spoofing
 
-Für den internen Angriff wurde in VirtualBox das Netzwerk `labnet` mit dem Adressbereich `192.168.30.0/24` verwendet. Die Kali VM übernahm die Rolle des Angreifers. Als Zielsystem wurde die Windows VM mit der Adresse `192.168.30.20` verwendet. Das Gateway wurde unter der Adresse `192.168.30.1` angesprochen.
+Für den internen Angriff wurde in VirtualBox das Netzwerk `labnet` mit dem Adressbereich `192.168.30.0/24` verwendet. Die Kali VM übernahm die Rolle des Angreifers. Als Zielsystem wurde dein Windows-Laptop mit der Adresse `192.168.30.20` verwendet. Das Gateway wurde unter der Adresse `192.168.30.1` angesprochen.
 
-Kali sendete gefälschte ARP Antworten an das Windows System und an das Gateway. Dafür wurde auf Kali die IP Weiterleitung aktiviert. Die beiden `arpspoof` Prozesse liefen gleichzeitig auf dem Interface `eth0`.
+Kali sendete gefälschte ARP Antworten an das WLAN Endgerät und an das Gateway. Dafür wurde auf Kali die IP Weiterleitung aktiviert. Die beiden `arpspoof` Prozesse liefen gleichzeitig auf dem Interface `eth0`.
 
-| Komponente | Aufgabe | Adresse |
-|---|---|---|
-| Kali Linux VM | Angreifer und vorgesehene Zwischenstation | `192.168.30.10` |
-| Windows 10 VM | Zielsystem des ARP Spoofing Tests | `192.168.30.20` |
-| Gateway | Kommunikationspartner des Windows Systems | `192.168.30.1` |
+| Komponente     | Aufgabe | Adresse |
+|----------------|---|---|
+| Kali Linux VM  | Angreifer und vorgesehene Zwischenstation | `192.168.30.10` |
+| Windows-Laptop | Zielsystem des ARP Spoofing Tests | `192.168.30.20` |
+| Gateway        | Kommunikationspartner des Windows Systems | `192.168.30.1` |
 
 ```mermaid
 flowchart LR
-    Windows[Windows 10 VM\n192.168.30.20] <-->|gefälschte ARP Zuordnung| Kali[Kali Linux VM\n192.168.30.10]
+    Windows[Windows-Laptop\n192.168.30.20] <-->|gefälschte ARP Zuordnung| Kali[Kali Linux VM\n192.168.30.10]
     Kali <-->|gefälschte ARP Zuordnung| Gateway[Gateway\n192.168.30.1]
 ```
 
+> [Als WLAN Endgerät wurde hier ein Windows Laptop eingesetzt. Es wurden keine Seriennummern oder personenbezogenen Gerätekennungen erfasst.]
+
 *Abbildung 2: Verwendeter Aufbau für den ARP Spoofing Test*
 
-> [PLATZHALTER: Bezeichnung, Gerätetyp und ?MAC Adresse? des unter `192.168.30.1` eingesetzten Gateways ergänzen.]
+> In der verwendeten Testumgebung (VirtualBox Internes Netzwerk `labnet`) wurde kein physisches oder virtuelles Gateway-Gerät auf `192.168.30.1` betrieben. Die Adresse diente ausschließlich als Zieladresse für die von Kali gesendeten gefälschten ARP-Antworten. Da ARP Spoofing keine Erreichbarkeit des angegebenen Gateways voraussetzt, hatte das Fehlen eines realen Geräts keinen Einfluss auf die Durchführung des Angriffs. 
+> [PLATZHALTER: Diese Einordnung wurde anhand der VM-Setup- und Vorbereitungsdokumentation rekonstruiert; finale Bestätigung durch Dario steht noch aus.]
 
 #### 2.1.3 Aufbau für die Angriffserkennung
 
 Im internen Testnetz wurde eine Ubuntu Server VM mit der Adresse `192.168.30.2` eingerichtet. Für die Installation, den Smoke Test und die Entwicklung der Suricata Regeln wurde zusätzlich eine gesonderte Ubuntu Umgebung verwendet. Beide Ubuntu Umgebungen werden in Abschnitt 2.2.2 beschrieben. Die Suricata Regeln und ihre vorgesehene Anwendung werden im Kapitel zu den Schutzmaßnahmen theoretisch erläutert.
 
-| Komponente | Aufgabe | Adresse |
-|---|---|---|
+| Komponente       | Aufgabe | Adresse |
+|------------------|---|---|
 | Ubuntu Server VM | Für das interne Testnetz bereitgestellt | `192.168.30.2` |
-| Kali Linux VM | Erzeugung des internen Angriffsverkehrs | `192.168.30.10` |
-| Windows 10 VM | Zielsystem im internen Netz | `192.168.30.20` |
+| Kali Linux VM    | Erzeugung des internen Angriffsverkehrs | `192.168.30.10` |
+| Windows-Laptop   | Zielsystem im internen Netz | `192.168.30.20` |
 
 ### 2.2 Virtuelle Maschinen
 
@@ -168,15 +189,25 @@ Die Windows VM wurde in VirtualBox mit einem über das Microsoft Media Creation 
 
 *Abbildung 8: Windows nach abgeschlossener Installation*
 
-Die Windows VM verwendete eine virtuelle Ethernet Verbindung zum internen Netzwerk. Für den WLAN Versuch wurde ein echtes Endgerät mit WLAN Schnittstelle eingesetzt.
+Die Windows VM wurde in Woche 1 für Einrichtung und Testzwecke aufgebaut, für die eigentliche Durchführung der Angriffe jedoch nicht mehr verwendet. Für den WLAN Versuch wurde ein echtes Endgerät mit WLAN Schnittstelle eingesetzt.
 
 ![Windows VM ohne nutzbaren WLAN Adapter](../screenshots/01VM-Setup/VM-Windows/windows_opfer_wlanadapterfehlt.png)
 
 *Abbildung 9: Windows VM ohne nutzbaren WLAN Adapter*
 
-Beim Rogue Access Point diente das echte WLAN Endgerät als Zielsystem. Beim ARP Spoofing wurde die Windows VM unter `192.168.30.20` als internes Zielsystem verwendet.
+Beim Rogue Access Point diente ein Handy als Zielsystem. Beim ARP Spoofing wurde ein Windows-Laptop unter `192.168.30.20` als internes Zielsystem verwendet, nicht die zuvor beschriebene Windows-VM.
 
-> [PLATZHALTER:Bei dem echten WLAN Endgerät handelte es sich um ein Windows-11-Notebook.]
+
+### 2.2.4 Zusammenfassung: Von drei geplanten VMs zu einer aktiv genutzten VM
+
+Ursprünglich war für das Projekt der Einsatz von drei virtuellen Maschinen vorgesehen: Kali Linux als Angreifersystem, Ubuntu Server für die Suricata-Einrichtung und eine Windows-10-VM als internes Zielsystem. Alle drei VMs wurden wie in den Abschnitten 2.2.1 bis 2.2.3 beschrieben erstellt, konfiguriert und getestet.
+
+Im Projektverlauf stellte sich heraus, dass zwei dieser VMs für die eigentliche Durchführung der Angriffe nicht benötigt wurden. Die Windows-VM konnte mangels echter WLAN-Schnittstelle nicht mit dem WiFi Pineapple verbunden werden und wurde beim ARP Spoofing durch einen realen Windows-Laptop ersetzt. Die Ubuntu-VM wurde installiert und für die Suricata-Einrichtung genutzt; da Suricata im Projekt jedoch nur theoretisch behandelt wird, kam sie für die eigentlichen Angriffstests nicht mehr zum Einsatz.
+
+Aktiv am Angriffsgeschehen beteiligt war damit final nur die Kali-VM. Ubuntu- und Windows-VM sind hier dokumentiert, weil ihre Einrichtung Teil der Projektarbeit war, spielten für die live durchgeführten Tests aber keine Rolle mehr.
+
+Die Kali-VM als einzige aktiv genutzte VM ist dem Projekt-Repository als Exportdatei beigefügt (`/vms/kali-angreifer.ova`). Ubuntu- und Windows-VM werden nicht mit hochgeladen, da sie für die eigentliche Durchführung der Angriffe nicht verwendet wurden.
+
 
 ### 2.3 Adressen und Verbindungstests
 
@@ -247,7 +278,9 @@ Nach einem Neustart wurde die Adresse erneut kontrolliert.
 
 *Abbildung 14: Ubuntu nach dem Neustart mit statischer Adresse*
 
-Die UTM Umgebung verwendete `enp0s1`. In der vorbereiteten Suricata Konfiguration wurde zunächst `eth0` als Aufzeichnungsschnittstelle eingetragen. Für den Einsatz im internen Testnetz wird der Eintrag auf den Namen der verwendeten Schnittstelle abgestimmt.
+Diese Konfiguration wurde im Rahmen der Einrichtung der Ubuntu-VM als vorgesehene Suricata-Umgebung vorgenommen. Da Suricata im weiteren Projektverlauf nur theoretisch behandelt wird, kam diese VM für die eigentliche Durchführung der Angriffe nicht mehr zum Einsatz (siehe Abschnitt 2.2.4).
+
+Die UTM Umgebung verwendete enp0s1. In der vorbereiteten Suricata Konfiguration wurde zunächst eth0 als Aufzeichnungsschnittstelle eingetragen. Für den Einsatz im internen Testnetz wird der Eintrag auf den Namen der verwendeten Schnittstelle abgestimmt.
 
 > [PLATZHALTER: Tatsächlichen Interface Namen der finalen Suricata VM eintragen und `suricata.yaml` entsprechend anpassen.]
 
@@ -265,9 +298,11 @@ Unter Windows wurde `ncpa.cpl` geöffnet. In den Eigenschaften des Ethernet Adap
 
 *Abbildung 15: Statische Adresse der Windows VM*
 
+Diese Konfiguration wurde im Rahmen der VM-Einrichtung in Woche 1 vorgenommen. Für die eigentliche Durchführung des ARP-Spoofing-Tests kam die Windows-VM jedoch nicht zum Einsatz; stattdessen wurde mein realer Windows-Laptop mit der gleichen statischen Adresse 192.168.30.20 konfiguriert (siehe Abschnitt 2.2.4).
+
 #### 2.3.4 Verbindungstests
 
-Von Kali wurden Ubuntu und Windows mit jeweils drei ICMP Paketen geprüft.
+Von Kali wurden Ubuntu und Windows mit jeweils drei ICMP Paketen geprüft. Diese Verbindungstests wurden in Woche 1 zwischen der Kali-VM und der Ubuntu- bzw. Windows-VM durchgeführt.
 
 ```bash
 ping -c 3 192.168.30.2
@@ -288,9 +323,9 @@ netsh advfirewall firewall add rule name="ICMP" protocol=icmpv4:8,any dir=in act
 
 *Abbildung 17: Erfolgreiche Ping Tests zu Ubuntu und Windows*
 
-Der Verbindungstest bestätigt die Erreichbarkeit der Adressen `192.168.30.2` und `192.168.30.20` von Kali.
+Der Verbindungstest bestätigt die Erreichbarkeit der Adressen `192.168.30.2` und `192.168.30.20` innerhalb der VM-Umgebung aus Woche 1. Da beim eigentlichen ARP-Spoofing-Test ein realer Laptop anstelle der Windows-VM verwendet wurde (siehe Abschnitt 2.2.4), liegt für diesen kein eigener Verbindungstest-Nachweis vor.
 
-> [PLATZHALTER: Ergebnis des Verbindungstests von Kali zum Gateway `192.168.30.1` ergänzen.]
+> Ein gesonderter Verbindungstest zu `192.168.30.1` wurde nicht durchgeführt, da an dieser Adresse kein reales Gateway-Gerät betrieben wurde (siehe Abschnitt 2.1.2).
 
 ## 3. Vorbereitung der Werkzeuge
 
@@ -363,13 +398,15 @@ Beim ersten Laden von local.rules schlugen zunächst zwei Regeln fehl. Regel R1 
 
 ## 4. Angriffsvektor 1: Rogue Access Point
 
+> WICHTIG! Es sollte nochmal überprüft werden ob nirgends mehr Gast@HTW steht!!!!!
+
 ### 4.1 Ziel und Funktionsprinzip
 
 Ein Rogue Access Point ist ein nicht autorisierter WLAN Zugangspunkt. In diesem Versuch sendete der WiFi Pineapple die bekannte SSID `HTW-Guest` aus. Als Vergleichsnetz wurde ein eigener mobiler Hotspot verwendet.
 
 Ein vollständiger Evil Twin verwendet denselben Namen und eine passende Sicherheitskonfiguration. Im ersten Test wurde eine offene Kopie der SSID eingerichtet. Der mobile Testhotspot verwendete WPA2. Eine mögliche Konfiguration mit passender WPA2 Absicherung wird in Abschnitt 4.9 ergänzt.
 
-> **@alle: Bitte diesen Abschnitt prüfen und bei Bedarf an den tatsächlich durchgeführten Ablauf anpassen.**
+> **@Dario: Bitte diesen Abschnitt prüfen und bei Bedarf an den tatsächlich durchgeführten Ablauf anpassen.**
 >
 > Aktuell muss eindeutig zwischen dem ersten Test mit Open AP und der späteren Verbindung über Evil WPA unterschieden werden. Im ersten Test wurde mit der Funktion Open AP lediglich die SSID `HTW-Guest` übernommen. Das Kennwort des ursprünglichen Hotspots wurde dabei nicht übernommen. Der echte mobile Hotspot verwendete WPA2 und ein Kennwort. Der Open AP des WiFi Pineapple wurde dagegen unverschlüsselt ausgesendet. Ein Endgerät mit einem gespeicherten WPA2 Profil verbindet sich normalerweise nicht automatisch mit einer offenen Variante derselben SSID.
 >
@@ -503,9 +540,9 @@ Ein echtes Endgerät verband sich mit der SSID `HTW-Guest`. Der Screenshot zeigt
 
 *Abbildung 31: Mit HTW Guest verbundenes Endgerät*
 
-> [PLATZHALTER: Die Verbindung wurde über die Evil-WPA/2-Funktion des WiFi Pineapple hergestellt.]
+> Die Verbindung wurde über die Evil-WPA/2-Funktion des WiFi Pineapple hergestellt.
 
-> [PLATZHALTER:Da der mobile Testhotspot WPA2 verwendete, wurde auch der Pineapple-Access-Point über die Funktion "Clone WPA2 AP" mit identischer SSID (`HTW-Guest`) und WPA2-Verschlüsselung konfiguriert. Dadurch konnte sich das Testgerät mit dem gefälschten Access Point verbinden. Das für die Verbindung verwendete Passwort wird aus Datenschutzgründen nicht dokumentiert.]
+> PLATZHALTER:Da der mobile Testhotspot WPA2 verwendete, wurde auch der Pineapple-Access-Point über die Funktion "Clone WPA2 AP" mit identischer SSID (`HTW-Guest`) und WPA2-Verschlüsselung konfiguriert. Dadurch konnte sich das Testgerät mit dem gefälschten Access Point verbinden. Das für die Verbindung verwendete Passwort wird aus Datenschutzgründen nicht dokumentiert.
 
 ### 4.10 Verkehr mit tcpdump aufzeichnen
 
@@ -535,9 +572,6 @@ scp root@172.16.42.1:/root/rogue_ap_01.pcap C:\Users\LaraWurzbacher\Downloads\
 
 Die Screenshots bestätigen die erfolgreiche Übertragung der Datei `rogue_ap_01.pcap`.
 
-> [PLATZHALTER: Der im Befehl und in Abbildung 32 sichtbare Benutzername wird anonymisiert. Im Text wurde der Pfad auf `C:\Users\[Name]\Downloads\` angepasst; im Screenshot ist der Name entsprechend zu schwärzen.]
-
-> [PLATZHALTER: Die Datei `rogue_ap_01.pcap` wird der Abgabe als Anlage im Ordner `pcaps/` beigefügt.]
 
 ### 4.11 PCAP in Wireshark auswerten
 
@@ -555,7 +589,6 @@ Die Ansicht zeigt wiederholte DNS Anfragen von `172.16.42.154` an `172.16.42.1`.
 
 Der ausgewertete Bildausschnitt umfasst die DNS Anfragen des Endgeräts. Die Analyse dieses Testschritts konzentriert sich damit auf die Sichtbarkeit der Namensauflösung.
 
-> [PLATZHALTER: Für den Nachweis genügt die Aufzeichnung der DNS-Anfragen. Auf die Aufzeichnung weiterer Inhalte wurde verzichtet.]
 
 ### 4.12 Ort der Datenaufzeichnung
 
@@ -631,7 +664,7 @@ Ein erster Start ohne `sudo` scheiterte mit dem Hinweis, dass Root Rechte oder `
 
 Der Screenshot zeigt die erzeugten Antworten `192.168.30.1 is-at ...` und `192.168.30.20 is-at ...`. Damit ist das Senden der gefälschten Antworten für beide Kommunikationsrichtungen nachvollziehbar.
 
-> [PLATZHALTER: Das erfolgreiche Senden der gefälschten ARP-Antworten in beide Richtungen ist durch die Terminal-Ausgabe in Abbildung 36 belegt. ]
+
 ### 5.5 Verkehr aufzeichnen
 
 Für die Paketaufzeichnung wird Wireshark auf Kali mit `eth0` als Schnittstelle gestartet.
@@ -642,7 +675,6 @@ sudo wireshark
 
 Mit dem Filter `arp` werden die erzeugten ARP Pakete angezeigt. Für die Aufzeichnung wurde der Dateiname `arpspoofing_01.pcap` gewählt.
 
-> [PLATZHALTER: Die Datei `arpspoofing_01.pcap` wird der Abgabe als Anlage im Ordner `pcaps/` beigefügt.]
 
 ### 5.6 Übernahme der ARP Einträge prüfen
 
@@ -650,7 +682,6 @@ Zur Kontrolle der übernommenen Zuordnungen wird die ARP Tabelle des Windows Sys
 
 Zusätzlich wird vom Windows System Testverkehr erzeugt. Die Wireshark Aufzeichnung auf Kali zeigt anschließend, ob dieser Verkehr über das Angreifersystem weitergeleitet wurde.
 
-> [PLATZHALTER: Für den Nachweis von Angriffsvektor 2 genügt der Beleg der erzeugten gefälschten ARP-Antworten (Abbildung 36) zusammen mit der zugehörigen Paketaufzeichnung `arpspoofing_01.pcap`.]
 
 ### 5.7 Angriff beenden
 
@@ -660,7 +691,6 @@ Nach dem Test werden beide `arpspoof` Prozesse mit `Strg+C` beendet. Anschließe
 echo 0 | sudo tee /proc/sys/net/ipv4/ip_forward
 ```
 
-> [PLATZHALTER: Zeitpunkt der Beendigung und Kontrolle der wiederhergestellten ARP Zuordnungen ergänzen.]
 
 ### 5.8 Ergebnis und Grenzen
 
@@ -990,15 +1020,35 @@ Suricata wurde installiert, als Dienst eingerichtet und mit einem allgemeinen Sm
 
 Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS Werft. Im Basisfall ergibt sich für das erste Jahr ein ROSI von 206 %, mit den günstigsten Einzelmaßnahmen als besonders wirtschaftlichen Quick Wins. Sämtliche finanziellen Parameter sind als Annahmen ausgewiesen und können durch unternehmenseigene Kennzahlen ersetzt werden.
 
+### 8.1 Lessons Learned
+
+**Technische Erkenntnisse**
+
+- VirtualBox benötigt Administratorrechte für den vollen Adaptertyp-Umfang. Ohne Adminrechte installiert, standen nur NAT und Netzwerkbrücke zur Verfügung, der für den Testaufbau nötige Adaptertyp "Internes Netzwerk" fehlte.
+- Der grafische VirtualBox-Installer fror bei der Kali-Installation im Partitionierungsschritt ein; der Text-Installer lief stabil.
+- Ubuntu Server verwendet Netplan statt der unter Kali bekannten `/etc/network/interfaces`-Syntax. Eine zunächst nach dem falschen Schema vorgenommene Konfiguration ging nach jedem Neustart verloren.
+- Suricata-Regeln reagieren empfindlich auf Syntaxdetails: Ein überflüssiges `nocase` löste eine Warnung aus, das Protokoll `ether` wurde vom eingesetzten Build nicht als eigenständige Regel akzeptiert. Beides musste nach dem ersten fehlgeschlagenen Ladeversuch korrigiert werden.
+- Virtuelle Maschinen besitzen keinen echten WLAN-Adapter. Ein Angriff über ein reales WLAN-Netzwerk lässt sich mit einer VM allein nicht durchführen.
+
+**Planungserkenntnisse**
+
+- Der ursprüngliche Plan mit drei aktiv genutzten VMs (Kali, Ubuntu, Windows) erwies sich als zu optimistisch: Zwei der drei VMs wurden für die eigentliche Durchführung der Angriffe nicht benötigt und durch reale Geräte bzw. eine rein theoretische Behandlung ersetzt (siehe Abschnitt 2.2.4). Eine frühere Prüfung der technischen Voraussetzungen (WLAN-Fähigkeit der Zielsysteme, Umfang der Suricata-Behandlung) hätte diesen Umplanungsaufwand reduziert.
+- Der für Woche 3 geplante zweite Pineapple-Termin zur praktischen Prüfung der Gegenmaßnahmen entfiel; die Schutzmaßnahmen wurden stattdessen konzeptionell behandelt. Eine frühzeitigere Abstimmung mit der Dozentin über den erwarteten Detailgrad hätte den Zeitplan von Anfang an realistischer gestaltet.
+
+**Team- und Dokumentationserkenntnisse**
+
+- Die arbeitsteilige Dokumentation in mehreren Wochendokus führte zu Uneinheitlichkeiten zwischen Zwischenständen und dem finalen Abschlussbericht, etwa bei der Bezeichnung von Testgeräten. Ein gemeinsames Glossar für Gerätenamen und Rollen von Projektbeginn an hätte diesen Abstimmungsaufwand am Ende reduziert.
+
+
 ## 9. Anhang
 
 ### 9.1 Kontrollpunkte vor der Abgabe
 
 | Bereich | Bereits enthalten | Vor der Abgabe zu prüfen oder zu ergänzen |
-|---|---|---|
+|---|---|--|
 | Formalia | Titel, Modul, Hochschule, Gruppe und Bearbeitungszeitraum | Namen und Matrikelnummern, Zeitplan, Meilensteine, Aufgabenzuordnung und Quellenverzeichnis |
-| WLAN Endgerät | Verbindung mit `HTW-Guest`, Adresse `172.16.42.154` und DNS Auswertung | Gerätetyp und Betriebssystem sowie Bestätigung, ob die Verbindung über Evil WPA automatisch oder nach manueller Auswahl erfolgte |
-| Internes Testnetz | IP Konfigurationen und erfolgreiche Verbindungstests zu Ubuntu und Windows | Bezeichnung, Gerätetyp und MAC Adresse des Gateways sowie Verbindungstest zu `192.168.30.1` |
+| WLAN Endgerät | Verbindung mit `HTW-Guest`, Adresse `172.16.42.154` und DNS Auswertung | Bestätigung, ob die Verbindung über Evil WPA automatisch oder nach manueller Auswahl erfolgte (Gerätetyp jetzt bekannt: Darios Smartphone, in Spalte "Bereits enthalten" ergänzen)|
+| Internes Testnetz | IP Konfigurationen und erfolgreiche Verbindungstests zu Ubuntu und Windows | Klarstellung ergänzt, dass unter `192.168.30.1` kein reales Gateway-Gerät betrieben wurde (s. 2.1.2 und 2.3.4); Bestätigung durch Dario vor Abgabe einholen |
 | Rogue Access Point | Recon, Open AP Konfiguration, sichtbarer Access Point und verbundener Client | Nachweise für den echten mobilen Hotspot, den PineAP Pool, die aktivierten PineAP Optionen, Evil WPA und den Deauthentication Versuch |
 | Rogue Access Point PCAP | Übertragung der Datei und DNS Auswertung in Wireshark | `rogue_ap_01.pcap` beifügen, SHA256 Wert ergänzen und den personenbezogenen Windows Pfad im Text sowie in den Abbildungen 32 und 33 anonymisieren |
 | ARP Spoofing | Aktivierte IP Weiterleitung und zwei gleichzeitig laufende `arpspoof` Prozesse | `arpspoofing_01.pcap`, Wireshark Ansicht, ARP Tabellen von Windows und Gateway, weitergeleiteten Testverkehr sowie Wiederherstellung der ARP Zuordnungen ergänzen |
