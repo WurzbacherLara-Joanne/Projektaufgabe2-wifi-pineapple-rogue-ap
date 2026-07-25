@@ -767,7 +767,16 @@ sudo arp -s 192.168.30.1 <MAC-des-echten-Gateways>
 
 Ein Test, ob der wiederholte ARP Spoofing Versuch durch diesen statischen Eintrag verhindert wird, ist im Rahmen der theoretischen Behandlung der Schutzmaßnahmen in diesem Projekt nicht vorgesehen.
 
-### 6.7 Vorher Nachher Vergleich
+### 6.7 Präventive Absicherung des WLAN-Zugangs
+Die bisher beschriebenen Maßnahmen erkennen einen Rogue Access Point oder blockieren unautorisierte Geräte im internen Netz. Sie greifen jedoch erst, nachdem sich ein Endgerät bereits mit dem gefälschten WLAN verbunden hat. Für den ersten Angriffsvektor fehlt damit eine präventive Schicht, die genau diese automatische Verbindung von vornherein verhindert. Da sich Geräte ohne Rückfrage mit bekannten offenen Netzen verbinden, ist dieser Punkt für die Werft besonders relevant.
+
+Als präventive Maßnahmen auf der Ebene des WLAN Zugangs kommen mehrere Ansätze in Betracht. Auf den Endgeräten wird die automatische Verbindung zu offenen und bekannten Netzen deaktiviert und zentral über eine Geräteverwaltung (MDM) oder Gruppenrichtlinien durchgesetzt. Anstelle offener SSIDs wird WPA2 oder WPA3 Enterprise mit 802.1X eingesetzt. Dabei prüfen die Endgeräte die Identität des Authentisierungsservers, sodass ein nachgebauter Access Point das Netz nicht mehr glaubhaft vortäuschen kann. Die Firmen SSID wird ausschließlich als verwaltetes, verschlüsseltes Profil ausgerollt. Ergänzend erkennt und unterdrückt ein WLAN Controller mit einer Funktion zur Rogue Access Point Erkennung fremde Zugangspunkte, die eine bekannte SSID senden.
+
+Für die SWDS Werft mit ihren zehn teilweise offen betriebenen Zugangspunkten ist diese präventive Schicht eine naheliegende Ergänzung. Sie verringert die Wahrscheinlichkeit, dass sich ein Endgerät überhaupt mit einem gefälschten Netz verbindet, und stützt damit die für den ersten Angriffsvektor angesetzte Risikoreduktion.
+
+Die genannten Maßnahmen werden im Rahmen der theoretischen Behandlung der Schutzmaßnahmen als Empfehlung dargestellt und in diesem Projekt nicht durch eine eigene Konfiguration oder einen eigenen Test belegt.
+
+### 6.8 Vorher Nachher Vergleich
 
 | Testfall | Zustand vorher | Erwarteter Zustand nachher |
 |---|---|---|
@@ -775,10 +784,11 @@ Ein Test, ob der wiederholte ARP Spoofing Versuch durch diesen statischen Eintra
 | ARP Spoofing | Kali sendet gefälschte Antworten | Statischer Eintrag oder Switch verwirft die Fälschung |
 | arpwatch | Ausgangszustand wird erfasst | Wechsel der IP und MAC Zuordnung wird protokolliert |
 | Firewall | Definierter Testverkehr ist möglich | Festgelegter Verkehr wird am Gateway gefiltert |
+| WLAN-Verbindung | Gerät verbindet sich automatisch mit bekannter offener SSID | Verwaltetes Profil und 802.1X verhindern die automatische Verbindung |
 
 Diese Gegenüberstellung beschreibt die erwartete Wirkung der Maßnahmen. Im Rahmen der theoretischen Behandlung der Schutzmaßnahmen wird sie in diesem Projekt nicht durch eigene Testergebnisse belegt.
 
-### 6.8 Betrieb und Wartung
+### 6.9 Betrieb und Wartung
 
 Die Suricata Regeln werden regelmäßig mit `suricata-update` aktualisiert. Nach der Aktualisierung wird der Dienst kontrolliert. `fast.log` und `eve.json` werden regelmäßig ausgewertet und durch Log Rotation verwaltet. Firewall Whitelists und statische ARP Einträge werden angepasst, sobald neue Geräte aufgenommen oder Adressen geändert werden.
 
