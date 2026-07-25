@@ -90,11 +90,7 @@ Projektaufgabe2-wifi-pineapple-rogue-ap/
 │   ├── 02Vorbereitung-Pineapple-Termin/
 │   ├── 03Pineappleeinrichtung/
 │   ├── werft_abbildungen/
-│   ├── Abschlussbericht.md
-│   └── kurzbeschreibung.md
 ├── pcaps/
-│   ├── arpspoofing_01.pcap
-│   └── rogue_ap_01.pcap
 ├── screenshots/
 │   ├── 01VM-Setup/
 │   ├── 02Vorbereitung-Pineapple-Termin/
@@ -105,6 +101,7 @@ Projektaufgabe2-wifi-pineapple-rogue-ap/
 │   └── suricata/
 │       ├── local.rules
 │       └── suricata.yaml
+├── vms/
 ├── CONTRIBUTING.md
 └── README.md
 ```
