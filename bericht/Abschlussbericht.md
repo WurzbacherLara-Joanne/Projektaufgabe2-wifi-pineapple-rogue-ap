@@ -823,7 +823,7 @@ Dieser laufende Aufwand wird in der ROSI Berechnung als jährliche Betriebszeit 
 
 ### 7.1 Datengrundlage der SWDS Werft
 
-Die wirtschaftliche Bewertung verwendet die Angaben zur SWDS Werft. Umsätze, Produktionskosten, Vorfallhäufigkeiten und Stundensätze werden für die Beispielrechnung als transparente Annahmen festgelegt.
+Die wirtschaftliche Bewertung verwendet die Angaben zur SWDS Werft. 
 
 Der Netzplan zeigt drei WLAN Access Points im Betriebsnetz und sieben im Produktionsnetz. Insgesamt sind zehn WLAN Zugangspunkte vorhanden. Außerdem sind 17 IoT Kameras dargestellt. Produktion und Betrieb sind durch eigene Firewalls getrennt. Zwischen den Firewalls besteht eine Verbindung.
 
@@ -870,9 +870,9 @@ Die Annahme von drei Ausfalltagen berücksichtigt die vorhandenen Sicherungen. F
 
 ### 7.4 Jährliche Eintrittswahrscheinlichkeit
 
-Für den Ausgangszustand wird in der Lehrrechnung eine jährliche Wahrscheinlichkeit von 35 % angesetzt. Die Schätzung berücksichtigt die zehn WLAN Access Points, die mobilen Geräte, die älteren Systeme und den angenommenen Betrieb ohne zusätzliches IDS. Die vorhandenen Firewalls, die Segmentierung und die Sicherungen reduzieren das Gesamtrisiko bereits.
+Für den Ausgangszustand wird eine jährliche Wahrscheinlichkeit von 35 % angesetzt, basierend auf den zehn WLAN Access Points, den mobilen Geräten, den älteren Systemen und dem Betrieb ohne IDS. Vorhandene Firewalls, Segmentierung und Sicherungen reduzieren das Risiko bereits.
 
-Nach Einführung der Maßnahmen wird eine jährliche Wahrscheinlichkeit von 10 % angenommen. Die mehrschichtige Kombination aus Suricata mit eigenen Erkennungsregeln, arpwatch, Firewall Whitelist, statischem ARP Eintrag sowie Dynamic ARP Inspection und DHCP Snooping auf den vorhandenen Switches deckt beide Angriffsvektoren wirksam ab: ARP Spoofing wird bereits auf Netzwerkebene unterbunden, und ein Zugriff über einen Rogue Access Point wird durch die Erkennungsschicht schnell aufgedeckt und eingedämmt, bevor größerer Schaden entsteht.
+Nach Einführung der Maßnahmen wird eine jährliche Wahrscheinlichkeit von 10 % angenommen. Suricata, arpwatch, Firewall Whitelist, statischer ARP Eintrag sowie Dynamic ARP Inspection und DHCP Snooping decken beide Angriffsvektoren ab. ARP Spoofing wird dadurch auf Netzwerkebene unterbunden, ein Rogue Access Point wird durch die Erkennungsschicht schnell erkannt und eingedämmt.
 
 | Zustand | Wahrscheinlichkeit | Einordnung |
 |---|---:|---|
@@ -909,7 +909,7 @@ ALE nachher = 0,10 × 150.000 € = 15.000 €
 
 ### 7.6 Kosten der Maßnahmen
 
-Für die Kostenrechnung wird ein angenommener Stundensatz von 80 € verwendet.
+Für die Kostenrechnung wird ein angenommener Stundensatz von 80 € verwendet. Die Stundenwerte je Maßnahme wurden per Expertenschätzung anhand des jeweiligen Konfigurations- und Testaufwands ermittelt.
 
 | Kostenposition | Rechnung | Jahr 1 | Folgejahr |
 |---|---:|---:|---:|
@@ -923,11 +923,9 @@ Für die Kostenrechnung wird ein angenommener Stundensatz von 80 € verwendet.
 | Regelpflege und jährlicher Test | 8 Stunden × 80 € | 640 € | 640 € |
 | **Gesamtkosten** |  | **12.240 €** | **6.880 €** |
 
-Für Suricata und arpwatch werden keine Lizenzkosten angesetzt. Für die HP 2530 Switch Serie wird angenommen, dass die bei der SWDS Werft eingesetzten Geräte eine Firmware ab Version YA.15.13.0003 sowie eine passende Variante besitzen und damit Dynamic ARP Protection und DHCP Snooping unterstützen. Auf dieser Grundlage werden keine zusätzlichen Kosten für Firmware-Updates, neue Switches oder einen WLAN Controller angesetzt.
-
 ### 7.7 Einzel-ROSI je Maßnahme
 
-Zusätzlich zur gemeinsamen Betrachtung aller Maßnahmen wird jede Einzelmaßnahme unabhängig gegen die volle Ausgangslage bewertet, so als wäre sie die einzige umgesetzte Maßnahme. Das zeigt, welcher Baustein für sich genommen den größten wirtschaftlichen Hebel hat, und liefert damit eine Grundlage für die Priorisierung gegenüber der Geschäftsführung. Die Risikoreduktion in % gibt an, um wie viele Prozentpunkte die jährliche Eintrittswahrscheinlichkeit (Basis 35 %) durch diese einzelne Maßnahme sinkt. Die Werte sind unabhängig voneinander geschätzt und müssen sich nicht zur kombinierten Reduktion aus Abschnitt 7.4 aufsummieren, da sich die Wirkung der Maßnahmen in der Praxis überschneidet und ergänzt.
+Jede Maßnahme wird hier unabhängig gegen die volle Ausgangslage von 35 % bewertet, als wäre sie die einzige umgesetzte. Das zeigt den wirtschaftlichen Hebel je Baustein und dient der Priorisierung gegenüber der Geschäftsführung. Die Risikoreduktion in % gibt an, um wie viele Prozentpunkte die Wahrscheinlichkeit dadurch sinkt. Die Werte müssen sich nicht zur kombinierten Reduktion aus Abschnitt 7.4 aufsummieren, da sich die Wirkung der Maßnahmen in der Praxis überschneidet und ergänzt.
 
 | Maßnahme | Kosten Jahr 1 | Risikoreduktion in % | Vermiedener Verlust | ROSI | Empfehlung |
 |---|---:|---:|---:|---:|---|
@@ -936,6 +934,14 @@ Zusätzlich zur gemeinsamen Betrachtung aller Maßnahmen wird jede Einzelmaßnah
 | Firewall Whitelist (iptables) | 480 € | 6 % | 9.000 € | 1.775 % | Sofort umsetzen |
 | arpwatch | 800 € | 5 % | 7.500 € | 838 % | Umsetzen |
 | Suricata (Installation und eigene Regeln) | 2.400 € | 8 % | 12.000 € | 400 % | Umsetzen |
+
+Die angesetzte Risikoreduktion richtet sich nach Reichweite und Umgehbarkeit jeder Maßnahme:
+
+- **Statischer ARP Eintrag (4 %):** Schützt nur die eine hinterlegte Gateway-Zuordnung, alle anderen Verbindungen bleiben ungeschützt.
+- **Switch Konfiguration (10 %):** Prüft netzwerkweit jedes ARP-Paket gegen die DHCP-Snooping-Tabelle und lässt sich kaum umgehen.
+- **Firewall Whitelist (6 %):** Schützt nur einen einzelnen Host und ist durch MAC-Spoofing umgehbar.
+- **arpwatch (5 %):** Erkennt MAC-Wechsel zuverlässig, verhindert den Angriff aber nicht.
+- **Suricata (8 %):** Deckt als einziger Baustein beide Angriffsvektoren gleichzeitig ab.
 
 Beispielhaft für den statischen ARP Eintrag:
 
