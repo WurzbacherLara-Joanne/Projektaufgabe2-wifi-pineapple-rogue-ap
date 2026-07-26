@@ -845,12 +845,10 @@ Das Schadenspotenzial ergibt sich aus folgenden Informationen der Werft Unterlag
 2. Produktionsdaten für CNC und Pläne liegen auf einer Server VM.
 3. Delfship wird im Produktionsbereich eingesetzt.
 4. Active Directory und DNS sind zentrale Dienste im Betriebsnetz.
-5. Zehn WLAN Access Points und mehrere mobile Geräte vergrößern die WLAN Angriffsfläche.
-6. Die CNC Fräse verwendet Windows 7 Pro.
-7. Der Produktionsserver verwendet Windows Server 2012 R2.
-8. Im Netzplan sind 17 IoT Kameras eingezeichnet.
+5. Die CNC Fräse verwendet Windows 7 Pro.
+6. Der Produktionsserver verwendet Windows Server 2012 R2.
 
-Entlastend wirken die Trennung von Produktion und Betrieb, die beiden Firewalls und die verschlüsselten Sicherungen.
+Entlastend wirken die verschlüsselten Sicherungen sowie die bereits in 7.1 beschriebene Trennung von Produktion und Betrieb.
 
 ### 7.3 Asset Value und Schaden je Vorfall
 
