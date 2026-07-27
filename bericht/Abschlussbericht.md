@@ -7,7 +7,7 @@
 **Hochschule:** HTW Berlin<br>
 **Gruppe:** Gruppe 1<br>
 **Bearbeitungszeitraum:** Sommersemester 2026<br>
-**Autoren:** [PLATZHALTER: Dario Vujnovic 594272, Lara-Joanne In der Mühle 594175, aller Gruppenmitglieder ergänzen]<br>
+**Autoren:** Dario Vujnovic 594272, Lara-Joanne In der Mühle 594175, Cellina Usunow 594634<br>
 
 
 ## 1. Ziel des Projekts
@@ -1037,20 +1037,3 @@ Die wirtschaftliche Bewertung überträgt die technischen Risiken auf die SWDS W
 **Team- und Dokumentationserkenntnisse**
 
 - Die arbeitsteilige Dokumentation in mehreren Wochendokus führte zu Uneinheitlichkeiten zwischen Zwischenständen und dem finalen Abschlussbericht, etwa bei der Bezeichnung von Testgeräten. Ein gemeinsames Glossar für Gerätenamen und Rollen von Projektbeginn an hätte diesen Abstimmungsaufwand am Ende reduziert.
-
-
-## 9. Anhang
-
-### 9.1 Kontrollpunkte vor der Abgabe
-
-| Bereich | Bereits enthalten | Vor der Abgabe zu prüfen oder zu ergänzen |
-|---|---|--|
-| Formalia | Titel, Modul, Hochschule, Gruppe und Bearbeitungszeitraum | Namen und Matrikelnummern, Zeitplan, Meilensteine, Aufgabenzuordnung und Quellenverzeichnis |
-| WLAN Endgerät | Verbindung mit `HTW-Guest`, Adresse `172.16.42.154` und DNS Auswertung | Bestätigung, ob die Verbindung über Evil WPA automatisch oder nach manueller Auswahl erfolgte (Gerätetyp jetzt bekannt: Darios Smartphone, in Spalte "Bereits enthalten" ergänzen)|
-| Internes Testnetz | IP Konfigurationen und erfolgreiche Verbindungstests zu Ubuntu und Windows | Klarstellung ergänzt, dass unter `192.168.30.1` kein reales Gateway-Gerät betrieben wurde (s. 2.1.2 und 2.3.4); Bestätigung durch Dario vor Abgabe einholen |
-| Rogue Access Point | Recon, Open AP Konfiguration, sichtbarer Access Point und verbundener Client | Nachweise für den echten mobilen Hotspot, den PineAP Pool, die aktivierten PineAP Optionen, Evil WPA und den Deauthentication Versuch |
-| Rogue Access Point PCAP | Übertragung der Datei und DNS Auswertung in Wireshark | `rogue_ap_01.pcap` beifügen, SHA256 Wert ergänzen und den personenbezogenen Windows Pfad im Text sowie in den Abbildungen 32 und 33 anonymisieren |
-| ARP Spoofing | Aktivierte IP Weiterleitung und zwei gleichzeitig laufende `arpspoof` Prozesse | `arpspoofing_01.pcap` wird nicht mit abgegeben (Datenschutz); Wireshark-Ansicht, ARP-Tabellen, Weiterleitungs-Nachweis weiterhin per Screenshot ergänzen |
-| Suricata | Installation, Smoke Test, Konfiguration und eigenes Regelkonzept | Testdomain für R5 festlegen und die überholten Platzhalter zum Interface sowie zum Klammerabschluss von R4 entfernen |
-| Schutzmaßnahmen | Suricata, arpwatch, Firewall Konzept, statischer ARP Eintrag und weitere Maßnahmen | Die theoretische Behandlung ist abgestimmt. Ein praktischer Nachweis ist nicht erforderlich |
-| Abgabedateien | Abschlussbericht mit Abbildungen | PCAP-Dateien entfallen laut Absprache mit der Dozentin |
