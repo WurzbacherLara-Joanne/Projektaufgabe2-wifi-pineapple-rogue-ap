@@ -7,7 +7,7 @@
 **Hochschule:** HTW Berlin<br>
 **Gruppe:** Gruppe 1<br>
 **Bearbeitungszeitraum:** Sommersemester 2026<br>
-**Autoren:** Dario Vujnovic 594272, Lara-Joanne In der Mühle 594175, Cellina Usunow 594634<br>
+**Autoren:** Dario Vujnovic, Lara-Joanne In der Mühle, Cellina Usunow, Jonas Wolf<br>
 
 
 ## 1. Ziel des Projekts

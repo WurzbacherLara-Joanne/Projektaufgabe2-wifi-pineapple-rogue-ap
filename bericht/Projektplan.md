@@ -84,24 +84,12 @@ Zwischenstand geprüft.
 |--------------------------------------------------|----------------|--------|
 | Kontrolle der Angriffe und Screenshots am 14.07. | Alle           | Done |
 | Abschlussbericht finalisieren                    | Cellina        | Done   |
-| Offene Platzhalter im Bericht auflösen           | Alle           |      |
-| Präsentation erstellen (10 Min)                  | Alle           |      |
-| README finalisieren                              | Lara           |      |
-| Abgabe-Checkliste durchgehen                     | Alle           |      |
+| Offene Platzhalter im Bericht auflösen           | Alle           | Done     |
+| Präsentation erstellen (10 Min)                  | Alle           | Done     |
+| README finalisieren                              | Lara           | Done     |
+| Abgabe-Checkliste durchgehen                     | Alle           | Done     |
 
 ### 28.07.2026 – Abgabe und Vorstellung
-
----
-
-## Abgabe-Checkliste
-
-- [ ] Abschlussbericht (vollständig, alle Platzhalter aufgelöst)
-- [x] PCAPs (entfällt – auf Anweisung der Dozentin aus Datenschutzgründen nicht Teil der Abgabe)
-- [x] Screenshots (alle Angriffe und Gegenmaßnahmen belegt)
-- [ ] Skripte und Konfigurationen (Suricata-Regeln, arpspoof-Befehle)
-- [x] Projektplan (dieses Dokument)
-- [x] README aktualisiert
-- [ ] Git-Repository vollständig und aufgeräumt
 
 ---
 
