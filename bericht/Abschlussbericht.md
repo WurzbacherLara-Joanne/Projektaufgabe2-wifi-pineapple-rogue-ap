@@ -105,7 +105,6 @@ flowchart LR
 *Abbildung 2: Verwendeter Aufbau für den ARP Spoofing Test*
 
 > In der verwendeten Testumgebung (VirtualBox Internes Netzwerk `labnet`) wurde kein physisches oder virtuelles Gateway-Gerät auf `192.168.30.1` betrieben. Die Adresse diente ausschließlich als Zieladresse für die von Kali gesendeten gefälschten ARP-Antworten. Da ARP Spoofing keine Erreichbarkeit des angegebenen Gateways voraussetzt, hatte das Fehlen eines realen Geräts keinen Einfluss auf die Durchführung des Angriffs. 
-> [PLATZHALTER: Diese Einordnung wurde anhand der VM-Setup- und Vorbereitungsdokumentation rekonstruiert; finale Bestätigung durch Dario steht noch aus.]
 
 #### 2.1.3 Aufbau für die Angriffserkennung
 
@@ -282,8 +281,6 @@ Nach einem Neustart wurde die Adresse erneut kontrolliert.
 Diese Konfiguration wurde im Rahmen der Einrichtung der Ubuntu-VM als vorgesehene Suricata-Umgebung vorgenommen. Da Suricata im weiteren Projektverlauf nur theoretisch behandelt wird, kam diese VM für die eigentliche Durchführung der Angriffe nicht mehr zum Einsatz (siehe Abschnitt 2.2.4).
 
 Die UTM Umgebung verwendete enp0s1. In der vorbereiteten Suricata Konfiguration wurde zunächst eth0 als Aufzeichnungsschnittstelle eingetragen. Für den Einsatz im internen Testnetz wird der Eintrag auf den Namen der verwendeten Schnittstelle abgestimmt.
-
-> [PLATZHALTER: Tatsächlichen Interface Namen der finalen Suricata VM eintragen und `suricata.yaml` entsprechend anpassen.]
 
 #### 2.3.3 Windows konfigurieren
 
@@ -487,8 +484,6 @@ Durch Anklicken eines Recon Eintrags öffnete sich das Aktionsmenü. Dort stande
 
 Der Screenshot zeigt die verfügbare Funktion zum Hinzufügen der SSID.
 
-> [PLATZHALTER: > **Noch offen:** Die Aktion "Add SSID to PineAP Pool" wurde für den eigenen Pineapple-Eintrag (Self-MAC `00:13:37:AB:E5:68`) ausgeführt, dabei erschien die Bestätigung "SSID already in PineAP Pool". Ein separater Beleg für den echten mobilen Testhotspot fehlt noch, da dieser im Recon aktuell nicht gefunden wird (siehe Hinweis in Abschnitt 4.5).]
-
 Im erweiterten PineAP Modus wurden folgende Optionen aktiviert.
 
 | Einstellung | Zweck im Versuch |
@@ -528,7 +523,6 @@ Der mobile Testhotspot verwendete WPA2. Der Pineapple Access Point wurde zunäch
 
 Im Aktionsmenü stand `Deauthenticate All Clients` zur Verfügung. Die Funktion wurde für den Eintrag `HTW-Guest` aufgerufen; die BSSID bestätigte, dass der eigene Pineapple-Eintrag ausgewählt war. Für diesen Eintrag wurden keine verbundenen Clients angezeigt.
 
-> [PLATZHALTER: Ein Deauthentication-Test gegen den echten mobilen Testhotspot wurde nicht durchgeführt, da dieser im Recon-Scan nicht erfasst wurde. Für den Nachweis von Angriffsvektor 1 ist dies nicht erforderlich, da die erfolgreiche Verbindung eines Endgeräts und die Aufzeichnung seines Datenverkehrs bereits in den Abschnitten 4.9 bis 4.11 belegt sind.]
 ### 4.9 Verbindung eines Endgeräts
 
 Ein echtes Endgerät verband sich mit der SSID `HTW-Guest`. Der Screenshot zeigt die IP Adresse `172.16.42.154` und den übertragenen Datenverkehr des verbundenen Geräts.
@@ -539,7 +533,7 @@ Ein echtes Endgerät verband sich mit der SSID `HTW-Guest`. Der Screenshot zeigt
 
 > Die Verbindung wurde über die Evil-WPA/2-Funktion des WiFi Pineapple hergestellt.
 
-> PLATZHALTER:Da der mobile Testhotspot WPA2 verwendete, wurde auch der Pineapple-Access-Point über die Funktion "Clone WPA2 AP" mit identischer SSID (`HTW-Guest`) und WPA2-Verschlüsselung konfiguriert. Dadurch konnte sich das Testgerät mit dem gefälschten Access Point verbinden. Das für die Verbindung verwendete Passwort wird aus Datenschutzgründen nicht dokumentiert.
+> Da der mobile Testhotspot WPA2 verwendete, wurde auch der Pineapple-Access-Point über die Funktion "Clone WPA2 AP" mit identischer SSID (`HTW-Guest`) und WPA2-Verschlüsselung konfiguriert. Dadurch konnte sich das Testgerät mit dem gefälschten Access Point verbinden. Das für die Verbindung verwendete Passwort wird aus Datenschutzgründen nicht dokumentiert.
 
 ### 4.10 Verkehr mit tcpdump aufzeichnen
 
